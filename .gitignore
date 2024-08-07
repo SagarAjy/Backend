@@ -1,11 +1,11 @@
 # dependencies
 /node_modules
 
-# # env files
-# .env.local
-# .env
-# .env.dev
-# .env.prod
+# env files
+.env.local
+.env
+.env.dev
+.env.prod
 
 # typescript
 *.tsbuildinfo
