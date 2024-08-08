@@ -19,7 +19,6 @@ app.use(express.urlencoded({ extended: true }));
 app.set('trust proxy', true);
 app.use(Sentry.Handlers.requestHandler() as express.RequestHandler);
 app.use(Sentry.Handlers.tracingHandler());
-
 app.use(cors());
 app.use(express.json());
 app.use('/crm-api', crmRouter);
