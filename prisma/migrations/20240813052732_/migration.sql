@@ -1,3 +1,6 @@
+-- CreateExtension
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
 -- CreateEnum
 CREATE TYPE "address_type" AS ENUM ('Permanent Address', 'Current Address');
 
@@ -622,6 +625,17 @@ CREATE TABLE "ticket_comment" (
     CONSTRAINT "ticket_comment_pkey" PRIMARY KEY ("comment_id")
 );
 
+-- CreateTable
+CREATE TABLE "pan_kyc" (
+    "pan_id" UUID NOT NULL DEFAULT uuid_generate_v4(),
+    "customer_id" UUID NOT NULL,
+    "data" JSON NOT NULL,
+    "created_at" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "pan_kyc_pkey" PRIMARY KEY ("pan_id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "approval_lead_id_key" ON "approval"("lead_id");
 
@@ -690,3 +704,6 @@ ALTER TABLE "emis" ADD CONSTRAINT "emis_loan_id_fkey" FOREIGN KEY ("loan_id") RE
 
 -- AddForeignKey
 ALTER TABLE "ticket_comment" ADD CONSTRAINT "ticket_comment_ticket_id_fkey" FOREIGN KEY ("ticket_id") REFERENCES "tickets"("ticket_id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- AddForeignKey
+ALTER TABLE "pan_kyc" ADD CONSTRAINT "pan_kyc_customer_id_fkey" FOREIGN KEY ("customer_id") REFERENCES "customers"("customer_id") ON DELETE NO ACTION ON UPDATE NO ACTION;
