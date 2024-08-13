@@ -25,6 +25,7 @@ app.use(express.json());
 app.use('/crm-api', crmRouter);
 app.use('/api', apiRouter);
 
+
 const emailSchedule = cron.schedule(
   '00 08 * * *',
   () => {

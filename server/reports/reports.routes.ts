@@ -231,11 +231,15 @@ reportsRouter.get<
   { year: string; month?: string; day?: string }
 >('/stats', fetchUser, async (req, res) => {
   try {
+   
     //@ts-ignore
     const userId = req.user.user;
+    // const clientIdfromhrader = req.header('client-id');
     //@ts-ignore
     const clientId = req.clientId;
     const userDetails = await userModel.getUser({ userId, clientId });
+    console.log("userDetails=",userDetails);
+
     const today = new Date();
     const thisYear = today.getFullYear();
     const year = Number(req.query.year) || thisYear;

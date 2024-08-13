@@ -28,10 +28,11 @@ clientsRouter.get<
     const userDetails = await clientModel.getUserByUserIdWithoutClientId({
       userId,
     });
+
+
     const clients = await clientService.getClientsByUserId({
       clientIds: userDetails?.client_ids || [],
     });
-
     res.status(200).send(clients);
   } catch (error) {
     logger.error(error);

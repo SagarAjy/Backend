@@ -195,7 +195,10 @@ const getUser = async ({
     },
   });
   return user;
+
+
 };
+
 
 const getUserWithoutClientId = async ({ userId }: { userId: string }) => {
   const user = await prisma.users.findFirst({

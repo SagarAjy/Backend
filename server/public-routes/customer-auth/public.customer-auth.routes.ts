@@ -24,8 +24,8 @@ customerAuthRouter.post<
   { phoneNo: string; clientId: string }
 >('/get_otp', async (req, res) => {
   try {
-    console.log(req.body)
-    console.log("gaurav")
+   
+   
     const { phoneNo, clientId } = req.body;
     let phoneOtp = 0;
     // * generate otp

@@ -27,8 +27,8 @@ type getOTPBodyType = {
 
 type getOTPResponseType =
   | {
-      token: string;
-    }
+    token: string;
+  }
   | { message: string };
 
 type validateBodyType = {
@@ -38,13 +38,13 @@ type validateBodyType = {
 
 type validateResponseType =
   | {
-      token: string;
-      id: string;
-      tabsToRender?: tabsToRenderType[];
-      name: string;
-      role: string;
-      clientIds?: string[];
-    }
+    token: string;
+    id: string;
+    tabsToRender?: tabsToRenderType[];
+    name: string;
+    role: string;
+    clientIds?: string[];
+  }
   | { message: string };
 
 authRouter.post<Record<never, never>, getOTPResponseType, getOTPBodyType>(
@@ -135,9 +135,9 @@ authRouter.post<
       role: userDetails.role,
     });
   } catch (error) {
-    // logger.error(error);
-    res.status(500).send({ message: 'token expired' });
-  }
+  // logger.error(error);
+  res.status(500).send({ message: 'token expired' });
+}
 });
 
 authRouter.get<Record<never, never>, validateResponseType>(
@@ -197,6 +197,7 @@ authRouter.post<
     const clientId = req.clientId;
     //@ts-ignore
     const userId = req.user.user;
+
 
     const { ipAddress, latitude, longitude } = req.body;
 
