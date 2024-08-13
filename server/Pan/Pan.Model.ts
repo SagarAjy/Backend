@@ -1,12 +1,14 @@
 import { PrismaClient } from '@prisma/client';
+import {customerModel} from '../customer/customer.model'
 import axios from 'axios';
 import AxiosError from 'axios';
 import PAN_CONFIG from './Pan.Config';
 import { response } from 'express';
 import { v4 as uuid } from 'uuid';
+import { string } from 'yup';
 
 const prisma = new PrismaClient();
-const {PAN_VERFICATION_API_ENDPOINT,PAN_VERFICATION_API_KEY}=PAN_CONFIG
+const {PAN_VERIFICATION_API_ENDPOINT, PAN_VERIFICATION_API_KEY}=PAN_CONFIG
 
 
 interface PanRequest {
@@ -29,11 +31,12 @@ export default PanModel
 
 
 
-async function getPanDetails(pan: string) {
+async function getPanDetails(pan: string,clientId:string) {
   try {
-    const response = await axios.post(PAN_VERFICATION_API_ENDPOINT, pan, {
+    const response = await axios.post(PAN_VERIFICATION_API_ENDPOINT, {
+      id_number: pan}, {
       headers: {
-        Authorization: `Bearer ${PAN_VERFICATION_API_KEY}`,
+        Authorization: `Bearer ${PAN_VERIFICATION_API_KEY}`,
         'Content-Type': 'application/json',
       },
     });
@@ -43,26 +46,32 @@ async function getPanDetails(pan: string) {
         message: 'Invalid PAN number',
       };
     }
+    
     if (response.data.status_code === 200) {
-
-      const dbRes = async ({
-        pan_id,
+      //Fetching the customer id with help of client id 
+      const custId = await getCustomerId(clientId);
+      let dbRes = async ({
         customer_id,
         data
-      }: {
-        pan_id: string,
+      }: { 
         customer_id: string,
         data:{},
       }) => {
         const createdPan = await prisma.pan_kyc.create({
           data: {
-            pan_id: "b23880g6-f6c1-4034-a059-ca594a8e7d1b" || uuid(),
-            customer_id: "b23880f6-f6c1-4034-a059-ca594a8e7d1b",
-            data: response.data.data,
+            pan_id:uuid(),
+            customer_id,
+            data
+           
           },
         });
+        return createdPan
       }
-      
+      //Storing the Pan data
+      await dbRes({
+        customer_id:`${custId}`,
+        data: response.data.data
+      })
       
     }
     return response.data;
@@ -71,6 +80,11 @@ async function getPanDetails(pan: string) {
   }
 }
 
-
-
-
+let getCustomerId = async (d:string) => {
+  const customer = await prisma.customers.findFirst({ where: {
+    client_id:d,
+  },
+  }
+  )
+  return customer?.customer_id
+}
