@@ -791,7 +791,7 @@ const teleCallerStats = async ({
       clientId,
       status: lead_status.Interested,
     });
-    //@ts-ignore
+     
     const totalWorkedOn = parseInt(leadsWorkedOn[0].count, 10);
     let delta3 = 0;
     if (leadsWorkedOn) {

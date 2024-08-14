@@ -110,12 +110,12 @@ collectionRouter.post<
   { leadId: string },
   { message: string },
   collectionDataType
->('/add/:leadId', fetchUser, async (req, res) => {
+>('/add/:leadId', fetchUser,  async (req:any, res:any) => {
   try {
     const { leadId } = req.params;
-    //@ts-ignore
+     
     const userId = req.user.user;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const leadDetails = await leadsModel.getLeadById({ leadId, clientId });
     const loanData = await loanModel.getLoanByLeadId({ leadId, clientId });
@@ -146,9 +146,9 @@ collectionRouter.post<
 collectionRouter.get<
   { leadId: string },
   getCollectionData[] | { message: string } | null
->('/get/:leadId', fetchUser, async (req, res) => {
+>('/get/:leadId', fetchUser,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const { leadId } = req.params;
     const collection = await collectionService.getCollections({
@@ -166,10 +166,10 @@ collectionRouter.post<
   { leadId: string },
   { message: string },
   { amount: number }
->('/send-noc/:leadId', fetchUser, async (req, res) => {
+>('/send-noc/:leadId', fetchUser,  async (req:any, res:any) => {
   try {
     const { leadId } = req.params;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const { amount } = req.body;
     const leadDetails = await leadsModel.getLeadById({ leadId, clientId });
@@ -210,9 +210,9 @@ collectionRouter.post<
   { leadId: string },
   { message: string },
   { amount: number }
->('/send-settlement-email/:leadId', fetchUser, async (req, res) => {
+>('/send-settlement-email/:leadId', fetchUser,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const { leadId } = req.params;
     const { amount } = req.body;
@@ -254,9 +254,9 @@ collectionRouter.post<
   { leadId: string },
   { message: string },
   { amount: number }
->('/send-loan-closed-email/:leadId', fetchUser, async (req, res) => {
+>('/send-loan-closed-email/:leadId', fetchUser,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const { leadId } = req.params;
     const { amount } = req.body;
@@ -306,16 +306,16 @@ collectionRouter.get<
     filterBy: string;
     search?: string;
   }
->('/get-all', fetchUser, async (req, res) => {
+>('/get-all', fetchUser,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const limit = Number(req.query.limit) || 10;
     const offset = Number(req.query.offset) || 0;
     const collectionFilter = req.query.collectionStatus as lead_status;
     const filterBy = req.query.filterBy;
     const searchparam = decodeURIComponent(req.query.search || '');
-    //@ts-ignore
+     
     const userId: string = req.user.user;
     const collections = await collectionService.getAllCollections({
       limit,
@@ -343,14 +343,14 @@ collectionRouter.get<
     offset: string;
     search?: string;
   }
->('/get-waiver-requests', fetchUser, async (req, res) => {
+>('/get-waiver-requests', fetchUser,  async (req:any, res:any) => {
   try {
     const limit = Number(req.query.limit) || 10;
     const offset = Number(req.query.offset) || 0;
     const searchparam = decodeURIComponent(req.query.search || '');
-    //@ts-ignore
+     
     const userId: string = req.user.user;
-    //@ts-ignore
+     
     const clientId = req.clientId;
 
     const userInfo = await userModel.getUser({ userId, clientId });
@@ -378,9 +378,9 @@ collectionRouter.put<
   { leadId: string },
   { message: string },
   { status: waiver_approval_status_type }
->('/update-waiver-request/:leadId', async (req, res) => {
+>('/update-waiver-request/:leadId',  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const { leadId } = req.params;
     const { status } = req.body;
@@ -399,11 +399,11 @@ collectionRouter.put<
 collectionRouter.delete<{ collectionId: string }, { message: string }>(
   '/delete/:collectionId',
   fetchUser,
-  async (req, res) => {
+   async (req:any, res:any) => {
     try {
-      //@ts-ignore
+       
       const clientId = req.clientId;
-      //@ts-ignore
+       
       const userId = req.user.user;
       const { collectionId } = req.params;
       const collectionData = await collectionModel.getCollectionById({
@@ -463,9 +463,9 @@ collectionRouter.get<
     startDate?: string;
     endDate?: string;
   }
->('/get-master-collection', fetchUser, async (req, res) => {
+>('/get-master-collection', fetchUser,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const clientId = req.clientId;
 
     const limit = Number(req.query.limit) || 10;
@@ -510,9 +510,9 @@ collectionRouter.get<
       extensionAmount: number;
     }
   | { message: string }
->('/get-extension-amount/:leadId', fetchUser, async (req, res) => {
+>('/get-extension-amount/:leadId', fetchUser,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const { leadId } = req.params;
 
@@ -540,19 +540,19 @@ collectionRouter.post<
   '/upload-collection-document/:leadId',
   fetchUser,
   collectionFileUpload,
-  async (req, res) => {
+   async (req:any, res:any) => {
     try {
       const { leadId } = req.params;
-      //@ts-ignore
+       
       const userId = req.user.user;
-      //@ts-ignore
+       
       const clientId = req.clientId;
       const leadDetails = await leadsModel.getLeadById({ leadId, clientId });
 
       await documentsModel.addDocument({
         customerId: leadDetails?.customer_id || '',
         userId,
-        //@ts-ignore
+         
         documentUrl: req.file?.location,
         documentType: 'Collection_Document',
         password: '',
@@ -578,10 +578,10 @@ collectionRouter.post<
 collectionRouter.get<
   { leadId: string },
   collectionDocumentType[] | { message: string }
->('/get-collection-document/:leadId', fetchUser, async (req, res) => {
+>('/get-collection-document/:leadId', fetchUser,  async (req:any, res:any) => {
   try {
     const { leadId } = req.params;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const response = await collectionService.getCollectionDocument({
       leadId,
@@ -598,12 +598,12 @@ collectionRouter.get<
 collectionRouter.delete<{ documentId: string }, { message: string }>(
   '/delete-collection-document/:documentId',
   fetchUser,
-  async (req, res) => {
+   async (req:any, res:any) => {
     try {
       const { documentId } = req.params;
-      //@ts-ignore
+       
       const clientId = req.clientId;
-      //@ts-ignore
+       
       const userId = req.user.user;
 
       await collectionModel.deleteCollectionDocument({

@@ -107,10 +107,10 @@ type getExistingApprovalType = {
 approvalRouter.post<{ leadId: string }, { message: string }, approvalDataType>(
   '/add/:leadId',
   fetchUser,
-  async (req, res) => {
+  async (req:any, res:any) => {
     try {
       const { leadId } = req.params;
-      //@ts-ignore
+      
       const clientId = req.clientId;
       const checkApprovalExist = await approvalModel.getApproval({
         leadId,
@@ -121,7 +121,6 @@ approvalRouter.post<{ leadId: string }, { message: string }, approvalDataType>(
           .status(500)
           .send({ message: 'Approval for this user is already exisiting' });
       } else {
-        //@ts-ignore
         const userId = req.user.user;
         const userDetails = await userModel.getUser({ userId, clientId });
         const clientDetails = await clientModel.getClient({ clientId });
@@ -167,12 +166,10 @@ approvalRouter.put<
   { leadId: string },
   { message: string },
   updateApprovalDataType
->('/update/:leadId', fetchUser, async (req, res) => {
+>('/update/:leadId', fetchUser, async (req:any, res:any) => {
   try {
     const { leadId } = req.params;
-    //@ts-ignore
     const userId = req.user.user;
-    //@ts-ignore
     const clientId = req.clientId;
     const userDetails = await userModel.getUser({ userId, clientId });
     const approvalDetails = await approvalModel.getApproval({
@@ -245,12 +242,10 @@ approvalRouter.put<
   { leadId: string },
   { message: string },
   { creditedBy: string }
->('/update-credited-by/:leadId', fetchUser, async (req, res) => {
+>('/update-credited-by/:leadId', fetchUser, async (req:any, res:any) => {
   try {
     const { leadId } = req.params;
-    //@ts-ignore
     const userId = req.user.user;
-    //@ts-ignore
     const clientId = req.clientId;
 
     const userDetails = await userModel.getUser({ userId, clientId });
@@ -302,10 +297,9 @@ approvalRouter.put<
 approvalRouter.get<
   { leadId: string },
   getApprovalType | { message: string } | null
->('/get/:leadId', fetchUser, async (req, res) => {
+>('/get/:leadId', fetchUser, async (req:any, res:any) => {
   try {
     const { leadId } = req.params;
-    //@ts-ignore
     const clientId = req.clientId;
     const approvalData = await approvalService.getapproval({
       leadId,
@@ -321,10 +315,9 @@ approvalRouter.get<
 approvalRouter.get<
   { leadId: string },
   GetSanctionLetterType | { message: string }
->('/get-sanction-letter/:leadId', async (req, res) => {
+>('/get-sanction-letter/:leadId', async (req:any, res:any) => {
   try {
     const { leadId } = req.params;
-    //@ts-ignore
     const clientId = req.clientId;
     const approvalLetterDetails = await approvalService.getApprovalLetter({
       leadId,
@@ -342,11 +335,10 @@ approvalRouter.post<
   { leadId: string },
   { message: string },
   { officialEmail: string }
->('/send-approval-email/:leadId', fetchUser, async (req, res) => {
+>('/send-approval-email/:leadId', fetchUser, async (req:any, res:any) => {
   try {
     const { leadId } = req.params;
     const { officialEmail } = req.body;
-    //@ts-ignore
     const clientId = req.clientId;
     const lead = await leadsModel.getLeadById({ leadId, clientId });
     const approvalDetails = await approvalModel.getApproval({
@@ -437,10 +429,9 @@ approvalRouter.post<
 approvalRouter.get<
   { leadId: string },
   getExistingApprovalType | { message: string } | null
->('/get-existing-approval/:leadId', async (req, res) => {
+>('/get-existing-approval/:leadId', async (req:any, res:any) => {
   try {
     const { leadId } = req.params;
-    //@ts-ignore
     const clientId = req.clientId;
     const response = await approvalService.getApprovalIfExist({
       leadId,
@@ -457,10 +448,9 @@ approvalRouter.get<
 approvalRouter.get<
   { leadId: string },
   getApprovalType | { message: string } | null
->('/get-existing/:leadId', fetchUser, async (req, res) => {
+>('/get-existing/:leadId', fetchUser, async (req:any, res:any) => {
   try {
     const { leadId } = req.params;
-    //@ts-ignore
     const clientId = req.clientId;
     const approvalData = await approvalService.getExisitiingApproval({
       leadId,

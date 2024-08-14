@@ -28,13 +28,13 @@ collectionTimelineRouter.post<
   { leadId: string },
   Record<never, never>,
   postCollectionTimelineDataType
->('/create/:leadId', fetchUser, async (req, res) => {
+>('/create/:leadId', fetchUser,  async (req:any, res:any) => {
   try {
     const { leadId } = req.params;
     const { relatedTo, customerResponse } = req.body;
-    //@ts-ignore
+     
     const userId = req.user.user;
-    //@ts-ignore
+     
     const clientId = req.clientId;
 
     const lead = await leadsModel.getLeadById({
@@ -61,10 +61,10 @@ collectionTimelineRouter.post<
 collectionTimelineRouter.get<
   { leadId: string },
   getCollectionTimelineDataType[] | { message: string }
->('/get/:leadId', fetchUser, async (req, res) => {
+>('/get/:leadId', fetchUser,  async (req:any, res:any) => {
   try {
     const { leadId } = req.params;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const collectionTimeLineForLead =
       await collectionTimelineService.getCallHistory({
@@ -86,11 +86,11 @@ collectionTimelineRouter.post<
     waiverAmount: number;
     waiverAmountType: string;
   }
->('/raise-waiver-request/:leadId', fetchUser, async (req, res) => {
+>('/raise-waiver-request/:leadId', fetchUser,  async (req:any, res:any) => {
   try {
     const { leadId } = req.params;
     const { waiverRequest, waiverAmount, waiverAmountType } = req.body;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     await leadsModel.updateLeadWaiverRequest({
       leadId,

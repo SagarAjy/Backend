@@ -23,13 +23,13 @@ callHistoryRouter.post<
   { leadId: string },
   Record<never, never>,
   callHistoryDataType
->('/create/:leadId', fetchUser, async (req, res) => {
+>('/create/:leadId', fetchUser, async (req:any,res:any) => {
   try {
     const { leadId } = req.params;
     const { callType, status, remark } = req.body;
-    //@ts-ignore
+    
     const userId = req.user.user;
-    //@ts-ignore
+    
     const clientId = req.clientId;
 
     const lead = await leadsModel.getLeadById({
@@ -59,10 +59,9 @@ callHistoryRouter.post<
 callHistoryRouter.get<
   { leadId: string },
   callHistoryDataType[] | { message: string }
->('/get/:leadId', fetchUser, async (req, res) => {
+>('/get/:leadId', fetchUser, async (req:any,res:any) => {
   try {
     const { leadId } = req.params;
-    //@ts-ignore
     const clientId = req.clientId;
     const callHistoryForLead = await callHistoryService.getCallHistory({
       leadId,

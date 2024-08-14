@@ -32,11 +32,11 @@ customerEMIRouter.get<
   Record<never, never>,
   | { loanNo: string; approvalAmount: number; tenure: number; status: string }
   | { message: string }
->('/get-emi-loan-details', fetchCustomer, async (req, res) => {
+>('/get-emi-loan-details', fetchCustomer,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const phoneNo = req.phoneNo.phoneNo;
-    //@ts-ignore
+     
     const clientId = req.clientId;
 
     const customerDetails = await customerModel.getCustomerByPhoneNo({
@@ -59,9 +59,9 @@ customerEMIRouter.get<
 customerEMIRouter.get<{ loanNo: string }, EMILoanType[] | { message: string }>(
   '/get-emi/:loanNo',
   fetchCustomer,
-  async (req, res) => {
+   async (req:any, res:any) => {
     try {
-      //@ts-ignore
+       
       const clientId = req.clientId;
 
       const { loanNo } = req.params;
@@ -81,11 +81,11 @@ customerEMIRouter.get<{ loanNo: string }, EMILoanType[] | { message: string }>(
 customerEMIRouter.get<
   Record<never, never>,
   EMILoanHistoryType[] | { message: string }
->('/get-emi-loan-history', fetchCustomer, async (req, res) => {
+>('/get-emi-loan-history', fetchCustomer,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const clientId = req.clientId;
-    //@ts-ignore
+     
     const phoneNo = req.phoneNo.phoneNo;
 
     const customerDetails = await customerModel.getCustomerByPhoneNo({

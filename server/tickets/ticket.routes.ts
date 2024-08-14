@@ -40,9 +40,9 @@ customerSupportRouter.get<
     startDate?: string;
     endDate?: string;
   }
->('/get-all-tickets', fetchUser, async (req, res) => {
+>('/get-all-tickets', fetchUser,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const clientId = req.clientId;
 
     const limit = Number(req.query.limit) || 10;
@@ -78,9 +78,9 @@ customerSupportRouter.get<
 customerSupportRouter.get<
   { ticketId: string },
   { message: string } | TicketType
->('/get-ticket/:ticketId', fetchUser, async (req, res) => {
+>('/get-ticket/:ticketId', fetchUser,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const clientId = req.clientId;
 
     const ticketId = req.params.ticketId;
@@ -100,9 +100,9 @@ customerSupportRouter.get<
 customerSupportRouter.get<
   { ticketId: string },
   { message: string } | TicketChatType[]
->('/get-ticket-chat/:ticketId', fetchUser, async (req, res) => {
+>('/get-ticket-chat/:ticketId', fetchUser,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const clientId = req.clientId;
 
     const ticketId = req.params.ticketId;
@@ -122,11 +122,11 @@ customerSupportRouter.get<
 customerSupportRouter.post<{ ticketId: string }, { message: string }>(
   '/create-chat/:ticketId',
   fetchUser,
-  async (req, res) => {
+   async (req:any, res:any) => {
     try {
-      //@ts-ignore
+       
       const clientId = req.clientId;
-      //@ts-ignore
+       
       const userId = req.user.user;
 
       const ticketId = req.params.ticketId;
@@ -150,9 +150,9 @@ customerSupportRouter.post<{ ticketId: string }, { message: string }>(
 customerSupportRouter.put<{ ticketId: string }, { message: string }>(
   '/update-ticket/:ticketId',
   fetchUser,
-  async (req, res) => {
+   async (req:any, res:any) => {
     try {
-      //@ts-ignore
+       
       const clientId = req.clientId;
 
       const ticketId = req.params.ticketId;

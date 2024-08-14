@@ -125,11 +125,11 @@ export const kycRouter: Router = express.Router();
 kycRouter.post<{ leadId: string }, { message: string }>(
   '/request/:leadId',
   fetchUser,
-  async (req, res) => {
+   async (req:any, res:any) => {
     try {
-      //@ts-ignore
+       
       const userId = req.user.user;
-      //@ts-ignore
+       
       const clientId = req.clientId;
       const { leadId } = req.params;
 
@@ -180,7 +180,7 @@ kycRouter.post<{ leadId: string }, { message: string }>(
 
 kycRouter.post<{ requestId: string }, { message: string }, { status: string }>(
   '/approve-kyc/:requestId',
-  async (req, res) => {
+   async (req:any, res:any) => {
     try {
       const { requestId } = req.params;
       const digoUrl = `${process.env.DIGIO_BASE_URL}/client/kyc/v2/request/${requestId}/manage_approval`;
@@ -211,10 +211,10 @@ kycRouter.post<{ requestId: string }, { message: string }, { status: string }>(
 kycRouter.get<
   { leadId: string },
   GetKYCDetailsResponse | { message: string } | null
->('/get-kyc-details/:leadId', fetchUser, async (req, res) => {
+>('/get-kyc-details/:leadId', fetchUser,  async (req:any, res:any) => {
   try {
     const { leadId } = req.params;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const customerDetails = await customerService.getCustomerByLeadId({
       leadId,
@@ -237,7 +237,7 @@ kycRouter.get<
 kycRouter.get<{ fileId: string }, BinaryData | { message: string }>(
   '/get-kyc-files/:fileId',
   fetchUser,
-  async (req, res) => {
+   async (req:any, res:any) => {
     try {
       const { fileId } = req.params;
       const fileType = decodeURIComponent(req.query.fileType as string);
@@ -304,13 +304,13 @@ const getKYCVideo = async ({
 kycRouter.post<{ leadId: string }, { message: string }>(
   '/request-e-sign/:leadId',
   fetchUser,
-  async (req, res) => {
+   async (req:any, res:any) => {
     try {
       const { leadId } = req.params;
 
-      //@ts-ignore
+       
       const userId = req.user.user;
-      //@ts-ignore
+       
       const clientId = req.clientId;
 
       const leadDetails = await leadsService.getLead({ leadId, clientId });
@@ -438,10 +438,10 @@ kycRouter.post<{ leadId: string }, { message: string }>(
 kycRouter.get<
   { leadId: string },
   GetESignDocsResponse | { message: string } | null
->('/get-e-sign-docs/:leadId', fetchUser, async (req, res) => {
+>('/get-e-sign-docs/:leadId', fetchUser,  async (req:any, res:any) => {
   try {
     const { leadId } = req.params;
-    //@ts-ignore
+     
     const clientId = req.clientId;
 
     const customerDetails = await customerService.getCustomerByLeadId({
@@ -464,12 +464,12 @@ kycRouter.get<
 kycRouter.get<{ leadId: string }, BinaryData | { message: string }>(
   '/download-e-sign-doc/:leadId',
   fetchUser,
-  async (req, res) => {
+   async (req:any, res:any) => {
     try {
       const { leadId } = req.params;
-      //@ts-ignore
+       
       const userId = req.user.user;
-      //@ts-ignore
+       
       const clientId = req.clientId;
 
       const eSignDocRequest = await kycModel.getESignDocRequest({ leadId });
@@ -520,11 +520,11 @@ kycRouter.get<
   | { message: string },
   Record<never, never>,
   { limit: string; offset: string; search: string }
->('/get-all-kyc', fetchUser, async (req, res) => {
+>('/get-all-kyc', fetchUser,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const userId = req.user.user;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const limit = Number(req.query.limit) || 10;
     const offset = Number(req.query.offset) || 0;
@@ -549,11 +549,11 @@ kycRouter.get<
   | { message: string },
   Record<never, never>,
   { limit: string; offset: string; search: string }
->('/get-all-e-sign-docs', fetchUser, async (req, res) => {
+>('/get-all-e-sign-docs', fetchUser,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const userId = req.user.user;
-    //@ts-ignore
+     
     const clientId = req.clientId;
 
     const limit = Number(req.query.limit) || 10;
@@ -573,10 +573,10 @@ kycRouter.get<
   }
 });
 
-kycRouter.delete('/delete-kyc/:kycId', fetchUser, async (req, res) => {
+kycRouter.delete('/delete-kyc/:kycId', fetchUser,  async (req:any, res:any) => {
   try {
     const { kycId } = req.params;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     await kycModel.deleteKYCRequest({ kycId, clientId });
     res.status(200).send({ message: 'KYC Request deleted!' });
@@ -586,10 +586,10 @@ kycRouter.delete('/delete-kyc/:kycId', fetchUser, async (req, res) => {
   }
 });
 
-kycRouter.delete('/delete-e-sign/:eSignId', fetchUser, async (req, res) => {
+kycRouter.delete('/delete-e-sign/:eSignId', fetchUser,  async (req:any, res:any) => {
   try {
     const { eSignId } = req.params;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     await kycModel.deleteESignDocRequest({ eSignId, clientId });
     res.status(200).send({ message: 'E-Sign Request deleted!' });

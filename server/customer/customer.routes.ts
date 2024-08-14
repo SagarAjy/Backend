@@ -43,9 +43,9 @@ export const customerRouter: Router = express.Router();
 customerRouter.get<{ leadId: string }, customerDataType>(
   '/lead/:leadId',
   fetchUser,
-  async (req, res) => {
+   async (req:any, res:any) => {
     try {
-      //@ts-ignore
+       
       const clientId = req.clientId;
       const { leadId } = req.params;
       const customerInfo = await customerService.getCustomerByLeadId({
@@ -64,11 +64,11 @@ customerRouter.get<{ leadId: string }, customerDataType>(
 customerRouter.put<{ leadId: string }, Record<never, never>, customerBodyType>(
   '/update',
   fetchUser,
-  async (req, res) => {
+   async (req:any, res:any) => {
     try {
-      //@ts-ignore
+       
       const clientId = req.clientId;
-      //@ts-ignore
+       
       const userId = req.user.user;
 
       const customer = await customerModel.getCustomerByPhoneNo({
@@ -104,11 +104,11 @@ customerRouter.put<
   Record<never, never>,
   Record<never, never>,
   { customerId: string; oldPhoneNo: string; newPhoneNo: string }
->('/update-phone', fetchUser, async (req, res) => {
+>('/update-phone', fetchUser,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const clientId = req.clientId;
-    //@ts-ignore
+     
     const userId = req.user.user;
 
     const { customerId, oldPhoneNo, newPhoneNo } = req.body;

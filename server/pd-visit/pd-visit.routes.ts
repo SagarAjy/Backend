@@ -28,10 +28,10 @@ pdVisitRouter.post<
   { leadId: string },
   Record<never, never>,
   createpdVisitBodyType
->('/add/:leadId', fetchUser, async (req, res) => {
+>('/add/:leadId', fetchUser,  async (req:any, res:any) => {
   try {
     const { leadId } = req.params;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const visitDate = parseISO(req.body.pdDate);
     const leadDetails = await leadsModel.getLeadById({ leadId, clientId });
@@ -65,10 +65,10 @@ pdVisitRouter.post<
 pdVisitRouter.get<
   { leadId: string },
   getPdVisitType | null | { message: string }
->('/get/:leadId', fetchUser, async (req, res) => {
+>('/get/:leadId', fetchUser,  async (req:any, res:any) => {
   try {
     const { leadId } = req.params;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const pdVisitDetails = await pdVisitService.getpdVisit({
       leadId,
@@ -85,10 +85,10 @@ pdVisitRouter.put<
   { leadId: string },
   Record<never, never>,
   createpdVisitBodyType
->('/update/:leadId', fetchUser, async (req, res) => {
+>('/update/:leadId', fetchUser,  async (req:any, res:any) => {
   try {
     const { leadId } = req.params;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const visitDate = parseISO(req.body.pdDate);
     const leadDetails = await leadsModel.getLeadById({ leadId, clientId });

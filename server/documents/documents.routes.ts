@@ -41,19 +41,19 @@ documentsRouter.post<
       errors: { title: string; detail: string; error: string };
     },
   addDocumentType
->('/upload/:leadId', fetchUser, fileUpload, async (req, res) => {
+>('/upload/:leadId', fetchUser, fileUpload,  async (req:any, res:any) => {
   try {
     const { leadId } = req.params;
-    //@ts-ignore
+     
     const userId = req.user.user;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const leadDetails = await leadsModel.getLeadById({ leadId, clientId });
 
     await documentsModel.addDocument({
       customerId: leadDetails?.customer_id || '',
       userId,
-      //@ts-ignore
+       
       documentUrl: req.file?.location,
       documentType: req.body.documentType,
       password: req.body.password,
@@ -71,10 +71,10 @@ documentsRouter.post<
 documentsRouter.get<
   { leadId: string },
   getDocumentType[] | { message: string }
->('/get/:leadId', fetchUser, async (req, res) => {
+>('/get/:leadId', fetchUser,  async (req:any, res:any) => {
   try {
     const { leadId } = req.params;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const response = await documentService.getDocument({ leadId, clientId });
     res.status(200).send(response);
@@ -84,14 +84,14 @@ documentsRouter.get<
   }
 });
 //update document by document Id
-documentsRouter.put('/update/:documentId', fetchUser, async (req, res) => {
+documentsRouter.put('/update/:documentId', fetchUser,  async (req:any, res:any) => {
   try {
     const { documentId } = req.params;
     const { status } = req.body;
 
-    //@ts-ignore
+     
     const userId = req.user.user;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     await documentsModel.updateDocument({
       documentId,
@@ -111,9 +111,9 @@ documentsRouter.put('/update/:documentId', fetchUser, async (req, res) => {
 documentsRouter.post<{ documentId: string }, { message: string }>(
   '/delete/:documentId',
   fetchUser,
-  async (req, res) => {
+   async (req:any, res:any) => {
     try {
-      //@ts-ignore
+       
       const clientId = req.clientId;
       const { documentId } = req.params;
       const documentDetails = await documentsModel.getDocument({
@@ -147,13 +147,13 @@ documentsRouter.post<{ documentId: string }, { message: string }>(
   },
 );
 
-documentsRouter.get('/download/:documentId', fetchUser, async (req, res) => {
+documentsRouter.get('/download/:documentId', fetchUser,  async (req:any, res:any) => {
   try {
     const { documentId } = req.params;
-    //@ts-ignore
+     
     const clientId = req.clientId;
 
-    //@ts-ignore
+     
     const userId = req.user.user;
     const documentDetails = await documentsModel.getDocument({
       documentId,

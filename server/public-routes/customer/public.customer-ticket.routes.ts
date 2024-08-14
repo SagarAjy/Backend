@@ -22,11 +22,11 @@ customerSupportRouter.post<
   Record<never, never>,
   { message: string },
   { query: string; category: ticket_type }
->('/create-ticket', fetchCustomer, async (req, res) => {
+>('/create-ticket', fetchCustomer,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const phoneNo = req.phoneNo.phoneNo;
-    //@ts-ignore
+     
     const clientId = req.clientId;
 
     const cutomerDetails = await customerModel.getCustomerByPhoneNo({
@@ -62,11 +62,11 @@ customerSupportRouter.post<
 customerSupportRouter.get<
   Record<never, never>,
   CustomerTicketType[] | { message: string }
->('/get-my-tickets', fetchCustomer, async (req, res) => {
+>('/get-my-tickets', fetchCustomer,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const clientId = req.clientId;
-    //@ts-ignore
+     
     const phoneNo = req.phoneNo.phoneNo;
 
     const customerDetails = await customerModel.getCustomerByPhoneNo({

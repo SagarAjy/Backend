@@ -31,11 +31,11 @@ sanctionTargetRouter.post<
   Record<never, never>,
   { message: string },
   addSanctionTargetType
->('/add', fetchUser, async (req, res) => {
+>('/add', fetchUser,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const userId = req.user.user;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const userDetails = await userModel.getUser({ userId, clientId });
     const sanctionUserDetails = await userModel.getUser({
@@ -75,9 +75,9 @@ sanctionTargetRouter.get<
     startDate?: string;
     endDate?: string;
   }
->('/get', fetchUser, async (req, res) => {
+>('/get', fetchUser,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const limit = Number(req.query.limit) || 10;
     const offset = Number(req.query.offset) || 0;
@@ -95,7 +95,7 @@ sanctionTargetRouter.get<
     const startString = startMonth + ' ' + year;
     const endString = endMonth + ' ' + year;
 
-    //@ts-ignore
+     
     const userId = req.user.user;
     const userDetails = await userModel.getUser({ userId, clientId });
     if (userDetails?.role !== 'Admin')
@@ -131,11 +131,11 @@ sanctionTargetRouter.put<
   { sanctionTargetId: string },
   { message: string },
   { target: number; sanctionUserId: string }
->('/update/:sanctionTargetId', fetchUser, async (req, res) => {
+>('/update/:sanctionTargetId', fetchUser,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const userId = req.user.user;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const { sanctionTargetId } = req.params;
     const userDetails = await userModel.getUser({ userId, clientId });

@@ -67,10 +67,10 @@ disbursalRouter.post<
   { leadId: string },
   { message: string },
   disbursalDataType
->('/add/:leadId', fetchUser, async (req, res) => {
+>('/add/:leadId', fetchUser,  async (req:any, res:any) => {
   try {
     const { leadId } = req.params;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const checkDisbursalAlreadyExist = await disbursalModel.getDisbursal({
       leadId,
@@ -81,7 +81,7 @@ disbursalRouter.post<
         .status(301)
         .send({ message: 'Loan already disbursed for this lead!' });
     } else {
-      //@ts-ignore
+       
       const userId = req.user.user;
       const userDetails = await userModel.getUser({ userId, clientId });
       const approvalData = await approvalModel.getApproval({
@@ -202,13 +202,13 @@ disbursalRouter.put<
   { loanId: string },
   { message: string },
   { disbursalReferenceNo: string }
->('/add-utr/:loanId', fetchUser, async (req, res) => {
+>('/add-utr/:loanId', fetchUser,  async (req:any, res:any) => {
   try {
     const { loanId } = req.params;
 
-    //@ts-ignore
+     
     const userId = req.user.user;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     await disbursalModel.updateDisbursalUTR({
       loanId,
@@ -245,7 +245,7 @@ disbursalRouter.put<
   { loanId: string },
   { message: string },
   updateDisbursalType
->('/edit-disbursal/:loanId', fetchUser, async (req, res) => {
+>('/edit-disbursal/:loanId', fetchUser,  async (req:any, res:any) => {
   try {
     const { loanId } = req.params;
 
@@ -258,9 +258,9 @@ disbursalRouter.put<
       accountType,
     } = req.body;
 
-    //@ts-ignore
+     
     const userId = req.user.user;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     await disbursalModel.updateDisbursal({
       loanId,
@@ -333,13 +333,13 @@ disbursalRouter.put<
   { leadId: string },
   { message: string },
   { disbursedBy: string }
->('/update-disbursed-by/:leadId', fetchUser, async (req, res) => {
+>('/update-disbursed-by/:leadId', fetchUser,  async (req:any, res:any) => {
   try {
     const { leadId } = req.params;
     const { disbursedBy } = req.body;
-    //@ts-ignore
+     
     const clientId = req.clientId;
-    //@ts-ignore
+     
     const userId = req.user.user;
 
     const userDetails = await userModel.getUser({ userId, clientId });
@@ -386,10 +386,10 @@ disbursalRouter.put<
 disbursalRouter.get<
   { leadId: string },
   getDisbursalType | { message: string } | null
->('/get/:leadId', fetchUser, async (req, res) => {
+>('/get/:leadId', fetchUser,  async (req:any, res:any) => {
   try {
     const { leadId } = req.params;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const disbursalData = await disbursalService.getDisbursal({
       leadId,
@@ -405,10 +405,10 @@ disbursalRouter.get<
 disbursalRouter.get<
   { leadId: string },
   getDisbursalType | { message: string } | null
->('/get-existing/:leadId', fetchUser, async (req, res) => {
+>('/get-existing/:leadId', fetchUser,  async (req:any, res:any) => {
   try {
     const { leadId } = req.params;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const disbursalData = await disbursalService.getExisitingDisbursal({
       leadId,
@@ -424,12 +424,12 @@ disbursalRouter.get<
 disbursalRouter.delete<{ leadId: string }, { message: string }>(
   '/delete-disbursal/:leadId',
   fetchUser,
-  async (req, res) => {
+   async (req:any, res:any) => {
     try {
       const { leadId } = req.params;
-      //@ts-ignore
+       
       const clientId = req.clientId;
-      //@ts-ignore
+       
       const userId = req.user.user;
 
       const loanDetails = await loanModel.getLoanByLeadId({ leadId, clientId });

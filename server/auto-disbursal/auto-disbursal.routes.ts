@@ -11,6 +11,7 @@ import { customerModel } from '../customer/customer.model';
 import { autoDisbursalModel } from './auto-disbursal.model';
 import { auditLogModel } from '../audit-logs/audit-logs.model';
 // import { decrypt, getSignedURLForS3 } from '../../utils';
+import { decrypt} from '../../utils';
 import { clientModel } from '../clients/clients.model';
 import { loanModel } from '../loan/loan.model';
 
@@ -41,10 +42,9 @@ autoDisbursalRouter.post<
   { leadId: string },
   { message: string },
   disbursalDataType
->('/add/:leadId', fetchUser, async (req, res) => {
+>('/add/:leadId', fetchUser, async (req:any, res:any) => {
   try {
     const { leadId } = req.params;
-    //@ts-ignore
     const clientId = req.clientId;
     const checkDisbursalAlreadyExist = await disbursalModel.getDisbursal({
       leadId,
@@ -55,7 +55,6 @@ autoDisbursalRouter.post<
         .status(301)
         .send({ message: 'Loan already disbursed for this lead!' });
     } else {
-      //@ts-ignore
       const userId = req.user.user;
       const userDetails = await userModel.getUser({ userId, clientId });
       const approvalData = await approvalModel.getApproval({
@@ -85,10 +84,9 @@ autoDisbursalRouter.post<
           const clientInfo = await clientModel.getClient({ clientId });
 
           const cashFreeClientId = clientInfo?.cashfree_client_id || '';
-          const cashFreeSecretEncrypted = clientInfo?.cashfree_secret_key;
+          const cashFreeSecretEncrypted:any = clientInfo?.cashfree_secret_key;
           const publicKeyUrl = clientInfo?.cashfree_public_key_url || '';
 
-          //@ts-ignore
           const cashFreeSecret = decrypt(cashFreeSecretEncrypted);
 
           // const getPublicKeySignedUrl = await getSignedURLForS3(publicKeyUrl);
@@ -232,9 +230,8 @@ autoDisbursalRouter.post<
 autoDisbursalRouter.get<
   { leadId: string },
   autoDisbursalDataType | { message: string }
->('/get-transfer-info/:leadId', fetchUser, async (req, res) => {
+>('/get-transfer-info/:leadId', fetchUser, async (req:any,res:any) => {
   try {
-    //@ts-ignore
     const clientId = req.clientId;
 
     const { leadId } = req.params;
@@ -257,11 +254,9 @@ autoDisbursalRouter.get<
 autoDisbursalRouter.put<
   { leadId: string },
   autoDisbursalDataType | { message: string }
->('/update-transfer-info/:leadId', fetchUser, async (req, res) => {
+>('/update-transfer-info/:leadId', fetchUser, async (req:any,res:any) => {
   try {
-    //@ts-ignore
     const clientId = req.clientId;
-    //@ts-ignore
     const userId = req.user.user;
 
     const { leadId } = req.params;
@@ -271,10 +266,9 @@ autoDisbursalRouter.put<
     const loanDetails = await loanModel.getLoanByLeadId({ leadId, clientId });
 
     const cashFreeClientId = clientInfo?.cashfree_client_id || '';
-    const cashFreeSecretEncrypted = clientInfo?.cashfree_secret_key;
+    const cashFreeSecretEncrypted:any = clientInfo?.cashfree_secret_key;
     const publicKeyUrl = clientInfo?.cashfree_public_key_url || '';
 
-    //@ts-ignore
     const cashFreeSecret = decrypt(cashFreeSecretEncrypted);
 
     // get public key for cashfree

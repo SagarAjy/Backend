@@ -29,12 +29,12 @@ referenceRouter.post<
   { leadId: string },
   Record<never, never>,
   addReferenceType
->('/add/:leadId', fetchUser, async (req, res) => {
+>('/add/:leadId', fetchUser,  async (req:any, res:any) => {
   try {
     const { leadId } = req.params;
-    //@ts-ignore
+     
     const userId = req.user.user;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const leadDetails = await leadsModel.getLeadById({ leadId, clientId });
     await referenceModel.addReference({
@@ -54,10 +54,10 @@ referenceRouter.post<
 referenceRouter.get<
   { leadId: string },
   getReferenceType[] | { message: string }
->('/get/:leadId', fetchUser, async (req, res) => {
+>('/get/:leadId', fetchUser,  async (req:any, res:any) => {
   try {
     const { leadId } = req.params;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const refernceDetails = await referenceService.getReferenceByLeadId({
       leadId,
@@ -75,11 +75,11 @@ referenceRouter.put<
   { referenceId: string },
   getReferenceType[] | { message: string },
   addReferenceType
->('/update/:referenceId', fetchUser, async (req, res) => {
+>('/update/:referenceId', fetchUser,  async (req:any, res:any) => {
   try {
     const { referenceId } = req.params;
 
-    //@ts-ignore
+     
     const userId = req.user.user;
     await referenceModel.updateReference({
       referenceId,
@@ -94,7 +94,7 @@ referenceRouter.put<
 });
 
 //delete reference by referenceId
-referenceRouter.delete('/delete/:referenceId', fetchUser, async (req, res) => {
+referenceRouter.delete('/delete/:referenceId', fetchUser,  async (req:any, res:any) => {
   try {
     const { referenceId } = req.params;
     await referenceModel.deleteReference({ referenceId });

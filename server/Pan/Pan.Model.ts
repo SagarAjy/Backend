@@ -34,8 +34,8 @@ export default PanModel
 async function getPanDetails(clientId:string) {
   try {
     //Fetching the Pan Number with help of client
-     //@ts-ignore
-    const { customer_id = '', pancard = '' } = await getCustomerId(clientId);
+    
+    const { customer_id = '', pancard = '' }:any = await getCustomerId(clientId);
     const response:any = await axios.post(PAN_VERIFICATION_API_ENDPOINT, {
       id_number: pancard.toUpperCase()}, {
       headers: {

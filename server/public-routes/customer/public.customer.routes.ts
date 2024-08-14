@@ -154,7 +154,7 @@ customerPublicRouter.post<
   Record<never, never>,
   { id: string; token: string; name: string } | { message: string },
   CreateLeadsBodyType
->('/create-lead', async (req, res) => {
+>('/create-lead',  async (req:any, res:any) => {
   try {
     const {
       phoneNo,
@@ -351,11 +351,11 @@ customerPublicRouter.post<
 customerPublicRouter.get<
   Record<never, never>,
   CustomerDetailsType | { message: string }
->('/customer-details', fetchCustomer, async (req, res) => {
+>('/customer-details', fetchCustomer,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const phoneNo = req.phoneNo.phoneNo;
-    //@ts-ignore
+     
     const clientId = req.clientId;
 
     const customer = await customerService.getCustomerByPhoneNo({
@@ -372,11 +372,11 @@ customerPublicRouter.get<
 customerPublicRouter.get<
   Record<never, never>,
   CustomerApplicationDetailsType | { message: string } | null
->('/application-details', fetchCustomer, async (req, res) => {
+>('/application-details', fetchCustomer,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const phoneNo = req.phoneNo.phoneNo;
-    //@ts-ignore
+     
     const clientId = req.clientId;
 
     const applicationDetails =
@@ -397,11 +397,11 @@ customerPublicRouter.get<
 customerPublicRouter.get<
   Record<never, never>,
   CustomerDocumentsType[] | { message: string }
->('/get-documents', fetchCustomer, async (req, res) => {
+>('/get-documents', fetchCustomer,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const phoneNo = req.phoneNo.phoneNo;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const documentDetails = await customerService.getCustomerDocumentsByPhoneNo(
       {
@@ -420,11 +420,11 @@ customerPublicRouter.get<
 customerPublicRouter.get<
   { documentType: document_type },
   CustomerDocumentsType | { message: string }
->('/get-document-type/:documentType', fetchCustomer, async (req, res) => {
+>('/get-document-type/:documentType', fetchCustomer,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const phoneNo = req.phoneNo.phoneNo;
-    //@ts-ignore
+     
     const clientId = req.clientId;
 
     const { documentType } = req.params;
@@ -446,9 +446,9 @@ customerPublicRouter.post<
   Record<never, never>,
   { message: string },
   UploadDocumentType
->('/upload-documents', fetchCustomer, fileUpload, async (req, res) => {
+>('/upload-documents', fetchCustomer, fileUpload,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const phoneNo = req.phoneNo.phoneNo;
 
     const customerDetails = await customerModel.getCustomerByPhoneNo({
@@ -458,7 +458,7 @@ customerPublicRouter.post<
     await documentsModel.addDocument({
       customerId: customerDetails?.customer_id || '',
       userId: null,
-      //@ts-ignore
+       
       documentUrl: req.file?.location,
       documentType: req.body.documentType,
       password: req.body.password,
@@ -475,9 +475,9 @@ customerPublicRouter.post<
 customerPublicRouter.post<{ documentId: string }, { message: string }>(
   '/delete-document/:documentId',
   fetchCustomer,
-  async (req, res) => {
+   async (req:any, res:any) => {
     try {
-      //@ts-ignore
+       
       const clientId = req.clientId;
 
       const { documentId } = req.params;
@@ -518,11 +518,11 @@ customerPublicRouter.post<
   Record<never, never>,
   Record<never, never>,
   addAddressType
->('/add-address', fetchCustomer, async (req, res) => {
+>('/add-address', fetchCustomer,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const clientId = req.clientId;
-    //@ts-ignore
+     
     const phoneNo = req.phoneNo.phoneNo;
 
     const customerDetails = await customerModel.getCustomerByPhoneNo({
@@ -570,11 +570,11 @@ customerPublicRouter.post<
 customerPublicRouter.get<
   { addressType: address_type },
   getAddressType[] | { message: string }
->('/get-address/:addressType', fetchCustomer, async (req, res) => {
+>('/get-address/:addressType', fetchCustomer,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const clientId = req.clientId;
-    //@ts-ignore
+     
     const phoneNo = req.phoneNo.phoneNo;
 
     const { addressType } = req.params;
@@ -594,10 +594,10 @@ customerPublicRouter.get<
 customerPublicRouter.put<{ addressId: string }>(
   '/update-address/:addressId',
   fetchCustomer,
-  async (req, res) => {
+   async (req:any, res:any) => {
     try {
       const { addressId } = req.params;
-      //@ts-ignore
+       
       const clientId = req.clientId;
 
       await addressModel.updateAddress({
@@ -626,11 +626,11 @@ customerPublicRouter.post<
   Record<never, never>,
   Record<never, never>,
   addReferenceType
->('/add-reference', fetchCustomer, async (req, res) => {
+>('/add-reference', fetchCustomer,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const phoneNo = req.phoneNo.phoneNo;
-    //@ts-ignore
+     
     const clientId = req.clientId;
 
     const customerDetails = await customerModel.getCustomerByPhoneNo({
@@ -655,11 +655,11 @@ customerPublicRouter.post<
 customerPublicRouter.get<
   { leadId: string },
   getReferenceType[] | { message: string }
->('/get-references', fetchCustomer, async (req, res) => {
+>('/get-references', fetchCustomer,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const clientId = req.clientId;
-    //@ts-ignore
+     
     const phoneNo = req.phoneNo.phoneNo;
 
     const customerDetails = await customerModel.getCustomerByPhoneNo({
@@ -683,7 +683,7 @@ customerPublicRouter.get<
 customerPublicRouter.delete(
   '/delete-reference/:referenceId',
   fetchCustomer,
-  async (req, res) => {
+   async (req:any, res:any) => {
     try {
       const { referenceId } = req.params;
       await referenceModel.deleteReference({ referenceId });
@@ -701,11 +701,11 @@ customerPublicRouter.post<
   Record<never, never>,
   Record<never, never>,
   addEmployerType
->('/add-employer', fetchCustomer, async (req, res) => {
+>('/add-employer', fetchCustomer,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const phoneNo = req.phoneNo.phoneNo;
-    //@ts-ignore
+     
     const clientId = req.clientId;
 
     const customerDetails = await customerModel.getCustomerByPhoneNo({
@@ -730,11 +730,11 @@ customerPublicRouter.post<
 customerPublicRouter.get<
   Record<never, never>,
   getEmployerType[] | { message: string }
->('/get-employer', fetchCustomer, async (req, res) => {
+>('/get-employer', fetchCustomer,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const clientId = req.clientId;
-    //@ts-ignore
+     
     const phoneNo = req.phoneNo.phoneNo;
 
     const customerDetails = await customerModel.getCustomerByPhoneNo({
@@ -756,7 +756,7 @@ customerPublicRouter.get<
 customerPublicRouter.delete<{ employerId: string }, { message: string }>(
   '/delete-employer/:employerId',
   fetchCustomer,
-  async (req, res) => {
+   async (req:any, res:any) => {
     try {
       const { employerId } = req.params;
       await employerModel.deleteEmployer({ employerId });
@@ -773,11 +773,11 @@ customerPublicRouter.delete<{ employerId: string }, { message: string }>(
 customerPublicRouter.get<
   Record<never, never>,
   ApplicationHistoryDataType[] | { message: string }
->('/get-application-history', fetchCustomer, async (req, res) => {
+>('/get-application-history', fetchCustomer,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const phoneNo = req.phoneNo.phoneNo;
-    //@ts-ignore
+     
     const clientId = req.clientId;
 
     const applicationHistory =
@@ -796,9 +796,9 @@ customerPublicRouter.get<
 customerPublicRouter.get(
   '/get-reapply-data/:clientId',
   fetchCustomer,
-  async (req, res) => {
+   async (req:any, res:any) => {
     try {
-      //@ts-ignore
+       
       const phoneNo = req.phoneNo.phoneNo;
       const { clientId } = req.params;
       const reApplyData = await customerService.getReapplyData({
@@ -817,10 +817,10 @@ customerPublicRouter.post<
   Record<never, never>,
   { message: string },
   ReapplyBodyType
->('/reapply', fetchCustomer, async (req, res) => {
+>('/reapply', fetchCustomer,  async (req:any, res:any) => {
   try {
     console.log("I am AUTO REPLY")
-    //@ts-ignore
+     
     const phoneNo = req.phoneNo.phoneNo;
 
     const {
@@ -1006,11 +1006,11 @@ customerPublicRouter.post<
 customerPublicRouter.get<
   Record<never, never>,
   { status: lead_status } | { message: string }
->('/get-latest-lead-status', fetchCustomer, async (req, res) => {
+>('/get-latest-lead-status', fetchCustomer,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const clientId = req.clientId;
-    //@ts-ignore
+     
     const phoneNo = req.phoneNo.phoneNo;
 
     const customerDetails = await customerModel.getCustomerByPhoneNo({
@@ -1036,11 +1036,11 @@ customerPublicRouter.put<
   { leadId: string },
   { message: string },
   { status: lead_status }
->('/update-lead-status', fetchCustomer, async (req, res) => {
+>('/update-lead-status', fetchCustomer,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const clientId = req.clientId;
-    //@ts-ignore
+     
     const phoneNo = req.phoneNo.phoneNo;
 
     const customerDetails = await customerModel.getCustomerByPhoneNo({
@@ -1068,9 +1068,9 @@ customerPublicRouter.put<
 customerPublicRouter.put<Record<never, never>, { message: string }>(
   '/update-approval',
   fetchCustomer,
-  async (req, res) => {
+   async (req:any, res:any) => {
     try {
-      //@ts-ignore
+       
       const clientId = req.clientId;
 
       const { approvalAmount, processingFees, conversionFees, tenure, loanNo } =
@@ -1266,11 +1266,11 @@ customerPublicRouter.put<Record<never, never>, { message: string }>(
 customerPublicRouter.get<
   { loanNo: string },
   GetKYCDetailsResponse | { message: string } | null
->('/get-kyc-details/:loanNo', fetchCustomer, async (req, res) => {
+>('/get-kyc-details/:loanNo', fetchCustomer,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const clientId = req.clientId;
-    //@ts-ignore
+     
     const phoneNo = req.phoneNo.phoneNo;
 
     const { loanNo } = req.params;
@@ -1301,12 +1301,12 @@ customerPublicRouter.get<
 customerPublicRouter.get<
   { loanNo: string },
   GetESignDocsResponse | { message: string } | null
->('/get-e-sign-details/:loanNo', fetchCustomer, async (req, res) => {
+>('/get-e-sign-details/:loanNo', fetchCustomer,  async (req:any, res:any) => {
   try {
     const { loanNo } = req.params;
-    //@ts-ignore
+     
     const clientId = req.clientId;
-    //@ts-ignore
+     
     const phoneNo = req.phoneNo.phoneNo;
 
     const customerDetails = await customerService.getCustomerByPhoneNo({
@@ -1335,11 +1335,11 @@ customerPublicRouter.get<
 customerPublicRouter.get(
   '/regenerate-digio-token/:docId',
   fetchCustomer,
-  async (req, res) => {
+   async (req:any, res:any) => {
     try {
-      //@ts-ignore
+       
       const clientId = req.clientId;
-      //@ts-ignore
+       
       const phoneNo = req.phoneNo.phoneNo;
 
       const customerDetails = await customerService.getCustomerByPhoneNo({
@@ -1378,11 +1378,11 @@ customerPublicRouter.get(
 customerPublicRouter.post(
   '/create-customer-disbursal',
   fetchCustomer,
-  async (req, res) => {
+   async (req:any, res:any) => {
     try {
-      //@ts-ignore
+       
       const clientId = req.clientId;
-      //@ts-ignore
+       
       const phoneNo = req.phoneNo.phoneNo;
 
       const customerDetails = await customerService.getCustomerByPhoneNo({
@@ -1399,11 +1399,9 @@ customerPublicRouter.post(
         loanNo,
       } = req.body;
 
-      const clientDetails = await clientModel.getClient({ clientId });
+      const clientDetails :any= await clientModel.getClient({ clientId });
 
-      const clientBankAccounts =
-        //@ts-ignore
-        clientDetails?.client_bank_accounts.at(0).value;
+      const clientBankAccounts = clientDetails?.client_bank_accounts.at(0).value;
 
       const approvalData = await approvalModel.getApprovalByLoanNo({
         loanNo,
@@ -1424,7 +1422,7 @@ customerPublicRouter.post(
         bankBranch: bankBranch,
         bankName: bank,
         customerId: customerDetails?.id || '',
-        //@ts-ignore
+         
         companyAccountNo: clientBankAccounts,
         leadId: approvalData?.lead_id || '',
         chequeNo: '0',

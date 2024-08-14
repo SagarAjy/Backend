@@ -35,7 +35,6 @@ const getAddress = async ({
       pincode: address.pincode,
       houseType: address.house_type,
       status: address.status,
-      //@ts-ignore
       verifiedBy: verfiedBy?.name || null,
       createdAt: address.created_at,
       updatedAt: address.updated_at,

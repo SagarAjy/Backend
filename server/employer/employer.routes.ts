@@ -39,12 +39,12 @@ export type getEmployerType = {
 employerRouter.post<{ leadId: string }, Record<never, never>, addEmployerType>(
   '/add/:leadId',
   fetchUser,
-  async (req, res) => {
+   async (req:any, res:any) => {
     try {
       const { leadId } = req.params;
-      //@ts-ignore
+       
       const userId = req.user.user;
-      //@ts-ignore
+       
       const clientId = req.clientId;
       const leadDetails = await leadsModel.getLeadById({ leadId, clientId });
       await employerModel.addEmployer({
@@ -68,10 +68,10 @@ employerRouter.post<{ leadId: string }, Record<never, never>, addEmployerType>(
 employerRouter.get<{ leadId: string }, getEmployerType[] | { message: string }>(
   '/get/:leadId',
   fetchUser,
-  async (req, res) => {
+   async (req:any, res:any) => {
     try {
       const { leadId } = req.params;
-      //@ts-ignore
+       
       const clientId = req.clientId;
       const referenceDetails = await employerService.getEmployer({
         leadId,
@@ -90,10 +90,10 @@ employerRouter.put<
   { employerId: string },
   getEmployerType[] | { message: string; code?: string },
   addEmployerType
->('/update/:employerId', fetchUser, async (req, res) => {
+>('/update/:employerId', fetchUser,  async (req:any, res:any) => {
   try {
     const { employerId } = req.params;
-    //@ts-ignore
+     
     const userId = req.user.user;
     await employerModel.updateEmployer({
       employerId,
@@ -118,7 +118,7 @@ employerRouter.put<
 });
 
 //delete employer
-employerRouter.delete('/delete/:employerId', fetchUser, async (req, res) => {
+employerRouter.delete('/delete/:employerId', fetchUser,  async (req:any, res:any) => {
   try {
     const { employerId } = req.params;
     await employerModel.deleteEmployer({ employerId });

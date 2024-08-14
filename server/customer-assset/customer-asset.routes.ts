@@ -27,10 +27,10 @@ customerAssetRouter.post<
   { leadId: string },
   { message: string },
   addCustomerAssetType
->('/add/:leadId', fetchUser, async (req, res) => {
+>('/add/:leadId', fetchUser,  async (req:any, res:any) => {
   try {
     const { leadId } = req.params;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const leadDetails = await leadsModel.getLeadById({ leadId, clientId });
 
@@ -50,10 +50,10 @@ customerAssetRouter.post<
 customerAssetRouter.get<
   { leadId: string },
   getCustomerAssetType[] | { message: string } | null
->('/get/:leadId', fetchUser, async (req, res) => {
+>('/get/:leadId', fetchUser,  async (req:any, res:any) => {
   try {
     const { leadId } = req.params;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const assets = await customerAssetService.getAsset({ leadId, clientId });
     return res.status(200).send(assets);
@@ -68,7 +68,7 @@ customerAssetRouter.put<
   Record<never, never>,
   { message: string },
   updateCustomerAssetType
->('/update', fetchUser, async (req, res) => {
+>('/update', fetchUser,  async (req:any, res:any) => {
   try {
     await customerAssetModel.updateAsset({
       ...req.body,
@@ -84,7 +84,7 @@ customerAssetRouter.put<
 customerAssetRouter.delete<{ assetId: string }, { message: string }>(
   '/delete/:assetId',
   fetchUser,
-  async (req, res) => {
+   async (req:any, res:any) => {
     try {
       await customerAssetModel.deleteAsset({ assetId: req.params.assetId });
       return res.status(200).send({ message: 'Asset deleted!' });

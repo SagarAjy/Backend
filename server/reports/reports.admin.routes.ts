@@ -40,11 +40,11 @@ adminReportsRouter.get<
   performanceHistoryType[] | { message: string } | null,
   Record<never, never>,
   { year: string; month?: string }
->('/performance-history', fetchUser, async (req, res) => {
+>('/performance-history', fetchUser,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const userId = req.user.user;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const userDetails = await userModel.getUser({ userId, clientId });
     const today = new Date();
@@ -86,12 +86,12 @@ adminReportsRouter.get<
   | null,
   Record<never, never>,
   { month?: string; year?: string }
->('/disbursal-role-data-report/:role', fetchUser, async (req, res) => {
+>('/disbursal-role-data-report/:role', fetchUser,  async (req:any, res:any) => {
   try {
     const { role } = req.params;
-    //@ts-ignore
+     
     const userId = req.user.user;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const userDetails = await userModel.getUser({ userId, clientId });
     const today = new Date();
@@ -128,12 +128,12 @@ adminReportsRouter.get<
   | null,
   Record<never, never>,
   { month?: string; year?: string }
->('/collection-role-data-report/:role', fetchUser, async (req, res) => {
+>('/collection-role-data-report/:role', fetchUser,  async (req:any, res:any) => {
   try {
     const { role } = req.params;
-    //@ts-ignore
+     
     const userId = req.user.user;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const userDetails = await userModel.getUser({ userId, clientId });
     const today = new Date();
@@ -173,11 +173,11 @@ adminReportsRouter.get<
   | null,
   Record<never, never>,
   { role: roles; month?: string; year?: string }
->('/fresh-reloan-stats', fetchUser, async (req, res) => {
+>('/fresh-reloan-stats', fetchUser,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const userId = req.user.user;
-    //@ts-ignore
+     
     const clientId = req.clientId;
 
     const userDetails = await userModel.getUser({ userId, clientId });
@@ -207,11 +207,11 @@ adminReportsRouter.get<
   Record<never, never>,
   collectionDailyTrackType[] | { message: string },
   { year: string; month?: string }
->('/collection-daily-track', fetchUser, async (req, res) => {
+>('/collection-daily-track', fetchUser,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const userId = req.user.user;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const today = new Date();
     const thisYear = today.getFullYear();

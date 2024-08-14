@@ -27,11 +27,11 @@ branchTargetRouter.post<
   Record<never, never>,
   { message: string },
   addBranchTargetType
->('/add', fetchUser, async (req, res) => {
+>('/add', fetchUser, async (req:any,res:any) => {
   try {
-    //@ts-ignore
+   
     const userId = req.user.user;
-    //@ts-ignore
+   
     const clientId = req.clientId;
     const userDetails = await userModel.getUser({ userId, clientId });
     if (userDetails?.role !== 'Admin')
@@ -57,14 +57,14 @@ branchTargetRouter.get<
     offset: string;
     search?: string;
   }
->('/get', fetchUser, async (req, res) => {
+>('/get', fetchUser, async (req:any,res:any) => {
   try {
     const limit = Number(req.query.limit) || 10;
     const offset = Number(req.query.offset) || 0;
     const searchparam = decodeURIComponent(req.query.search || '');
-    //@ts-ignore
+    
     const userId = req.user.user;
-    //@ts-ignore
+    
     const clientId = req.clientId;
     const userDetails = await userModel.getUser({ userId, clientId });
     //only admin can access branch targets
@@ -88,11 +88,11 @@ branchTargetRouter.put<
   { branchTargetId: string },
   { message: string },
   { target: number }
->('/update/:branchTargetId', fetchUser, async (req, res) => {
+>('/update/:branchTargetId', fetchUser, async (req:any,res:any) => {
   try {
-    //@ts-ignore
+    
     const userId = req.user.user;
-    //@ts-ignore
+    
     const clientId = req.clientId;
     const { branchTargetId } = req.params;
     const target = req.body.target;

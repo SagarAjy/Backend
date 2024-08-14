@@ -4,7 +4,7 @@ import axios from 'axios';
 
 export const servicesRouter: Router = express.Router();
 
-servicesRouter.get('/sms-balance', fetchUser, async (req, res) => {
+servicesRouter.get('/sms-balance', fetchUser,  async (req:any, res:any) => {
   try {
     const fast2SMSUrl = `https://www.fast2sms.com/dev/wallet?authorization=${process.env.SMS_AUTH_KEY}`;
 

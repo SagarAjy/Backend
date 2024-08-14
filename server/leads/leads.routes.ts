@@ -155,7 +155,7 @@ leadsRouter.get<
     endDate?: string;
     assigneeId?: string;
   }
->('/get-leads-by-filter', fetchUser, async (req, res) => {
+>('/get-leads-by-filter', fetchUser,  async (req:any, res:any) => {
   try {
     const limit = Number(req.query.limit) || 10;
     const offset = Number(req.query.offset) || 0;
@@ -165,9 +165,9 @@ leadsRouter.get<
     const startDate = decodeURIComponent(req.query.startDate || '');
     const endDate = decodeURIComponent(req.query.endDate || '');
     const assigneeId = req.query.assigneeId;
-    //@ts-ignore
+     
     const userId: string = req.user.user;
-    //@ts-ignore
+     
     const clientId = req.clientId;
 
     let leads;
@@ -214,16 +214,16 @@ leadsRouter.get<
     endDate?: string;
     assigneeId?: string;
   }
->('/download-leads-by-filter', fetchUser, async (req, res) => {
+>('/download-leads-by-filter', fetchUser,  async (req:any, res:any) => {
   try {
     const leadsFilter = req.query.leads as lead_status;
     const searchparam = decodeURIComponent(req.query.search || '');
     const startDate = decodeURIComponent(req.query.startDate || '');
     const endDate = decodeURIComponent(req.query.endDate || '');
     const assigneeId = req.query.assigneeId;
-    //@ts-ignore
+     
     const userId = req.user.user;
-    //@ts-ignore
+     
     const clientId = req.clientId;
 
     const userDetails = await userModel.getUser({ userId, clientId });
@@ -269,10 +269,10 @@ leadsRouter.get<
 leadsRouter.get<{ leadId: string }, LeadHistoryType[] | { message: string }>(
   '/leadHistory/:leadId',
   fetchUser,
-  async (req, res) => {
+   async (req:any, res:any) => {
     try {
       const { leadId } = req.params;
-      //@ts-ignore
+       
       const clientId = req.clientId;
       const leadDetails = await leadsModel.getLeadById({ leadId, clientId });
       const leads = await leadsService.getLeadsByCustomerId({
@@ -300,7 +300,7 @@ leadsRouter.get<
     startDate?: string;
     endDate?: string;
   }
->('/get/credit-leads-by-filter', fetchUser, async (req, res) => {
+>('/get/credit-leads-by-filter', fetchUser,  async (req:any, res:any) => {
   try {
     const limit = Number(req.query.limit) || 10;
     const offset = Number(req.query.offset) || 0;
@@ -309,9 +309,9 @@ leadsRouter.get<
     const searchparam = req.query.search;
     const startDate = decodeURIComponent(req.query.startDate || '');
     const endDate = decodeURIComponent(req.query.endDate || '');
-    //@ts-ignore
+     
     const userId: string = req.user.user;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     let leadInfo;
     if (startDate.length !== 0 && endDate.length !== 0) {
@@ -358,7 +358,7 @@ leadsRouter.get<
     startDate?: string;
     endDate?: string;
   }
->('/get/disbursal-leads-by-filter', fetchUser, async (req, res) => {
+>('/get/disbursal-leads-by-filter', fetchUser,  async (req:any, res:any) => {
   try {
     const limit = Number(req.query.limit) || 10;
     const offset = Number(req.query.offset) || 0;
@@ -367,10 +367,10 @@ leadsRouter.get<
     const searchparam = req.query.search;
     const startDate = decodeURIComponent(req.query.startDate || '');
     const endDate = decodeURIComponent(req.query.endDate || '');
-    //@ts-ignore
+     
     const userId: string = req.user.user;
 
-    //@ts-ignore
+     
     const clientId = req.clientId;
     let leadInfo;
     if (startDate.length !== 0 && endDate.length !== 0) {
@@ -408,11 +408,11 @@ leadsRouter.put<
   { leadId: string },
   { message: string },
   { leadAssignee: string }
->('/update/lead_assignee/:leadId', fetchUser, async (req, res) => {
+>('/update/lead_assignee/:leadId', fetchUser,  async (req:any, res:any) => {
   try {
     const { leadId } = req.params;
     let { leadAssignee } = req.body;
-    //@ts-ignore
+     
     const clientId = req.clientId;
 
     const leadDetails = await leadsModel.getLeadById({ leadId, clientId });
@@ -455,11 +455,11 @@ leadsRouter.put<
   { leadId: string },
   { message: string },
   { creditManager: string }
->('/update/credit_manager/:leadId', fetchUser, async (req, res) => {
+>('/update/credit_manager/:leadId', fetchUser,  async (req:any, res:any) => {
   try {
     const { leadId } = req.params;
     let { creditManager } = req.body;
-    //@ts-ignore
+     
     const clientId = req.clientId;
 
     const leadDetails = await leadsModel.getLeadById({ leadId, clientId });
@@ -516,7 +516,7 @@ leadsRouter.post<
   ReapplyBodyType & {
     phoneNo: string;
   }
->('/reapply', fetchUser, async (req, res) => {
+>('/reapply', fetchUser,  async (req:any, res:any) => {
   try {
     const {
       phoneNo,
@@ -638,10 +638,10 @@ leadsRouter.get<
   { leadId: string },
   leadDataType | { message: string },
   Record<never, never>
->('/:leadId', fetchUser, async (req, res) => {
+>('/:leadId', fetchUser,  async (req:any, res:any) => {
   try {
     const { leadId } = req.params;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const leadInfo = await leadsService.getLead({ leadId, clientId });
     return res.status(200).send(leadInfo);
@@ -656,7 +656,7 @@ leadsRouter.get<
 //   Record<never, never>,
 //   Record<never, never>,
 //   createLeadsBodyType
-// >('/create-lead', async (req, res) => {
+// >('/create-lead',  async (req:any, res:any) => {
 //   try {
 //     const {
 //       name,

@@ -124,11 +124,11 @@ reportsDownloadRouter.get<
     startDate?: string;
     endDate?: string;
   }
->('/download-disbursal-report', fetchUser, async (req, res) => {
+>('/download-disbursal-report', fetchUser,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const userId = req.user.user;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const searchparam = decodeURIComponent(req.query.search || '');
     const startDate = decodeURIComponent(req.query.startDate || '');
@@ -174,11 +174,11 @@ reportsDownloadRouter.get<
     startDate?: string;
     endDate?: string;
   }
->('/download-collection-report', fetchUser, async (req, res) => {
+>('/download-collection-report', fetchUser,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const userId = req.user.user;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const searchparam = decodeURIComponent(req.query.search || '');
     const startDate = decodeURIComponent(req.query.startDate || '');
@@ -222,15 +222,15 @@ reportsDownloadRouter.get<
     startDate: string;
     endDate: string;
   }
->('/download-cibil-data', fetchUser, async (req, res) => {
+>('/download-cibil-data', fetchUser,  async (req:any, res:any) => {
   try {
     const searchparam = decodeURIComponent(req.query.searchparam || '');
     const startDate = decodeURIComponent(req.query.startDate || '');
     const endDate = decodeURIComponent(req.query.endDate || '');
 
-    //@ts-ignore
+     
     const clientId = req.clientId;
-    //@ts-ignore
+     
     const userId = req.user.user;
 
     let cibilData;
@@ -269,14 +269,14 @@ reportsDownloadRouter.get<
     startDate?: string;
     endDate?: string;
   }
->('/download-paydaypending', fetchUser, async (req, res) => {
+>('/download-paydaypending', fetchUser,  async (req:any, res:any) => {
   try {
     const searchparam = decodeURIComponent(req.query.search || '');
     const startDate = decodeURIComponent(req.query.startDate || '');
     const endDate = decodeURIComponent(req.query.endDate || '');
-    //@ts-ignore
+     
     const userId = req.user.user;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     let paydayPending;
 

@@ -15,9 +15,9 @@ userReporteeRouter.post<
   Record<never, never>,
   { message: string },
   userReporteeRequestType
->('/assign', fetchUser, async (req, res) => {
+>('/assign', fetchUser,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const { reporteeId, userId } = req.body;
     await userReporteeModel.createReportee({ reporteeId, userId, clientId });
@@ -32,9 +32,9 @@ userReporteeRouter.put<
   Record<never, never>,
   { message: string },
   userReporteeRequestType
->('/update-assign', fetchUser, async (req, res) => {
+>('/update-assign', fetchUser,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const { reporteeId, userId } = req.body;
     const userReportee = await userReporteeModel.getUserReportingByReporteeId({
@@ -57,9 +57,9 @@ userReporteeRouter.put<
 userReporteeRouter.delete<{ reporteeId: string }>(
   '/delete',
   fetchUser,
-  async (req, res) => {
+   async (req:any, res:any) => {
     try {
-      //@ts-ignore
+       
       const clientId = req.clientId;
       const { reporteeId } = req.params;
       const userReportee = await userReporteeModel.getUserReportingByReporteeId(

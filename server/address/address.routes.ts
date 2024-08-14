@@ -1,4 +1,5 @@
 import express, { Router } from 'express';
+import { Request, Response,NextFunction } from 'express';
 import { fetchUser } from '../middleware/auth.middleware';
 import { addressService } from './address.service';
 import { logger } from '../../logger';
@@ -35,9 +36,9 @@ export type getAddressType = Omit<addAddressType, 'isChecked'> & {
 addressRouter.post<{ leadId: string }, Record<never, never>, addAddressType>(
   '/add/:leadId',
   fetchUser,
-  async (req, res) => {
+  async (req:any, res:any) => {
     try {
-      //@ts-ignore
+      
       const clientId = req.clientId;
       const { leadId } = req.params;
       const leadDetails = await leadsModel.getLeadById({ leadId, clientId });
@@ -48,7 +49,7 @@ addressRouter.post<{ leadId: string }, Record<never, never>, addAddressType>(
         clientId,
       });
 
-      //@ts-ignore
+    
       const userId = req.user.user;
       const { address, city, state, pincode, houseType, status } = req.body;
 
@@ -97,9 +98,9 @@ addressRouter.post<{ leadId: string }, Record<never, never>, addAddressType>(
 addressRouter.get<{ leadId: string }, getAddressType[] | { message: string }>(
   '/getAddress/:leadId',
   fetchUser,
-  async (req, res) => {
+  async (req:any, res:any) => {
     try {
-      //@ts-ignore
+
       const clientId = req.clientId;
       const { leadId } = req.params;
       const addressDetails = await addressService.getAddress({
@@ -118,12 +119,12 @@ addressRouter.get<{ leadId: string }, getAddressType[] | { message: string }>(
 addressRouter.put<{ addressId: string }>(
   '/update/:addressId',
   fetchUser,
-  async (req, res) => {
+  async (req:any, res:any) => {
     try {
       const { addressId } = req.params;
-      //@ts-ignore
+      
       const userId = req.user.user;
-      //@ts-ignore
+    
       const clientId = req.clientId;
       await addressModel.updateAddress({
         addressId,
@@ -150,9 +151,9 @@ addressRouter.put<{ addressId: string }>(
 );
 
 //delete address by addressId
-addressRouter.delete('/delete/:addressId', fetchUser, async (req, res) => {
+addressRouter.delete('/delete/:addressId', fetchUser, async (req:any, res:any) => {
   try {
-    //@ts-ignore
+  
     const clientId = req.clientId;
     const { addressId } = req.params;
     await addressModel.deleteAddress({ addressId, clientId });

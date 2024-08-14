@@ -16,7 +16,7 @@ const s3Client = new S3Client({
   forcePathStyle: false,
 });
 
-//@ts-ignore
+ 
 const fileUpload = (req, res, next) => {
   try {
     const uploadFile = multer({
@@ -55,7 +55,7 @@ const fileUpload = (req, res, next) => {
   }
 };
 
-//@ts-ignore
+ 
 const collectionFileUpload = (req, res, next) => {
   try {
     const uploadFile = multer({

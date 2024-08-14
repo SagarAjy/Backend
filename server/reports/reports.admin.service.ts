@@ -322,7 +322,7 @@ const adminStats = async ({
     clientId,
   });
 
-  //@ts-ignore
+   
   const totalAssignedLeads = parseInt(leadAssignedCount[0].count, 10);
 
   let delta3 = 0;

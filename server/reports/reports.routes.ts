@@ -132,16 +132,16 @@ reportsRouter.get<
     startDate?: string;
     endDate?: string;
   }
->('/disbursal', fetchUser, async (req, res) => {
+>('/disbursal', fetchUser,  async (req:any, res:any) => {
   try {
     const limit = Number(req.query.limit);
     const offset = Number(req.query.offset);
     const searchparam = decodeURIComponent(req.query.search || '');
     const startDate = decodeURIComponent(req.query.startDate || '');
     const endDate = decodeURIComponent(req.query.endDate || '');
-    //@ts-ignore
+     
     const userId = req.user.user;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     let response;
     if (startDate.length !== 0 && endDate.length !== 0) {
@@ -184,16 +184,16 @@ reportsRouter.get<
     startDate?: string;
     endDate?: string;
   }
->('/collections', fetchUser, async (req, res) => {
+>('/collections', fetchUser,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const limit = Number(req.query.limit);
     const offset = Number(req.query.offset);
     const searchparam = decodeURIComponent(req.query.search || '');
     const startDate = decodeURIComponent(req.query.startDate || '');
     const endDate = decodeURIComponent(req.query.endDate || '');
-    //@ts-ignore
+     
     const userId = req.user.user;
 
     let response;
@@ -229,13 +229,13 @@ reportsRouter.get<
   statsType | statsType[] | { message: string } | null,
   Record<never, never>,
   { year: string; month?: string; day?: string }
->('/stats', fetchUser, async (req, res) => {
+>('/stats', fetchUser,  async (req:any, res:any) => {
   try {
    
-    //@ts-ignore
+     
     const userId = req.user.user;
     // const clientIdfromhrader = req.header('client-id');
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const userDetails = await userModel.getUser({ userId, clientId });
     console.log("userDetails=",userDetails);
@@ -301,11 +301,11 @@ reportsRouter.get<
   performanceHistoryType[] | { message: string } | null,
   Record<never, never>,
   { year: string; month?: string }
->('/telecaller-performance', fetchUser, async (req, res) => {
+>('/telecaller-performance', fetchUser,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const userId = req.user.user;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const today = new Date();
     const thisYear = today.getFullYear();
@@ -338,11 +338,11 @@ reportsRouter.get<
   creditManagerreporteeType[] | { message: string } | null,
   Record<never, never>,
   { year: string; month?: string }
->('/credit-manager-disbursal-performance', fetchUser, async (req, res) => {
+>('/credit-manager-disbursal-performance', fetchUser,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const userId = req.user.user;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const today = new Date();
     const thisYear = today.getFullYear();
@@ -381,11 +381,11 @@ reportsRouter.get<
   | null,
   Record<never, never>,
   { month?: string; year?: string }
->('/collection-executive-data-report', fetchUser, async (req, res) => {
+>('/collection-executive-data-report', fetchUser,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const userId = req.user.user;
-    //@ts-ignores
+     s
     const clientId = req.clientId;
     const userDetails = await userModel.getUser({ userId, clientId });
     const today = new Date();
@@ -422,7 +422,7 @@ reportsRouter.get<
     startDate: string;
     endDate: string;
   }
->('/cibil-data', fetchUser, async (req, res) => {
+>('/cibil-data', fetchUser,  async (req:any, res:any) => {
   try {
     const limit = Number(req.query.limit);
     const offset = Number(req.query.offset);
@@ -430,9 +430,9 @@ reportsRouter.get<
     const startDate = decodeURIComponent(req.query.startDate || '');
     const endDate = decodeURIComponent(req.query.endDate || '');
 
-    //@ts-ignore
+     
     const clientId = req.clientId;
-    //@ts-ignore
+     
     const userId = req.user.user;
 
     let cibilData;

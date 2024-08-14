@@ -46,9 +46,9 @@ creditReportRouter.post<
   { leadId: string },
   { message: string },
   addCreditReportType
->('/add/:leadId', fetchUser, async (req, res) => {
+>('/add/:leadId', fetchUser,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const { leadId } = req.params;
     const leadDetails = await leadsModel.getLeadById({ leadId, clientId });
@@ -112,10 +112,10 @@ creditReportRouter.post<
 creditReportRouter.get<
   { leadId: string },
   getCreditReportData | { message: string } | null
->('/get/:leadId', fetchUser, async (req, res) => {
+>('/get/:leadId', fetchUser,  async (req:any, res:any) => {
   try {
     const { leadId } = req.params;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const creditReport = await creditReportService.getCreditReport({
       leadId,
@@ -133,9 +133,9 @@ creditReportRouter.put<
   { creditReportId: string },
   { message: string },
   updateCreditReportType
->('/update/:creditReportId', fetchUser, async (req, res) => {
+>('/update/:creditReportId', fetchUser,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const { creditReportId } = req.params;
     const liabilities = req.body.liabilities;

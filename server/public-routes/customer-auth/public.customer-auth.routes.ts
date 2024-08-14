@@ -22,11 +22,11 @@ customerAuthRouter.post<
   Record<never, never>,
   { message: string },
   { phoneNo: string; clientId: string }
->('/get_otp', async (req, res) => {
+>('/get_otp',  async (req:any, res:any) => {
   try {
    
    
-    const { phoneNo, clientId } = req.body;
+    const { phoneNo, clientId }:any = req.body;
     let phoneOtp = 0;
     // * generate otp
     if (process.env.ENVIRONMENT === 'production') {
@@ -77,7 +77,7 @@ customerAuthRouter.post<
   Record<never, never>,
   { customer: CustomerType; customerExists: boolean } | { message: string },
   { phoneNo: string; otp: string; clientId: string }
->('/validate', async (req, res) => {
+>('/validate',  async (req:any, res:any) => {
   try {
     console.log(req.body)
     const { phoneNo, otp, clientId } = req.body;
@@ -139,12 +139,12 @@ customerAuthRouter.post<
 customerAuthRouter.get<
   Record<never, never>,
   { id: string; token: string; name: string } | { message: string }
-  >('/revalidate', fetchCustomer, async (req, res) => {
-    //('/revalidate', fetchCustomer, async (req, res) => {
+  >('/revalidate', fetchCustomer,  async (req:any, res:any) => {
+    //('/revalidate', fetchCustomer,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const phoneNo = req.phoneNo.phoneNo;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const data = { phoneNo };
     // * signing jwt token

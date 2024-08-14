@@ -22,11 +22,11 @@ loanCollectionRouter.post<
   Record<never, never>,
   { message: string },
   loanCollectionExecutiveDataType
->('/assign-executive', fetchUser, async (req, res) => {
+>('/assign-executive', fetchUser,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const userId = req.user.user;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const userDetails = await userModel.getUser({ userId, clientId });
     if (userDetails?.role !== 'Admin') {
@@ -49,11 +49,11 @@ loanCollectionRouter.post<
   Record<never, never>,
   { message: string },
   loanCollectionExecutiveLeadDataType
->('/assign-leads', fetchUser, async (req, res) => {
+>('/assign-leads', fetchUser,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const userId = req.user.user;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const userDetails = await userModel.getUser({ userId, clientId });
     if (
@@ -77,10 +77,10 @@ loanCollectionRouter.post<
 loanCollectionRouter.get<
   { userId: string },
   { message: string } | ({ id: string } | undefined)[]
->('/get/:userId', fetchUser, async (req, res) => {
+>('/get/:userId', fetchUser,  async (req:any, res:any) => {
   try {
     let { userId } = req.params; //*NOTE:userId is collection manager or credit manager id
-    //@ts-ignore
+     
     const clientId = req.clientId;
 
     const userDetails = await userModel.getUser({ userId, clientId });
@@ -113,11 +113,11 @@ loanCollectionRouter.get<
 loanCollectionRouter.get<
   { userId: string },
   { message: string } | ({ id: string } | undefined)[]
->('/get', fetchUser, async (req, res) => {
+>('/get', fetchUser,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const userId = req.user.user;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const userDetails = await userModel.getUser({ userId, clientId });
     if (

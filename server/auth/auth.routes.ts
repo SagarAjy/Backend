@@ -49,7 +49,7 @@ type validateResponseType =
 
 authRouter.post<Record<never, never>, getOTPResponseType, getOTPBodyType>(
   '/get_otp',
-  async (req, res) => {
+   async (req:any, res:any) => {
 
     try {
       const { email } = req.body;
@@ -81,7 +81,7 @@ authRouter.post<
   Record<never, never>,
   validateResponseType | { message: string },
   validateBodyType
->('/validate', async (req, res) => {
+>('/validate',  async (req:any, res:any) => {
   try {
     const { email, otp } = req.body;
 
@@ -143,9 +143,8 @@ authRouter.post<
 authRouter.get<Record<never, never>, validateResponseType>(
   '/revalidate',
   fetchUser,
-  async (req, res) => {
+  async (req:any, res:any) => {
     try {
-      //@ts-ignore
       const userId = req.user.user;
 
       const data = { user: userId };
@@ -191,11 +190,9 @@ authRouter.post<
   Record<never, never>,
   { message: string },
   { latitude: number; longitude: number; ipAddress: string }
->('/login-event', fetchUser, async (req, res) => {
+>('/login-event', fetchUser, async (req:any, res:any) => {
   try {
-    //@ts-ignore
     const clientId = req.clientId;
-    //@ts-ignore
     const userId = req.user.user;
 
 

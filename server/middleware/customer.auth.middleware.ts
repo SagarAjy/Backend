@@ -3,8 +3,8 @@ import { logger } from '../../logger';
 
 const secretKey = process.env.SECRET_KEY || '';
 
-//@ts-ignore
-const fetchCustomer = (req, res, next) => {
+ 
+const fetchCustomer = (req:any, res:any, next:any) => {
   try {
     const authHeader = req.header('Auth-Token');
     const clientId = req.header('client-id');

@@ -22,12 +22,10 @@ auditLogRouter.get<
     limit: string;
     offset: string;
   }
->('/get-logs', fetchUser, async (req, res) => {
+>('/get-logs', fetchUser, async (req:any, res:any) => {
   try {
     const limit = Number(req.query.limit) || 10;
     const offset = Number(req.query.offset) || 0;
-
-    //@ts-ignore
     const clientId = req.clientId;
 
     const auditLogs = await auditLogService.getAllLogs({

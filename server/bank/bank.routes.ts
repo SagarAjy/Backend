@@ -17,7 +17,7 @@ type bankGetType = {
 
 bankRouter.get<{ ifsc: string }, bankGetType | { message: string } | null>(
   '/get/:ifsc',
-  async (req, res) => {
+   async (req:any, res:any) => {
     try {
       let { ifsc } = req.params;
       ifsc = decodeURIComponent(ifsc);

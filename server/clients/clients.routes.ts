@@ -20,11 +20,9 @@ export const clientsRouter: Router = express.Router();
 clientsRouter.get<
   Record<never, never>,
   getClientsResponseType[] | { message: string }
->('/get-clients', fetchUser, async (req, res) => {
+>('/get-clients', fetchUser, async (req:any,res:any) => {
   try {
-    //@ts-ignore
     const userId: string = req.user.user;
-
     const userDetails = await clientModel.getUserByUserIdWithoutClientId({
       userId,
     });
@@ -43,11 +41,11 @@ clientsRouter.get<
 clientsRouter.get<
   Record<never, never>,
   getClientResponseType | { message: string }
->('/get-client-details', fetchUser, async (req, res) => {
+>('/get-client-details', fetchUser, async (req:any,res:any) => {
   try {
-    //@ts-ignore
+    
     const userId: string = req.user.user;
-    //@ts-ignore
+    
     const clientId = req.clientId;
 
     const client = await clientService.getClient({ clientId });
@@ -59,9 +57,8 @@ clientsRouter.get<
   }
 });
 
-clientsRouter.get('/get-client-theme', fetchUser, async (req, res) => {
+clientsRouter.get('/get-client-theme', fetchUser, async (req:any,res:any) => {
   try {
-    //@ts-ignore
     const clientId = req.clientId;
 
     const clientTheme = await clientService.getClientThemeByClientId({
@@ -75,11 +72,9 @@ clientsRouter.get('/get-client-theme', fetchUser, async (req, res) => {
   }
 });
 
-clientsRouter.get('/get-client-bank-accounts', fetchUser, async (req, res) => {
+clientsRouter.get('/get-client-bank-accounts', fetchUser, async (req:any,res:any) => {
   try {
-    //@ts-ignore
     const clientId = req.clientId;
-
     const clientBankAccounts = await clientService.getClientBankAccounts({
       clientId,
     });
@@ -94,9 +89,8 @@ clientsRouter.get('/get-client-bank-accounts', fetchUser, async (req, res) => {
 clientsRouter.get<
   Record<never, never>,
   { status: boolean; accounts: JsonValue[] | null } | { message: string }
->('/auto-disbursal-enabled', fetchUser, async (req, res) => {
+>('/auto-disbursal-enabled', fetchUser, async (req:any,res:any) => {
   try {
-    //@ts-ignore
     const clientId = req.clientId;
 
     const clientDetails = await clientModel.getClient({ clientId });
