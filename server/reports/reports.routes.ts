@@ -385,7 +385,6 @@ reportsRouter.get<
   try {
      
     const userId = req.user.user;
-     s
     const clientId = req.clientId;
     const userDetails = await userModel.getUser({ userId, clientId });
     const today = new Date();

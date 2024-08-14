@@ -316,7 +316,7 @@ const adminStats = async ({
     clientId,
   });
 
-  const leadAssignedCount = await adminModel.leadAssignedCount({
+  const leadAssignedCount:any = await adminModel.leadAssignedCount({
     startDate,
     endDate,
     clientId,

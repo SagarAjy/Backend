@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 const secretKey = process.env.SECRET_KEY || '';
 
  
-const fetchUser = (req, res, next) => {
+const fetchUser = (req:any, res:any, next:any) => {
   try {
     const authHeader = req.header('auth-token');
     const clientId = req.header('client-Id');

@@ -17,7 +17,7 @@ const s3Client = new S3Client({
 });
 
  
-const fileUpload = (req, res, next) => {
+const fileUpload = (req:any, res:any, next:any) => {
   try {
     const uploadFile = multer({
       storage: multerS3({
@@ -56,7 +56,7 @@ const fileUpload = (req, res, next) => {
 };
 
  
-const collectionFileUpload = (req, res, next) => {
+const collectionFileUpload = (req:any, res:any, next:any) => {
   try {
     const uploadFile = multer({
       storage: multerS3({

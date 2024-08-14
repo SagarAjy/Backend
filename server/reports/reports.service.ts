@@ -765,7 +765,7 @@ const teleCallerStats = async ({
     return response;
   } else if (userDetails?.role === roles.Tele_Caller) {
     let newObj;
-    const leadsWorkedOn = await leadsModel.leadAssignedCountByUserId({
+    const leadsWorkedOn:any = await leadsModel.leadAssignedCountByUserId({
       userId,
       startDate,
       endDate,

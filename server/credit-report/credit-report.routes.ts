@@ -63,17 +63,17 @@ creditReportRouter.post<
         .status(409)
         .send({ message: 'Credit report already exist for this user' });
     }
-    const liabilities = req.body.liabilities;
+    const liabilities:any = req.body.liabilities;
     let credit = 0;
     let debit = 0;
-    liabilities.map(liability => {
+    liabilities.map((liability:any) => {
       credit = credit + liability.credit;
       debit = debit + liability.debit;
     });
     const obligation = debit - credit;
-    const incomes = req.body.grossIncome;
+    const incomes:any = req.body.grossIncome;
     let grossIncome = 0;
-    incomes.map(income => {
+    incomes.map((income:any) => {
       grossIncome += income;
     });
     grossIncome = grossIncome / incomes.length;
@@ -141,14 +141,14 @@ creditReportRouter.put<
     const liabilities = req.body.liabilities;
     let credit = 0;
     let debit = 0;
-    liabilities.map(liability => {
+    liabilities.map((liability:any) => {
       credit = credit + liability.credit;
       debit = debit + liability.debit;
     });
     const obligation = debit - credit;
     const incomes = req.body.grossIncome;
     let grossIncome = 0;
-    incomes.map(income => {
+    incomes.map((income:any) => {
       grossIncome += income;
     });
     grossIncome = grossIncome / incomes.length;
