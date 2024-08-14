@@ -116,7 +116,7 @@ disbursalRouter.post<
 
           const googleSheetId = clientDetails?.google_sheet_id || '';
 
-          const creds = await axios.get(googleSheetKeySignedUrl);
+          const creds:any = await axios.get(googleSheetKeySignedUrl);
 
           const jwt = new JWT({
             email: creds.data.client_email,

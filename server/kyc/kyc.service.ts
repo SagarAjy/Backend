@@ -259,7 +259,7 @@ const eSignDocRequestDetails = async ({
 
   if (eSignDocRequest) {
     const url = `${process.env.DIGIO_BASE_URL}/v2/client/document/${eSignDocRequest?.e_sign_doc_id}?name_validation=true`;
-    const requestDetails = await axios.get(url, {
+    const requestDetails:any = await axios.get(url, {
       headers: {
         Authorization:
           'Basic ' +

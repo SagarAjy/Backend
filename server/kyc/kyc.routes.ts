@@ -140,7 +140,7 @@ kycRouter.post<{ leadId: string }, { message: string }>(
       const clientDetails = await clientModel.getClient({ clientId });
 
       const digoUrl = `${process.env.DIGIO_BASE_URL}/client/kyc/v2/request/with_template`;
-      const kycRequest = await axios.post(
+      const kycRequest:any = await axios.post(
         digoUrl,
         {
           customer_identifier: customerDetails.email,
@@ -473,7 +473,7 @@ kycRouter.get<{ leadId: string }, BinaryData | { message: string }>(
       const clientId = req.clientId;
 
       const eSignDocRequest = await kycModel.getESignDocRequest({ leadId });
-      const fileResponse = await axios.get(
+      const fileResponse:any = await axios.get(
         `${process.env.DIGIO_BASE_URL}/v2/client/document/download?document_id=${eSignDocRequest?.e_sign_doc_id}`,
         {
           headers: {

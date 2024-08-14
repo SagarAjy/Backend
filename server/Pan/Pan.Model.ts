@@ -36,7 +36,7 @@ async function getPanDetails(clientId:string) {
     //Fetching the Pan Number with help of client
      //@ts-ignore
     const { customer_id = '', pancard = '' } = await getCustomerId(clientId);
-    const response = await axios.post(PAN_VERIFICATION_API_ENDPOINT, {
+    const response:any = await axios.post(PAN_VERIFICATION_API_ENDPOINT, {
       id_number: pancard.toUpperCase()}, {
       headers: {
         Authorization: `Bearer ${PAN_VERIFICATION_API_KEY}`,

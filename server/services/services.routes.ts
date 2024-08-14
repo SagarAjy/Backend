@@ -8,7 +8,7 @@ servicesRouter.get('/sms-balance', fetchUser, async (req, res) => {
   try {
     const fast2SMSUrl = `https://www.fast2sms.com/dev/wallet?authorization=${process.env.SMS_AUTH_KEY}`;
 
-    const response = await axios.get(fast2SMSUrl);
+    const response:any = await axios.get(fast2SMSUrl);
 
     res.status(200).send({
       balance: response.data.wallet,

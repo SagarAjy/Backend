@@ -95,7 +95,7 @@ autoDisbursalRouter.post<
           const getPublicKeySignedUrl ="";
           const publicKeyApiReponse = await axios.get(getPublicKeySignedUrl);
 
-          const publicKey = publicKeyApiReponse.data;
+          const publicKey:any = publicKeyApiReponse.data;
 
           // get UNIX timestamp
           const timestamp = Math.floor(Date.now() / 1000);
@@ -110,7 +110,7 @@ autoDisbursalRouter.post<
           // The encrypted data is in the form of a Buffer, convert it to a base64 string
           const signature = encryptedData.toString('base64');
 
-          const cashFreeToken = await axios.post(
+          const cashFreeToken:any = await axios.post(
             process.env.CASHFREE_BASE_URL + 'payout/v1/authorize',
             {},
             {
@@ -125,7 +125,7 @@ autoDisbursalRouter.post<
 
           if (cashFreeToken.data.status === 'SUCCESS') {
             try {
-              const payment = await axios.post(
+              const payment:any = await axios.post(
                 `${process.env.CASHFREE_BASE_URL}payout/v1.2/directTransfer`,
                 {
                   amount: Math.round(disbursalAmount * 100) / 100,
@@ -282,7 +282,7 @@ autoDisbursalRouter.put<
     const getPublicKeySignedUrl = "";
     const publicKeyApiReponse = await axios.get(getPublicKeySignedUrl);
 
-    const publicKey = publicKeyApiReponse.data;
+    const publicKey:any = publicKeyApiReponse.data;
 
     // get UNIX timestamp
     const timestamp = Math.floor(Date.now() / 1000);
@@ -302,7 +302,7 @@ autoDisbursalRouter.put<
       clientId,
     });
 
-    const cashFreeToken = await axios.post(
+    const cashFreeToken:any = await axios.post(
       process.env.CASHFREE_BASE_URL + 'payout/v1/authorize',
       {},
       {
@@ -318,7 +318,7 @@ autoDisbursalRouter.put<
     if (cashFreeToken.data.status === 'SUCCESS') {
       if (autoDisbursalDetails.length !== 0) {
         const referenceId = autoDisbursalDetails.at(0)?.payment_id;
-        const paymentStatus = await axios.get(
+        const paymentStatus:any = await axios.get(
           `${process.env.CASHFREE_BASE_URL}payout/v1.2/getTransferStatus?referenceId=${referenceId}`,
           {
             headers: {

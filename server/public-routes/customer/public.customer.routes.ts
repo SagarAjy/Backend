@@ -1122,7 +1122,7 @@ customerPublicRouter.put<Record<never, never>, { message: string }>(
       const clientDetails = await clientModel.getClient({ clientId });
 
       const kycURL = `${process.env.DIGIO_BASE_URL}/client/kyc/v2/request/with_template`;
-      const kycRequest = await axios.post(
+      const kycRequest:any = await axios.post(
         kycURL,
         {
           customer_identifier: customerDetails?.email,
@@ -1350,7 +1350,7 @@ customerPublicRouter.get(
       const { docId } = req.params;
 
       const regenerateTokenUrl = `${process.env.DIGIO_BASE_URL}/user/auth/generate_token`;
-      const response = await axios.post(
+      const response:any = await axios.post(
         regenerateTokenUrl,
         {
           entity_id: docId,
