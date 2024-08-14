@@ -6,7 +6,7 @@ const secretKey = process.env.SECRET_KEY || '';
 //@ts-ignore
 const fetchCustomer = (req, res, next) => {
   try {
-    const authHeader = req.header('auth-token');
+    const authHeader = req.header('Auth-Token');
     const clientId = req.header('client-id');
    
     if (!authHeader) {

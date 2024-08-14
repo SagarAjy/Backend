@@ -9,16 +9,8 @@ export default PanController
 async function getPankyc(req: Request, res: Response,next:NextFunction): Promise<void> {
   try {
       //@ts-ignore
-     let { panNumber='',clientId='' } = req.body;
-    //@ts-ignore
-    panNumber=panNumber.toUpperCase()
-    console.log(panNumber, clientId, req.body)
-     
-      if (!panNumber || !panNumber || !isValidPanNumber(panNumber)) {
-        res.status(400).json({ message: 'Invalid PAN number format' });
-        return;
-      }
-      const panRes = await PanModel.getPanDetails(panNumber,clientId);
+      let {clientId='' } = req.body;
+      const panRes = await PanModel.getPanDetails(clientId);
       res.status(201).json({ message: 'Pan is verifed.' });
       next()
     } catch (error) {
@@ -26,8 +18,3 @@ async function getPankyc(req: Request, res: Response,next:NextFunction): Promise
     }
   }
 
-
-const isValidPanNumber = (pan: string): boolean => {
-    const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
-    return panRegex.test(pan);
-}

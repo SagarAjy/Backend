@@ -139,7 +139,8 @@ customerAuthRouter.post<
 customerAuthRouter.get<
   Record<never, never>,
   { id: string; token: string; name: string } | { message: string }
->('/revalidate', fetchCustomer, async (req, res) => {
+  >('/revalidate', fetchCustomer, async (req, res) => {
+    //('/revalidate', fetchCustomer, async (req, res) => {
   try {
     //@ts-ignore
     const phoneNo = req.phoneNo.phoneNo;

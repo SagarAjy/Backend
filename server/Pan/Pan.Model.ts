@@ -31,10 +31,13 @@ export default PanModel
 
 
 
-async function getPanDetails(pan: string,clientId:string) {
+async function getPanDetails(clientId:string) {
   try {
+    //Fetching the Pan Number with help of client
+     //@ts-ignore
+    const { customer_id = '', pancard = '' } = await getCustomerId(clientId);
     const response = await axios.post(PAN_VERIFICATION_API_ENDPOINT, {
-      id_number: pan}, {
+      id_number: pancard.toUpperCase()}, {
       headers: {
         Authorization: `Bearer ${PAN_VERIFICATION_API_KEY}`,
         'Content-Type': 'application/json',
@@ -69,7 +72,7 @@ async function getPanDetails(pan: string,clientId:string) {
       }
       //Storing the Pan data
       await dbRes({
-        customer_id:`${custId}`,
+        customer_id,
         data: response.data.data
       })
       
@@ -80,11 +83,12 @@ async function getPanDetails(pan: string,clientId:string) {
   }
 }
 
-let getCustomerId = async (d:string) => {
+const getCustomerId = async (d:string) => {
   const customer = await prisma.customers.findFirst({ where: {
     client_id:d,
   },
   }
   )
-  return customer?.customer_id
+
+  return customer
 }
