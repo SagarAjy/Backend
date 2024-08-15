@@ -1,5 +1,5 @@
 import express, { Router } from 'express';
-import { logger } from '../../logger';
+//import { logger } from '../../logger';
 import { fetchUser } from '../middleware/auth.middleware';
 import { userModel } from '../user/user.model';
 import { sanctionTargetModel } from './sanction-target.model';
@@ -56,7 +56,7 @@ sanctionTargetRouter.post<
     });
     return res.status(200).send({ message: 'Sanction target added' });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -121,7 +121,7 @@ sanctionTargetRouter.get<
     }
     return res.status(200).send(sanctionTargets);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -149,7 +149,7 @@ sanctionTargetRouter.put<
     });
     return res.status(200).send({ message: 'Sanction target updated' });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });

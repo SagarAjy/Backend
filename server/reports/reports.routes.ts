@@ -1,7 +1,7 @@
 import { genders, house_types, lead_status } from '@prisma/client';
 import express, { Router } from 'express';
 import { reportsService } from './reports.service';
-import { logger } from '../../logger';
+//import { logger } from '../../logger';
 import { fetchUser } from '../middleware/auth.middleware';
 import { userModel } from '../user/user.model';
 import { adminReportsService } from './reports.admin.service';
@@ -165,7 +165,7 @@ reportsRouter.get<
     }
     return res.status(200).send(response);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Something went wrong!' });
   }
 });
@@ -218,7 +218,7 @@ reportsRouter.get<
     }
     return res.status(200).send(response);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Something went wrong!' });
   }
 });
@@ -291,7 +291,7 @@ reportsRouter.get<
     }
     return res.status(200).send(response);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Something went wrong!' });
   }
 });
@@ -328,7 +328,7 @@ reportsRouter.get<
       return res.status(200).send(response);
     }
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Something went wrong!' });
   }
 });
@@ -366,7 +366,7 @@ reportsRouter.get<
 
     return res.status(200).send(response);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Something went wrong!' });
   }
 });
@@ -405,7 +405,7 @@ reportsRouter.get<
       return res.status(401).send({ message: 'Unauthorized' });
     }
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Something went wrong!' });
   }
 });
@@ -454,7 +454,7 @@ reportsRouter.get<
     }
     return res.status(200).send(cibilData);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Something went wrong!' });
   }
 });

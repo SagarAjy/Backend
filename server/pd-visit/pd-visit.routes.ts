@@ -1,7 +1,7 @@
 import express, { Router } from 'express';
 import { fetchUser } from '../middleware/auth.middleware';
 import { pdVisitModel } from './pd-visit.model';
-import { logger } from '../../logger';
+//import { logger } from '../../logger';
 import { novuNotification } from '../novu/novu.model';
 import { leadsModel } from '../leads/leads.model';
 import { userModel } from '../user/user.model';
@@ -57,7 +57,7 @@ pdVisitRouter.post<
     });
     return res.status(200).send({ message: 'pd-Visit Added' });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -76,7 +76,7 @@ pdVisitRouter.get<
     });
     res.status(200).send(pdVisitDetails);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -120,7 +120,7 @@ pdVisitRouter.put<
     });
     return res.status(200).send({ message: 'pd-Visit Added' });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });

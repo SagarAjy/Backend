@@ -3,7 +3,7 @@ import { fetchUser } from '../middleware/auth.middleware';
 import { clientService } from './clients.service';
 import { clientModel } from './clients.model';
 import { JsonValue } from '@prisma/client/runtime/library';
-import { logger } from '../../logger';
+//import { logger } from '../../logger';
 
 type getClientsResponseType = {
   clientId: string;
@@ -33,7 +33,7 @@ clientsRouter.get<
     });
     res.status(200).send(clients);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Internal Server Error' });
   }
 });
@@ -52,7 +52,7 @@ clientsRouter.get<
 
     res.status(200).send(client);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Internal Server Error' });
   }
 });
@@ -67,7 +67,7 @@ clientsRouter.get('/get-client-theme', fetchUser, async (req:any,res:any) => {
 
     res.status(200).send(clientTheme);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Internal Server Error' });
   }
 });
@@ -81,7 +81,7 @@ clientsRouter.get('/get-client-bank-accounts', fetchUser, async (req:any,res:any
 
     res.status(200).send(clientBankAccounts);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Internal Server Error' });
   }
 });
@@ -103,7 +103,7 @@ clientsRouter.get<
       res.status(200).send({ status: false, accounts: null });
     }
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Internal Server Error!' });
   }
 });

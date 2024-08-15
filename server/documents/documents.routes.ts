@@ -2,7 +2,7 @@ import { fetchUser } from '../middleware/auth.middleware';
 import { leadsModel } from '../leads/leads.model';
 import express from 'express';
 import { documentService } from './documents.service';
-import { logger } from '../../logger';
+//import { logger } from '../../logger';
 import { document_type, verification_status } from '@prisma/client';
 import { fileUpload, s3Client } from '../middleware/fileupload.middleware';
 import { DeleteObjectCommand } from '@aws-sdk/client-s3';
@@ -62,7 +62,7 @@ documentsRouter.post<
     });
     res.status(200).send({ message: 'Succesfully uploaded!' });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -79,7 +79,7 @@ documentsRouter.get<
     const response = await documentService.getDocument({ leadId, clientId });
     res.status(200).send(response);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -102,7 +102,7 @@ documentsRouter.put('/update/:documentId', fetchUser,  async (req:any, res:any) 
 
     res.status(200).send({ message: 'Document updated successfully!' });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -141,7 +141,7 @@ documentsRouter.post<{ documentId: string }, { message: string }>(
 
       return res.status(200).send({ message: 'File Deleted Sccessfully!' });
     } catch (error) {
-      logger.error(error);
+  //    logger.error(error);
       res.status(500).send({ message: 'Some error occured' });
     }
   },
@@ -174,7 +174,7 @@ documentsRouter.get('/download/:documentId', fetchUser,  async (req:any, res:any
 
     res.status(200).send({ url: signedUrl });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send('Some error occured');
   }
 });

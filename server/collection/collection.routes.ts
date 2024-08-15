@@ -1,6 +1,6 @@
 import express, { Router } from 'express';
 import { fetchUser } from '../middleware/auth.middleware';
-import { logger } from '../../logger';
+//import { logger } from '../../logger';
 import { lead_status, waiver_approval_status_type } from '@prisma/client';
 import { collectionModel } from './collection.model';
 import { leadsModel } from '../leads/leads.model';
@@ -137,7 +137,7 @@ collectionRouter.post<
 
     res.status(200).send({ message: 'Collection added!' });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -157,7 +157,7 @@ collectionRouter.get<
     });
     res.status(200).send(collection);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -201,7 +201,7 @@ collectionRouter.post<
 
     res.status(200).send({ message: 'Email sent!' });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -245,7 +245,7 @@ collectionRouter.post<
 
     res.status(200).send({ message: 'Email sent!' });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -288,7 +288,7 @@ collectionRouter.post<
 
     res.status(200).send({ message: 'Email sent!' });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -328,7 +328,7 @@ collectionRouter.get<
     });
     return res.status(200).send(collections);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -369,7 +369,7 @@ collectionRouter.get<
     });
     return res.status(200).send(waiverRequests);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -391,7 +391,7 @@ collectionRouter.put<
     });
     return res.status(200).send({ message: 'Waiver request status updated!' });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -445,7 +445,7 @@ collectionRouter.delete<{ collectionId: string }, { message: string }>(
         .status(200)
         .send({ message: 'Collection successfully deleted' });
     } catch (error) {
-      logger.error(error);
+  //    logger.error(error);
       return res.status(500).send({ message: 'Some error occured!' });
     }
   },
@@ -495,7 +495,7 @@ collectionRouter.get<
 
     return res.status(200).send(collections);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -523,7 +523,7 @@ collectionRouter.get<
 
     return res.status(200).send(extensionAmount);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -569,7 +569,7 @@ collectionRouter.post<
       });
       res.status(200).send({ message: 'Succesfully uploaded!' });
     } catch (error) {
-      logger.error(error);
+  //    logger.error(error);
       res.status(500).send({ message: 'Some error occured!' });
     }
   },
@@ -590,7 +590,7 @@ collectionRouter.get<
 
     res.status(200).send(response);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -620,7 +620,7 @@ collectionRouter.delete<{ documentId: string }, { message: string }>(
 
       res.status(200).send({ message: 'Document deleted!' });
     } catch (error) {
-      logger.error(error);
+  //    logger.error(error);
       res.status(500).send({ message: 'Some error occured!' });
     }
   },

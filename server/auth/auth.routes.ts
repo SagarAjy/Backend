@@ -2,7 +2,7 @@ import express, { Router } from 'express';
 import { authModel } from './auth.model';
 import jwt from 'jsonwebtoken';
 import { fetchUser } from '../middleware/auth.middleware';
-import { logger } from '../../logger';
+//import { logger } from '../../logger';
 import { tabsByRole } from '../../constants';
 import { userModel } from '../user/user.model';
 import { generateOTP } from '../../utils';
@@ -71,7 +71,7 @@ authRouter.post<Record<never, never>, getOTPResponseType, getOTPBodyType>(
 
       res.status(200).send({ message: 'OTP Sent' });
     } catch (error) {
-      logger.error(error);
+  //    logger.error(error);
       res.status(400).send({ message: 'Invalid Email' });
     }
   },

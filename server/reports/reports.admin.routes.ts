@@ -1,6 +1,6 @@
 import express, { Router } from 'express';
 import { adminReportsService } from './reports.admin.service';
-import { logger } from '../../logger';
+//import { logger } from '../../logger';
 import { fetchUser } from '../middleware/auth.middleware';
 import { userModel } from '../user/user.model';
 import { roles } from '@prisma/client';
@@ -69,7 +69,7 @@ adminReportsRouter.get<
       return res.status(200).send(response);
     }
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Something went wrong!' });
   }
 });
@@ -111,7 +111,7 @@ adminReportsRouter.get<
     });
     return res.status(200).send(response);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Something went wrong!' });
   }
 });
@@ -155,7 +155,7 @@ adminReportsRouter.get<
     }
     return res.status(200).send(response);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Something went wrong!' });
   }
 });

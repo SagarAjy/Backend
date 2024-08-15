@@ -2,7 +2,7 @@ import express, { Router } from 'express';
 import { generateOTP } from '../../../utils';
 import { customerOtpModel } from '../customer-otp/public.customer-otp.model';
 import jwt from 'jsonwebtoken';
-import { logger } from '../../../logger';
+//import { logger } from '../../../logger';
 import { customerModel } from '../../customer/customer.model';
 import { fetchCustomer } from '../../middleware/customer.auth.middleware';
 import axios from 'axios';
@@ -68,7 +68,7 @@ customerAuthRouter.post<
 
     res.status(200).send({ message: 'OTP Sent' });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(400).send({ message: 'Invalid Phone Number' });
   }
 });
@@ -131,7 +131,7 @@ customerAuthRouter.post<
       customerExists,
     });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(400).send({ message: 'Invalid Phone Number' });
   }
 });

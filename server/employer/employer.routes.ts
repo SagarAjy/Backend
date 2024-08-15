@@ -3,7 +3,7 @@ import { fetchUser } from '../middleware/auth.middleware';
 import { Prisma, verification_status } from '@prisma/client';
 import { leadsModel } from '../leads/leads.model';
 import { employerModel } from './employer.model';
-import { logger } from '../../logger';
+//import { logger } from '../../logger';
 import { employerService } from './employer.service';
 
 export const employerRouter: Router = express.Router();
@@ -58,7 +58,7 @@ employerRouter.post<{ leadId: string }, Record<never, never>, addEmployerType>(
       });
       return res.status(200).send({ message: 'Employer Added' });
     } catch (error) {
-      logger.error(error);
+  //    logger.error(error);
       return res.status(500).send({ message: 'Some error occured' });
     }
   },
@@ -79,7 +79,7 @@ employerRouter.get<{ leadId: string }, getEmployerType[] | { message: string }>(
       });
       res.status(200).send(referenceDetails);
     } catch (error) {
-      logger.error(error);
+  //    logger.error(error);
       return res.status(500).send({ message: 'Some error occured' });
     }
   },
@@ -112,7 +112,7 @@ employerRouter.put<
           .send({ message: 'Employer already verified!', code: 'P2025' }); // * since user is already verified
       }
     }
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -124,7 +124,7 @@ employerRouter.delete('/delete/:employerId', fetchUser,  async (req:any, res:any
     await employerModel.deleteEmployer({ employerId });
     return res.status(201).send('Employer successfully deleted!');
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });

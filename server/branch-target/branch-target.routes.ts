@@ -1,5 +1,5 @@
 import express, { Router } from 'express';
-import { logger } from '../../logger';
+//import { logger } from '../../logger';
 import { fetchUser } from '../middleware/auth.middleware';
 import { branchTargetModel } from './branch-target.model';
 import { userModel } from '../user/user.model';
@@ -40,7 +40,7 @@ branchTargetRouter.post<
     await branchTargetModel.addBranchTarget({ userId, ...req.body, clientId });
     return res.status(200).send({ message: 'Branch target added' });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -78,7 +78,7 @@ branchTargetRouter.get<
     });
     return res.status(200).send(branchTargets);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -103,7 +103,7 @@ branchTargetRouter.put<
     await branchTargetModel.updateBranchTarget({ branchTargetId, target });
     return res.status(200).send({ message: 'Branch target updated' });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });

@@ -3,7 +3,7 @@ import { Prisma, roles, user_status } from '@prisma/client';
 import { fetchUser } from '../middleware/auth.middleware';
 import { userModel } from './user.model';
 import { userService } from './user.service';
-import { logger } from '../../logger';
+//import { logger } from '../../logger';
 import { novuNotification } from '../novu/novu.model';
 import { auditLogModel } from '../audit-logs/audit-logs.model';
 
@@ -94,7 +94,7 @@ userRouter.post<Record<never, never>, Record<never, never>, createUserBodyType>(
           return res.status(401).send({ message: 'Email already exists!' }); // * since email is unique constraint
         }
       }
-      logger.error(error);
+  //    logger.error(error);
       return res.status(500).send({ message: 'Some error occured' });
     }
   },
@@ -123,7 +123,7 @@ userRouter.get<
     });
     return res.status(200).send(userDetails);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -156,7 +156,7 @@ userRouter.get<
     });
     return res.status(200).send(pdTeam);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -185,7 +185,7 @@ userRouter.get<
     });
     return res.status(200).send(pdTeam);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -211,7 +211,7 @@ userRouter.put<Record<never, never>, Record<never, never>, updateUserBodyType>(
       });
       return res.status(200).send({ message: 'user updated' });
     } catch (error) {
-      logger.error(error);
+  //    logger.error(error);
       return res.status(500).send({ message: 'Some error occured' });
     }
   },

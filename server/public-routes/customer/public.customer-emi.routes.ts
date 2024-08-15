@@ -1,5 +1,5 @@
 import express, { Router } from 'express';
-import { logger } from '../../../logger';
+//import { logger } from '../../../logger';
 import { emiService } from '../../emi/emi.service';
 import { fetchCustomer } from '../../middleware/customer.auth.middleware';
 import { customerModel } from '../../customer/customer.model';
@@ -51,7 +51,7 @@ customerEMIRouter.get<
 
     res.status(200).send(applicationDetails);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -72,7 +72,7 @@ customerEMIRouter.get<{ loanNo: string }, EMILoanType[] | { message: string }>(
 
       res.status(200).send(emis);
     } catch (error) {
-      logger.error(error);
+  //    logger.error(error);
       res.status(500).send({ message: 'Some error occured!' });
     }
   },
@@ -100,7 +100,7 @@ customerEMIRouter.get<
 
     res.status(200).send(loanHistory);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Some error occured!' });
   }
 });

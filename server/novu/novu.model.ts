@@ -1,5 +1,5 @@
 import { Novu } from '@novu/node';
-import { logger } from '../../logger';
+//import { logger } from '../../logger';
 import { format } from 'date-fns';
 import { convertToIndianWords, formatIndianNumber } from '../../utils';
 import { clientModel } from '../clients/clients.model';
@@ -24,7 +24,7 @@ const createSubscriber = async ({
       phone,
     });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
   }
 };
 
@@ -48,7 +48,7 @@ const updateSubscriber = async ({
       phone,
     });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
   }
 };
 
@@ -77,7 +77,7 @@ const sendUserOTP = async ({
       },
     });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
   }
 };
 
@@ -106,7 +106,7 @@ const sendInterestedEmailToCustomer = async ({
       },
     });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
   }
 };
 
@@ -149,7 +149,7 @@ const sendReminderEmailToCustomer = async ({
 
       await novu.events.bulkTrigger(chunk);
     } catch (error) {
-      logger.error(error);
+  //    logger.error(error);
     }
   }
 };
@@ -188,7 +188,7 @@ const sendVisitAlignEmailToCustomer = async ({
       },
     });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
   }
 };
 
@@ -265,7 +265,7 @@ const sendApprovalEmailToCustomer = async ({
       },
     });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
   }
 };
 
@@ -308,7 +308,7 @@ const sendDisbursalEmailToCustomer = async ({
       },
     });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
   }
 };
 
@@ -360,7 +360,7 @@ const sendSettlementEmailToCustomer = async ({
       },
     });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
   }
 };
 
@@ -412,7 +412,7 @@ const sendLoanClosedEmailToCustomer = async ({
       },
     });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
   }
 };
 
@@ -464,7 +464,7 @@ const sendNOCEmailToCustomer = async ({
       },
     });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
   }
 };
 
@@ -488,7 +488,7 @@ const sendRejectionEmailToCustomer = async ({
       payload: {},
     });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
   }
 };
 
@@ -516,7 +516,7 @@ const sendWelcomeEmailToCustomer = async ({
     });
     await novu.bulkTrigger(senderList);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
   }
 };
 

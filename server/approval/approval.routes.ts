@@ -1,5 +1,5 @@
 import express, { Router } from 'express';
-import { logger } from '../../logger';
+//import { logger } from '../../logger';
 import { fetchUser } from '../middleware/auth.middleware';
 import { approval_status, loan_type } from '@prisma/client';
 import { leadsModel } from '../leads/leads.model';
@@ -155,7 +155,7 @@ approvalRouter.post<{ leadId: string }, { message: string }, approvalDataType>(
         }
       }
     } catch (error) {
-      logger.error(error);
+  //    logger.error(error);
       res.status(500).send({ message: 'Some error occured!' });
     }
   },
@@ -232,7 +232,7 @@ approvalRouter.put<
       res.status(401).send({ message: 'Not authorized to update approval' });
     }
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -288,7 +288,7 @@ approvalRouter.put<
         .send({ message: 'Not authorized to update credited by' });
     }
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Something went wrong!' });
   }
 });
@@ -307,7 +307,7 @@ approvalRouter.get<
     });
     res.status(200).send(approvalData);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -326,7 +326,7 @@ approvalRouter.get<
 
     return res.status(200).send(approvalLetterDetails);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -411,7 +411,7 @@ approvalRouter.post<
       },
       (err: Error | null, pdf: Buffer | null) => {
         if (err) {
-          logger.error(err);
+//logger.error(err);
           return res.status(500).send({ message: 'Some error occurred!' });
         }
 
@@ -421,7 +421,7 @@ approvalRouter.post<
 
     return res.status(200).send({ message: 'Sanction letter sent!' });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -440,7 +440,7 @@ approvalRouter.get<
 
     res.status(200).send(response);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -458,7 +458,7 @@ approvalRouter.get<
     });
     res.status(200).send(approvalData);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });

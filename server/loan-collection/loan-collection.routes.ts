@@ -1,7 +1,7 @@
 import express, { Router } from 'express';
 import { fetchUser } from '../middleware/auth.middleware';
 import { userModel } from '../user/user.model';
-import { logger } from '../../logger';
+//import { logger } from '../../logger';
 import { loanCollectionModel } from './loan-collection.model';
 import { leadsModel } from '../leads/leads.model';
 import { loanCollectionService } from './loan-collection.service';
@@ -40,7 +40,7 @@ loanCollectionRouter.post<
       message: 'Collection executives assigned to collection manager',
     });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(403).send({ message: 'Not authorized' });
   }
 });
@@ -68,7 +68,7 @@ loanCollectionRouter.post<
       message: 'Leads assigned',
     });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(403).send({ message: 'Not authorized' });
   }
 });
@@ -104,7 +104,7 @@ loanCollectionRouter.get<
       return res.status(403).send({ message: 'Not authorized' });
     }
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -134,7 +134,7 @@ loanCollectionRouter.get<
       return res.status(403).send({ message: 'Not authorized' });
     }
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });

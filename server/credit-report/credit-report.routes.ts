@@ -1,6 +1,6 @@
 import express, { Router } from 'express';
 import { creditReportModel } from './credit-report.model';
-import { logger } from '../../logger';
+//import { logger } from '../../logger';
 import { fetchUser } from '../middleware/auth.middleware';
 import { creditReportService } from './credit-report.service';
 import { liabilities } from '@prisma/client';
@@ -103,7 +103,7 @@ creditReportRouter.post<
 
     return res.status(200).send({ message: 'Credit report created' });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -123,7 +123,7 @@ creditReportRouter.get<
     });
     res.status(200).send(creditReport);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -176,7 +176,7 @@ creditReportRouter.put<
     }
     return res.status(200).send({ message: 'Updated successfully' });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send();
   }
 });

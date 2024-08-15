@@ -2,7 +2,7 @@ import express, { Router } from 'express';
 import { fetchCustomer } from '../../middleware/customer.auth.middleware';
 import { customerModel } from '../../customer/customer.model';
 import { ticketModel } from '../../tickets/ticket.model';
-import { logger } from '../../../logger';
+//import { logger } from '../../../logger';
 import { ticketService } from '../../tickets/ticket.service';
 import { ticket_type } from '@prisma/client';
 import { novuNotification } from '../../novu/novu.model';
@@ -54,7 +54,7 @@ customerSupportRouter.post<
 
     res.status(200).send({ message: 'Ticket created successfully!' });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Something went wrong!' });
   }
 });
@@ -81,7 +81,7 @@ customerSupportRouter.get<
 
     res.status(200).send(tickets);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Something went wrong!' });
   }
 });

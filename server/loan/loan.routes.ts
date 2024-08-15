@@ -1,6 +1,6 @@
 import express, { Router } from 'express';
 import { loanService } from './loan.service';
-import { logger } from '../../logger';
+//import { logger } from '../../logger';
 import { lead_status, loan_type } from '@prisma/client';
 import { fetchUser } from '../middleware/auth.middleware';
 import { leadsModel } from '../leads/leads.model';
@@ -110,7 +110,7 @@ loanRouter.get<{ leadId: string }, getLoanType | { message: string } | null>(
 
       res.status(200).send(loanData);
     } catch (error) {
-      logger.error(error);
+  //    logger.error(error);
       res.status(500).send({ message: 'Some error occured' });
     }
   },
@@ -151,7 +151,7 @@ loanRouter.get<
 
     return res.status(200).send(bankDetails);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -214,7 +214,7 @@ loanRouter.get<
       return res.status(200).send(paydayPending);
     }
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -294,7 +294,7 @@ loanRouter.post<
     });
     return res.status(200).send({ message: 'Reminder email send' });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -314,7 +314,7 @@ loanRouter.get<{ leadId: string }, loanHistory[] | { message: string } | null>(
       });
       return res.status(200).send(loanHistory);
     } catch (error) {
-      logger.error(error);
+  //    logger.error(error);
       return res.status(500).send({ message: 'Some error occured' });
     }
   },
@@ -369,7 +369,7 @@ loanRouter.delete<{ loanId: string }, { message: string } | null>(
       }
       return res.status(401).send({ message: 'Not authorized' });
     } catch (error) {
-      logger.error(error);
+  //    logger.error(error);
       return res.status(500).send({ message: 'Some error occured' });
     }
   },
@@ -397,7 +397,7 @@ loanRouter.get<{ leadId: string }, EMILoanType[] | { message: string }>(
 
       res.status(200).send(emis);
     } catch (error) {
-      logger.error(error);
+  //    logger.error(error);
       return res.status(500).send({ message: 'Some error occured' });
     }
   },

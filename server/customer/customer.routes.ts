@@ -1,7 +1,7 @@
 import express, { Router } from 'express';
 import { customerService } from './customer.service';
 import { genders, lead_status, marital_status } from '@prisma/client';
-import { logger } from '../../logger';
+//import { logger } from '../../logger';
 import { customerModel } from './customer.model';
 import { fetchUser } from '../middleware/auth.middleware';
 import { auditLogModel } from '../audit-logs/audit-logs.model';
@@ -54,7 +54,7 @@ customerRouter.get<{ leadId: string }, customerDataType>(
       });
       res.status(200).send(customerInfo);
     } catch (error) {
-      logger.error(error);
+  //    logger.error(error);
       res.status(500).send({ message: 'Some error occured!' });
     }
   },
@@ -94,7 +94,7 @@ customerRouter.put<{ leadId: string }, Record<never, never>, customerBodyType>(
       });
       res.status(200).send({ message: 'Customer updated successfully!' });
     } catch (error) {
-      logger.error(error);
+  //    logger.error(error);
       res.status(500).send({ message: 'Some error occured!' });
     }
   },
@@ -127,7 +127,7 @@ customerRouter.put<
 
     res.status(200).send({ message: 'Customer updated successfully!' });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Some error occurred!' });
   }
 });

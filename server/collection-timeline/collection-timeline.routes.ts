@@ -2,7 +2,7 @@ import { waiver_approval_status_type } from '@prisma/client';
 import express, { Router } from 'express';
 import { leadsModel } from '../leads/leads.model';
 import { fetchUser } from '../middleware/auth.middleware';
-import { logger } from '../../logger';
+//import { logger } from '../../logger';
 import { collectionTimelineService } from './collection-timeline.service';
 import { collectionTimelineModel } from './collection-timeline.model';
 import { loanModel } from '../loan/loan.model';
@@ -52,7 +52,7 @@ collectionTimelineRouter.post<
     });
     res.status(200).send({ message: 'Collection timeline created' });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -73,7 +73,7 @@ collectionTimelineRouter.get<
       });
     res.status(200).send(collectionTimeLineForLead);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -109,7 +109,7 @@ collectionTimelineRouter.post<
 
     return res.status(200).send({ message: 'Waiver request raised' });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Some error occured!' });
   }
 });

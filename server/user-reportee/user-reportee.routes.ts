@@ -1,6 +1,6 @@
 import express, { Router } from 'express';
 import { userReporteeModel } from './user-reportee.model';
-import { logger } from '../../logger';
+//import { logger } from '../../logger';
 import { fetchUser } from '../middleware/auth.middleware';
 
 export const userReporteeRouter: Router = express.Router();
@@ -23,7 +23,7 @@ userReporteeRouter.post<
     await userReporteeModel.createReportee({ reporteeId, userId, clientId });
     res.status(200).send({ message: 'User Reportee created' });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Internal Server Error' });
   }
 });
@@ -49,7 +49,7 @@ userReporteeRouter.put<
     });
     res.status(200).send({ message: 'User Reportee created' });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Internal Server Error' });
   }
 });
@@ -75,7 +75,7 @@ userReporteeRouter.delete<{ reporteeId: string }>(
       });
       res.status(200).send({ message: 'User Reportee Successfully deleted' });
     } catch (error) {
-      logger.error(error);
+  //    logger.error(error);
       res.status(500).send({ message: 'Internal Server Error' });
     }
   },

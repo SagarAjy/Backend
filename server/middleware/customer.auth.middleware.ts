@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { logger } from '../../logger';
+//import { logger } from '../../logger';
 
 const secretKey = process.env.SECRET_KEY || '';
 
@@ -18,7 +18,7 @@ const fetchCustomer = (req:any, res:any, next:any) => {
     req.clientId = clientId;
     next();
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(401).send({ message: 'Some error occured' });
   }
 };

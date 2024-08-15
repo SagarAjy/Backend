@@ -1,24 +1,25 @@
 {
   "compilerOptions": {
-    "target": "es2016" /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */,
-
-    /* Modules */
+    "target": "es2016",
     "module": "commonjs",
-
     "sourceMap": true,
     "outDir": "./build",
-
-    // Set `sourceRoot` to  "/" to strip the build path prefix
-    // from generated source code references.
-    // This improves issue grouping in Sentry.
-    "sourceRoot": "/",
-
+    "rootDir": "./",  // This should point to the directory where your TypeScript files are located
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "baseUrl": ".",
     "inlineSources": true
   },
-  "include": ["**/*.ts", "**/*.tsx", "server/**/*", "babel.config.js"],
-  "exclude": ["node_modules", "build/**/*"]
+  "include": [
+    "server/**/*.ts",
+    "server/**/*.tsx",
+    "babel.config.js"  // Include any other configuration files if needed
+  ],
+  "exclude": [
+    "node_modules",
+    "build/**/*"
+  ]
 }

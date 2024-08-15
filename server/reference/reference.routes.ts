@@ -1,6 +1,6 @@
 import express, { Router } from 'express';
 import { fetchUser } from '../middleware/auth.middleware';
-import { logger } from '../../logger';
+//import { logger } from '../../logger';
 import { leadsModel } from '../leads/leads.model';
 import { relation_types } from '@prisma/client';
 import { referenceModel } from './reference.model';
@@ -45,7 +45,7 @@ referenceRouter.post<
     });
     return res.status(200).send({ message: 'Reference Added' });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -65,7 +65,7 @@ referenceRouter.get<
     });
     res.status(200).send(refernceDetails);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -88,7 +88,7 @@ referenceRouter.put<
     });
     res.status(200).send({ message: 'Reference details updated!' });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -100,7 +100,7 @@ referenceRouter.delete('/delete/:referenceId', fetchUser,  async (req:any, res:a
     await referenceModel.deleteReference({ referenceId });
     return res.status(201).send({ message: 'Reference successfully deleted!' });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured!' });
   }
 });

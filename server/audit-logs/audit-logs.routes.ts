@@ -1,7 +1,7 @@
 import express, { Router } from 'express';
 import { fetchUser } from '../middleware/auth.middleware';
 import { auditLogService } from './audit-logs.service';
-import { logger } from '../../logger';
+//import { logger } from '../../logger';
 
 export const auditLogRouter: Router = express.Router();
 
@@ -36,7 +36,7 @@ auditLogRouter.get<
 
     res.status(200).send(auditLogs);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Something went wrong!' });
   }
 });

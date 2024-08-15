@@ -2,7 +2,7 @@ import express, { Router } from 'express';
 import { fetchUser } from '../middleware/auth.middleware';
 import { ticketService } from './ticket.service';
 import { ticket_type } from '@prisma/client';
-import { logger } from '../../logger';
+//import { logger } from '../../logger';
 import { ticketModel } from './ticket.model';
 import { emptyUUID } from '../../constants';
 import { parse } from 'date-fns';
@@ -70,7 +70,7 @@ customerSupportRouter.get<
 
     res.status(200).send(tickets);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Something went wrong!' });
   }
 });
@@ -92,7 +92,7 @@ customerSupportRouter.get<
 
     res.status(200).send(ticketInfo);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Something went wrong!' });
   }
 });
@@ -114,7 +114,7 @@ customerSupportRouter.get<
 
     res.status(200).send(ticketChat);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Something went wrong!' });
   }
 });
@@ -141,7 +141,7 @@ customerSupportRouter.post<{ ticketId: string }, { message: string }>(
 
       res.status(200).send({ message: 'Chat created!' });
     } catch (error) {
-      logger.error(error);
+  //    logger.error(error);
       res.status(500).send({ message: 'Something went wrong!' });
     }
   },
@@ -175,7 +175,7 @@ customerSupportRouter.put<{ ticketId: string }, { message: string }>(
 
       res.status(200).send({ message: 'Ticket updated!' });
     } catch (error) {
-      logger.error(error);
+  //    logger.error(error);
       res.status(500).send({ message: 'Something went wrong!' });
     }
   },

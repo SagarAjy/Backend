@@ -2,7 +2,7 @@ import express, { Router } from 'express';
 import { Request, Response,NextFunction } from 'express';
 import { fetchUser } from '../middleware/auth.middleware';
 import { addressService } from './address.service';
-import { logger } from '../../logger';
+//import { logger } from '../../logger';
 import {
   Prisma,
   verification_status,
@@ -88,7 +88,7 @@ addressRouter.post<{ leadId: string }, Record<never, never>, addAddressType>(
       }
       return res.status(200).send({ message: 'Address Added!' });
     } catch (error) {
-      logger.error(error);
+  //    logger.error(error);
       return res.status(500).send({ message: 'Some error occured!' });
     }
   },
@@ -109,7 +109,7 @@ addressRouter.get<{ leadId: string }, getAddressType[] | { message: string }>(
       });
       res.status(200).send(addressDetails);
     } catch (error) {
-      logger.error(error);
+  //    logger.error(error);
       return res.status(500).send({ message: 'Some error occured!' });
     }
   },
@@ -144,7 +144,7 @@ addressRouter.put<{ addressId: string }>(
             .send({ message: 'Address already verified!', code: 'P2025' }); // * since address is already verified
         }
       }
-      logger.error(error);
+  //    logger.error(error);
       return res.status(500).send({ message: 'Some error occured!' });
     }
   },
@@ -159,7 +159,7 @@ addressRouter.delete('/delete/:addressId', fetchUser, async (req:any, res:any) =
     await addressModel.deleteAddress({ addressId, clientId });
     return res.status(200).send({ message: 'Address successfully deleted' });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured!' });
   }
 });

@@ -1,6 +1,6 @@
 import express, { Router } from 'express';
 import { fetchUser } from '../middleware/auth.middleware';
-import { logger } from '../../logger';
+//import { logger } from '../../logger';
 import axios from 'axios';
 import { customerService } from '../customer/customer.service';
 import { kycModel } from './kyc.models';
@@ -171,7 +171,7 @@ kycRouter.post<{ leadId: string }, { message: string }>(
 
       res.status(200).send({ message: 'KYC Request sent!' });
     } catch (error) {
-      logger.error(error);
+  //    logger.error(error);
       console.log(error);
       res.status(500).send({ message: 'Some error occured' });
     }
@@ -202,7 +202,7 @@ kycRouter.post<{ requestId: string }, { message: string }, { status: string }>(
 
       res.status(200).send({ message: 'KYC Request approved!' });
     } catch (error) {
-      logger.error(error);
+  //    logger.error(error);
       res.status(500).send({ message: 'Some error occured' });
     }
   },
@@ -229,7 +229,7 @@ kycRouter.get<
 
     res.status(200).send(kycRequestDetails);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -261,7 +261,7 @@ kycRouter.get<{ fileId: string }, BinaryData | { message: string }>(
       // Send the entire video content
       res.status(200).end(buffer, 'binary');
     } catch (error) {
-      logger.error(error);
+  //    logger.error(error);
       res.status(500).send({ message: 'Some error occured' });
     }
   },
@@ -429,7 +429,7 @@ kycRouter.post<{ leadId: string }, { message: string }>(
 
       res.status(200).send({ message: 'E-Sign Request sent!' });
     } catch (error) {
-      logger.error(error);
+  //    logger.error(error);
       res.status(500).send({ message: 'Some error occured' });
     }
   },
@@ -456,7 +456,7 @@ kycRouter.get<
     });
     res.status(200).send(eSignDocsRequest);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -508,7 +508,7 @@ kycRouter.get<{ leadId: string }, BinaryData | { message: string }>(
       // Send the entire video content
       res.status(200).end(buffer, 'binary');
     } catch (error) {
-      logger.error(error);
+  //    logger.error(error);
       res.status(500).send({ message: 'Some error occured' });
     }
   },
@@ -538,7 +538,7 @@ kycRouter.get<
     });
     res.status(200).send(kycRequestDetails);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -568,7 +568,7 @@ kycRouter.get<
     });
     res.status(200).send(eSignDocRequestDetails);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -581,7 +581,7 @@ kycRouter.delete('/delete-kyc/:kycId', fetchUser,  async (req:any, res:any) => {
     await kycModel.deleteKYCRequest({ kycId, clientId });
     res.status(200).send({ message: 'KYC Request deleted!' });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -594,7 +594,7 @@ kycRouter.delete('/delete-e-sign/:eSignId', fetchUser,  async (req:any, res:any)
     await kycModel.deleteESignDocRequest({ eSignId, clientId });
     res.status(200).send({ message: 'E-Sign Request deleted!' });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Some error occured' });
   }
 });

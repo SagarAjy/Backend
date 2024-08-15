@@ -1,5 +1,5 @@
 import express, { Router, response } from 'express';
-import { logger } from '../../logger';
+//import { logger } from '../../logger';
 import { bankModel } from './bank.model';
 
 export const bankRouter: Router = express.Router();
@@ -25,7 +25,7 @@ bankRouter.get<{ ifsc: string }, bankGetType | { message: string } | null>(
 
       res.status(200).send(response);
     } catch (error) {
-      logger.error(error);
+  //    logger.error(error);
       res.status(500).send({ message: 'Some error occured!' });
     }
   },

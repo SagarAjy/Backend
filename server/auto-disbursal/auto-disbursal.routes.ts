@@ -1,6 +1,6 @@
 import { parse, differenceInCalendarDays } from 'date-fns';
 import express, { Router } from 'express';
-import { logger } from '../../logger';
+//import { logger } from '../../logger';
 import { approvalModel } from '../approval/approval.model';
 import { disbursalModel } from '../disbursal/disbursal.model';
 import { fetchUser } from '../middleware/auth.middleware';
@@ -209,7 +209,7 @@ autoDisbursalRouter.post<
 
               res.status(200).send({ message: 'Disbursal added!' });
             } catch (error) {
-              logger.error(error);
+          //    logger.error(error);
             }
           } else {
             res
@@ -222,7 +222,7 @@ autoDisbursalRouter.post<
       }
     }
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -246,7 +246,7 @@ autoDisbursalRouter.get<
       utr: autoDisbursalDetails.at(0)?.utr_no || '',
     });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -360,7 +360,7 @@ autoDisbursalRouter.put<
       res.status(401).send({ message: 'Cashfree failed to verify token!' });
     }
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Some error occured!' });
   }
 });

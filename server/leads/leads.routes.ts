@@ -9,7 +9,7 @@ import {
 import { leadsModel } from './leads.model';
 import { customerModel } from '../customer/customer.model';
 import { userAssignedModel } from '../user-assigned/user-assigned.model';
-import { logger } from '../../logger';
+//import { logger } from '../../logger';
 import { fetchUser } from '../middleware/auth.middleware';
 import { leadsService } from './leads.service';
 import { parse } from 'date-fns';
@@ -198,7 +198,7 @@ leadsRouter.get<
     }
     return res.status(200).send(leads);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).json({ message: 'Some error occured!' });
   }
 });
@@ -261,7 +261,7 @@ leadsRouter.get<
       return res.status(401).send({ message: 'Unauthorized!' });
     }
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).json({ message: 'Some error occured!' });
   }
 });
@@ -281,7 +281,7 @@ leadsRouter.get<{ leadId: string }, LeadHistoryType[] | { message: string }>(
       });
       return res.status(200).send(leads);
     } catch (error) {
-      logger.error(error);
+  //    logger.error(error);
       return res.status(500).send({ message: 'Some error occured' });
     }
   },
@@ -340,7 +340,7 @@ leadsRouter.get<
 
     return res.status(200).send(leadInfo);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -399,7 +399,7 @@ leadsRouter.get<
 
     return res.status(200).send(leadInfo);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -446,7 +446,7 @@ leadsRouter.put<
     });
     return res.status(200).send({ message: 'Lead Updated!' });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -505,7 +505,7 @@ leadsRouter.put<
     });
     return res.status(200).send({ message: 'Lead Updated!' });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -629,7 +629,7 @@ leadsRouter.post<
       leadId: response.lead_id,
     });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -646,7 +646,7 @@ leadsRouter.get<
     const leadInfo = await leadsService.getLead({ leadId, clientId });
     return res.status(200).send(leadInfo);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -758,7 +758,7 @@ leadsRouter.get<
 //           : { message: 'Customer Created' },
 //       );
 //   } catch (error) {
-//     logger.error(error);
+// //    logger.error(error);
 //     return res.status(500).send({ message: 'Some error occured' });
 //   }
 // });

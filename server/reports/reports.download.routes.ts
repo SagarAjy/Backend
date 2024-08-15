@@ -1,7 +1,7 @@
 import { parse } from 'date-fns';
 import { reportsDownloadService } from './report.download.service';
 import { auditLogModel } from '../audit-logs/audit-logs.model';
-import { logger } from '../../logger';
+//import { logger } from '../../logger';
 import { fetchUser } from '../middleware/auth.middleware';
 import express, { Router } from 'express';
 import { userModel } from '../user/user.model';
@@ -160,7 +160,7 @@ reportsDownloadRouter.get<
 
     return res.status(200).send(response);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Something went wrong!' });
   }
 });
@@ -208,7 +208,7 @@ reportsDownloadRouter.get<
     });
     return res.status(200).send(response);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Something went wrong!' });
   }
 });
@@ -255,7 +255,7 @@ reportsDownloadRouter.get<
     });
     return res.status(200).send(cibilData);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Something went wrong!' });
   }
 });
@@ -320,7 +320,7 @@ reportsDownloadRouter.get<
       return res.status(401).send({ message: 'Unauthorized!' });
     }
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured!' });
   }
 });

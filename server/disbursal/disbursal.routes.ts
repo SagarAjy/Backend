@@ -1,5 +1,5 @@
 import express, { Router } from 'express';
-import { logger } from '../../logger';
+//import { logger } from '../../logger';
 import { fetchUser } from '../middleware/auth.middleware';
 import { disbursalModel } from './disbursal.model';
 import { userModel } from '../user/user.model';
@@ -192,7 +192,7 @@ disbursalRouter.post<
       }
     }
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -235,7 +235,7 @@ disbursalRouter.put<
 
     res.status(200).send({ message: 'Disbursal updated!' });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -323,7 +323,7 @@ disbursalRouter.put<
 
     res.status(200).send({ message: 'Disbursal updated!' });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -377,7 +377,7 @@ disbursalRouter.put<
       return res.status(401).send({ message: 'Unauthorized!' });
     }
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -397,7 +397,7 @@ disbursalRouter.get<
     });
     res.status(200).send(disbursalData);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -416,7 +416,7 @@ disbursalRouter.get<
     });
     res.status(200).send(disbursalData);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -447,7 +447,7 @@ disbursalRouter.delete<{ leadId: string }, { message: string }>(
       });
       res.status(200).send({ message: 'Disbursal Deleted!' });
     } catch (error) {
-      logger.error(error);
+  //    logger.error(error);
       return res.status(500).send({ message: 'Some error occured' });
     }
   },

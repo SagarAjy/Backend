@@ -1,20 +1,30 @@
-import { SESClient, SendEmailCommand } from '@aws-sdk/client-ses';
-//import { logger } from './logger';
-
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.sendEmail = void 0;
+const client_ses_1 = require("@aws-sdk/client-ses");
+const logger_1 = require("./logger");
 // Configure AWS SES
-const sesClient = new SESClient({
-  region: 'ap-south-1',
-  credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID || '',
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || '',
-  },
+const sesClient = new client_ses_1.SESClient({
+    region: 'ap-south-1',
+    credentials: {
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID || '',
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || '',
+    },
 });
-
 // Function to send an email
-export const sendEmail = async ({ to, otp }: { to: string; otp: string }) => {
-  // Define the email template content
-  const subjectPart = `Your OTP for is: ${otp}`;
-  const htmlPart = `
+const sendEmail = ({ to, otp }) => __awaiter(void 0, void 0, void 0, function* () {
+    // Define the email template content
+    const subjectPart = `Your OTP for is: ${otp}`;
+    const htmlPart = `
   <!doctype html>
 <html lang="en-US">
   <head>
@@ -80,8 +90,7 @@ export const sendEmail = async ({ to, otp }: { to: string; otp: string }) => {
   </body>
 </html>
 `;
-
-  const textPart = `
+    const textPart = `
 Let's log you in!
 
 Use this code to sign in for ${process.env.ORG_NAME}: ${otp}
@@ -92,44 +101,42 @@ This code is valid for 5 minutes.
 
 If you didn't request this email, you can safely ignore it.
 `;
-
-  // email params
-  const params = {
-    Destination: {
-      ToAddresses: [to],
-    },
-    Message: {
-      Body: {
-        Html: {
-          Charset: 'UTF-8',
-          Data: htmlPart,
+    // email params
+    const params = {
+        Destination: {
+            ToAddresses: [to],
         },
-        Text: {
-          Charset: 'UTF-8',
-          Data: textPart,
+        Message: {
+            Body: {
+                Html: {
+                    Charset: 'UTF-8',
+                    Data: htmlPart,
+                },
+                Text: {
+                    Charset: 'UTF-8',
+                    Data: textPart,
+                },
+            },
+            Subject: {
+                Charset: 'UTF-8',
+                Data: subjectPart,
+            },
         },
-      },
-      Subject: {
-        Charset: 'UTF-8',
-        Data: subjectPart,
-      },
-    },
-    Source: `otp@${process.env.CLIENT_EMAIL}`,
-  };
-
-  // Create the CreateTemplateCommand
-  const sendEmailCommand = new SendEmailCommand(params);
-
-  // Function to create the email template
-  await sesClient
-    .send(sendEmailCommand)
-    .then(res => null)
-    .catch(err => console.log(err));
-};
-
+        Source: `otp@${process.env.CLIENT_EMAIL}`,
+    };
+    // Create the CreateTemplateCommand
+    const sendEmailCommand = new client_ses_1.SendEmailCommand(params);
+    // Function to create the email template
+    yield sesClient
+        .send(sendEmailCommand)
+        .then(res => null)
+        .catch(err => logger_1.logger.error(err));
+});
+exports.sendEmail = sendEmail;
 // <tr>
 //   <td style="text-align:center;">
 //     <p style="font-size:14px; color:rgba(69, 80, 86, 0.7411764705882353); line-height:18px; margin:0 0 0;">Powered by &copy; <strong>CredBrick</strong>
 //     </p>
 //   </td>
 // </tr>
+//# sourceMappingURL=otp-email.js.map

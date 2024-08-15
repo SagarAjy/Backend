@@ -12,7 +12,7 @@ import {
   verification_status,
 } from '@prisma/client';
 import { fetchCustomer } from '../../middleware/customer.auth.middleware';
-import { logger } from '../../../logger';
+//import { logger } from '../../../logger';
 import { customerService } from './public.customer.service';
 import { fileUpload, s3Client } from '../../middleware/fileupload.middleware';
 import { documentsModel } from '../../documents/documents.model';
@@ -343,7 +343,7 @@ customerPublicRouter.post<
       name,
     });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Internal Server Error!' });
   }
 });
@@ -364,7 +364,7 @@ customerPublicRouter.get<
     });
     res.status(200).send(customer);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Internal Server Error!' });
   }
 });
@@ -389,7 +389,7 @@ customerPublicRouter.get<
     }
     return res.status(200).send(null);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -412,7 +412,7 @@ customerPublicRouter.get<
 
     res.status(200).send(documentDetails);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -437,7 +437,7 @@ customerPublicRouter.get<
 
     res.status(200).send(documentDetails);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -467,7 +467,7 @@ customerPublicRouter.post<
     });
     res.status(200).send({ message: 'Succesfully uploaded!' });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -507,7 +507,7 @@ customerPublicRouter.post<{ documentId: string }, { message: string }>(
 
       return res.status(200).send({ message: 'File Deleted Sccessfully!' });
     } catch (error) {
-      logger.error(error);
+  //    logger.error(error);
       res.status(500).send({ message: 'Some error occured' });
     }
   },
@@ -561,7 +561,7 @@ customerPublicRouter.post<
     }
     res.status(200).send({ message: 'Address Added!' });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -585,7 +585,7 @@ customerPublicRouter.get<
     });
     res.status(200).send(addressDetails);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -615,7 +615,7 @@ customerPublicRouter.put<{ addressId: string }>(
             .send({ message: 'Address already verified!', code: 'P2025' }); // * since address is already verified
         }
       }
-      logger.error(error);
+  //    logger.error(error);
       return res.status(500).send({ message: 'Some error occured!' });
     }
   },
@@ -646,7 +646,7 @@ customerPublicRouter.post<
     });
     return res.status(200).send({ message: 'Reference Added' });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -674,7 +674,7 @@ customerPublicRouter.get<
 
     res.status(200).send(refernceDetails);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -691,7 +691,7 @@ customerPublicRouter.delete(
         .status(201)
         .send({ message: 'Reference successfully deleted!' });
     } catch (error) {
-      logger.error(error);
+  //    logger.error(error);
       return res.status(500).send({ message: 'Some error occured!' });
     }
   },
@@ -721,7 +721,7 @@ customerPublicRouter.post<
     });
     return res.status(200).send({ message: 'Employer Added' });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -747,7 +747,7 @@ customerPublicRouter.get<
     });
     res.status(200).send(referenceDetails);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -764,7 +764,7 @@ customerPublicRouter.delete<{ employerId: string }, { message: string }>(
         .status(201)
         .send({ message: 'Employer successfully deleted!' });
     } catch (error) {
-      logger.error(error);
+  //    logger.error(error);
       return res.status(500).send({ message: 'Some error occured' });
     }
   },
@@ -787,7 +787,7 @@ customerPublicRouter.get<
       });
     res.status(200).send(applicationHistory);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -807,7 +807,7 @@ customerPublicRouter.get(
       });
       res.status(200).send(reApplyData);
     } catch (error) {
-      logger.error(error);
+  //    logger.error(error);
       res.status(500).send({ message: 'Some error occured' });
     }
   },
@@ -997,7 +997,7 @@ customerPublicRouter.post<
       message: 'Lead Created Successfully',
     });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -1026,7 +1026,7 @@ customerPublicRouter.get<
 
     res.status(200).send({ status: leadStatus });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -1059,7 +1059,7 @@ customerPublicRouter.put<
     await leadsModel.updateLeadStatus({ leadId, status, clientId });
     res.status(200).send({ message: 'Lead Status Updated!' });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -1256,7 +1256,7 @@ customerPublicRouter.put<Record<never, never>, { message: string }>(
 
       res.status(200).send({ message: 'Approval Updated!' });
     } catch (error) {
-      logger.error(error);
+  //    logger.error(error);
       console.log(error);
       res.status(500).send({ message: 'Some error occured' });
     }
@@ -1293,7 +1293,7 @@ customerPublicRouter.get<
 
     res.status(200).send(kycRequestDetails);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -1326,7 +1326,7 @@ customerPublicRouter.get<
     });
     res.status(200).send(eSignDocsRequest);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -1369,7 +1369,7 @@ customerPublicRouter.get(
 
       res.status(200).send({ token: response.data.response.id });
     } catch (error) {
-      logger.error(error);
+  //    logger.error(error);
       res.status(500).send({ message: 'Some error occured!' });
     }
   },
@@ -1440,7 +1440,7 @@ customerPublicRouter.post(
       });
       res.status(200).send({ message: 'Disbursal Initiated!' });
     } catch (e) {
-      logger.error(e);
+     // logger.error(e);
       res.status(500).send({ message: 'Some error occured!' });
     }
   },

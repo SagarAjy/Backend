@@ -3,7 +3,7 @@ import express, { Router } from 'express';
 import { leadsModel } from '../leads/leads.model';
 import { fetchUser } from '../middleware/auth.middleware';
 import { callHistoryModel } from './call-history.model';
-import { logger } from '../../logger';
+//import { logger } from '../../logger';
 import { callHistoryService } from './call-history.service';
 
 export const callHistoryRouter: Router = express.Router();
@@ -50,7 +50,7 @@ callHistoryRouter.post<
     });
     res.status(200).send({ message: 'Call history created' });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -69,7 +69,7 @@ callHistoryRouter.get<
     });
     res.status(200).send(callHistoryForLead);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Some error occured!' });
   }
 });
