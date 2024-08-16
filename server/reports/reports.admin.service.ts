@@ -14,7 +14,7 @@ import { approvalModel } from '../approval/approval.model';
 import { sanctionTargetModel } from '../sanction-target/sanction-target.model';
 import { reportsModel } from './reports.model';
 import { loanModel } from '../loan/loan.model';
-import { Prisma, roles } from '@prisma/client';
+import { Prisma, roles } from 'prisma/prisma-client';
 import { userReporteeModel } from '../user-reportee/user-reportee.model';
 import { leadsModel } from '../leads/leads.model';
 import { processInBatch } from '../../utils';
@@ -40,7 +40,7 @@ const performanceHistoryMonthly = async ({
       clientId,
     });
     const totalDisbursalMonth = getLoanCountByMonth.reduce(
-      (accumulator, loan) => {
+      (accumulator: any, loan: any) => {
         return accumulator + (loan.leads.approval?.loan_amt_approved || 0);
       },
       0,
@@ -54,7 +54,7 @@ const performanceHistoryMonthly = async ({
     });
 
     const totalCollectionMonth = getCollectionCountByMonth.reduce(
-      (accumulator, collection) => {
+      (accumulator: any, collection: any) => {
         return accumulator + collection.collected_amount;
       },
       0,
@@ -106,7 +106,7 @@ const performanceHistoryDaily = async ({
 
     //calculate total disbursal amount
     const totalDisbursalMonth = getLoanByDay.reduce(
-      (accumulator, disbursal) => {
+      (accumulator: any, disbursal: any) => {
         return accumulator + (disbursal.leads.approval?.loan_amt_approved || 0);
       },
       0,
@@ -128,7 +128,7 @@ const performanceHistoryDaily = async ({
 
     //calculate total collection amount
     const totalCollectionMonth = getCollectionCountByDay.reduce(
-      (accumulator, collection) => {
+      (accumulator: any, collection: any) => {
         return accumulator + collection.collected_amount;
       },
       0,
@@ -235,7 +235,7 @@ const adminStats = async ({
 
   //calculate total disbursal
   const totalDisbursalMonth = allDisbursedLoan.reduce(
-    (accumulator, disbursal) => {
+    (accumulator: any, disbursal: any) => {
       return accumulator + (disbursal.leads.approval?.loan_amt_approved || 0);
     },
     0,
@@ -249,9 +249,12 @@ const adminStats = async ({
   });
 
   //calculate total target
-  const totalDisbursalTarget = sanctionTargets.reduce((accumulator, target) => {
-    return accumulator + target.target;
-  }, 0);
+  const totalDisbursalTarget = sanctionTargets.reduce(
+    (accumulator: any, target: any) => {
+      return accumulator + target.target;
+    },
+    0,
+  );
   let delta = 0;
   if (totalDisbursalTarget) {
     delta = Math.floor((totalDisbursalMonth / totalDisbursalTarget) * 100);
@@ -280,7 +283,7 @@ const adminStats = async ({
 
   //calculate total collection
   const totalCollectionMonth = collectionsInTimeSpan.reduce(
-    (accumulator, collection) => {
+    (accumulator: any, collection: any) => {
       return accumulator + collection.collected_amount;
     },
     0,
@@ -316,13 +319,12 @@ const adminStats = async ({
     clientId,
   });
 
-  const leadAssignedCount:any = await adminModel.leadAssignedCount({
+  const leadAssignedCount: any = await adminModel.leadAssignedCount({
     startDate,
     endDate,
     clientId,
   });
 
-   
   const totalAssignedLeads = parseInt(leadAssignedCount[0].count, 10);
 
   let delta3 = 0;
@@ -441,21 +443,23 @@ const collectionDailyTrack = ({
     });
 
     const partPaymentCases = collections.filter(
-      collection => collection.leads.status === 'Part_Payment',
+      (collection: any) => collection.leads.status === 'Part_Payment',
     );
     const partPayemntCasesSet = new Set(
-      partPaymentCases.map(c => c.leads.lead_id),
+      partPaymentCases.map((c: any) => c.leads.lead_id),
     );
 
-    const collectedCasesSet = new Set(collections.map(c => c.leads.lead_id));
+    const collectedCasesSet = new Set(
+      collections.map((c: any) => c.leads.lead_id),
+    );
 
     // get total loan amount of the cases to collect on the day
-    const totalLoanAmount = loans.reduce((sum, loan) => {
+    const totalLoanAmount = loans.reduce((sum: any, loan: any) => {
       return sum + (loan.leads?.approval?.loan_amt_approved || 0);
     }, 0);
 
     // CURRENTLY ON TOTAL AMOUNT
-    const totalRepayAmount = loans.reduce((sum, loan) => {
+    const totalRepayAmount = loans.reduce((sum: any, loan: any) => {
       const interest =
         (loan.leads?.approval?.loan_amt_approved || 0) *
         (loan.leads?.approval?.roi || 0) *
@@ -464,12 +468,12 @@ const collectionDailyTrack = ({
       return sum + ((loan.leads?.approval?.loan_amt_approved || 0) + interest);
     }, 0);
 
-    const totalCollection = collections.reduce((sum, collection) => {
+    const totalCollection = collections.reduce((sum: any, collection: any) => {
       return sum + collection.collected_amount;
     }, 0);
 
     const totalPartPaymentCollection = partPaymentCases.reduce(
-      (sum, partPayment) => {
+      (sum: any, partPayment: any) => {
         return sum + partPayment.collected_amount;
       },
       0,
@@ -524,7 +528,7 @@ const getDisbursalRoleData = async ({
   });
 
   if (!allDisbursalRole) return null;
-  const response = allDisbursalRole.map(async user => {
+  const response = allDisbursalRole.map(async (user: any) => {
     let totalDisbursalAmount = 0;
     const disbursals = await reportsModel.getDisbursedLoansByUserId({
       userId: user.user_id,
@@ -537,7 +541,7 @@ const getDisbursalRoleData = async ({
     const disbursalTarget = await sanctionTargetModel.getSanctionTargetByUserId(
       { userId: user.user_id, monthAndYear: targetMonthAndYear, clientId },
     );
-    disbursals.map(disbursals => {
+    disbursals.map((disbursals: any) => {
       totalDisbursalAmount =
         (disbursals.leads.approval?.loan_amt_approved || 0) +
         totalDisbursalAmount;
@@ -605,7 +609,7 @@ const getCollectionByRole = async ({
   }
 
   if (!collectionUsers) return null;
-  const response = collectionUsers.map(async collectionUser => {
+  const response = collectionUsers.map(async (collectionUser: any) => {
     // find reportees for collection user
     const userReportees = await userReporteeModel.getUserReportees({
       userId: collectionUser.user_id,
@@ -621,9 +625,12 @@ const getCollectionByRole = async ({
       clientId,
     });
 
-    const totalCollectionAmount = collections.reduce((acc, collections) => {
-      return acc + collections.collected_amount;
-    }, 0);
+    const totalCollectionAmount = collections.reduce(
+      (acc: any, collections: any) => {
+        return acc + collections.collected_amount;
+      },
+      0,
+    );
 
     //find all loans with repay date in the given time span
     const repayLoans = await reportsModel.getAllLoanCollectedByUserId({
@@ -686,7 +693,7 @@ const getFreshReloanData = async ({
   });
 
   if (!allDisbursalRole) return null;
-  const response = allDisbursalRole.map(async user => {
+  const response = allDisbursalRole.map(async (user: any) => {
     let totalFreshDisbursalAmount = 0;
     let totalFreshCases = 0;
     let totalReloanDisbursalAmount = 0;
@@ -701,7 +708,7 @@ const getFreshReloanData = async ({
     });
 
     await Promise.all(
-      disbursals.map(async disbursal => {
+      disbursals.map(async (disbursal: any) => {
         const previousLoans =
           await loanModel.getDisbursedLoansCountByCustomerId({
             customerId: disbursal.customer_id,

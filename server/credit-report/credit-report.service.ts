@@ -21,7 +21,7 @@ const getCreditReport = async ({
 
   let credit = 0;
   let debit = 0;
-  liabilities.map(liability => {
+  liabilities.map((liability:any) => {
     credit = credit + liability.credit;
     debit = debit + liability.debit;
   });
@@ -29,7 +29,7 @@ const getCreditReport = async ({
   const incomes = creditReports?.gross_income || '';
   let grossIncome = 0;
   if (incomes) {
-    incomes.map(income => {
+    incomes.map((income:any) => {
       grossIncome += income;
     });
     grossIncome = grossIncome / incomes.length;
@@ -43,7 +43,7 @@ const getCreditReport = async ({
     bandPercent: creditReports.band_percent || 0,
     foirScore: Math.round(creditReports.foir_score || 0) || 0,
     eligibleAmount: Math.round(creditReports.eligibile_amount) || 0,
-    liabilities: liabilities.map(liability => {
+    liabilities: liabilities.map((liability:any) => {
       return {
         id: liability.liabilities_id,
         liabilityName: liability.liability_name,

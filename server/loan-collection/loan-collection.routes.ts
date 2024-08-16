@@ -96,7 +96,7 @@ loanCollectionRouter.get<
       );
 
       return res.status(200).send(
-        response.filter(res => {
+        response.filter((res:any) => {
           return res !== undefined;
         }),
       );

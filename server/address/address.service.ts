@@ -1,4 +1,4 @@
-import { address_type } from '@prisma/client';
+import { address_type } from 'prisma/prisma-client';
 import { customerModel } from '../customer/customer.model';
 import { leadsModel } from '../leads/leads.model';
 import { userModel } from '../user/user.model';

@@ -1,7 +1,7 @@
 import express, { Router } from 'express';
 //import { logger } from '../../logger';
 import { fetchUser } from '../middleware/auth.middleware';
-import { approval_status, loan_type } from '@prisma/client';
+import { approval_status, loan_type } from 'prisma/prisma-client';
 import { leadsModel } from '../leads/leads.model';
 import { approvalModel } from './approval.model';
 import { userModel } from '../user/user.model';
@@ -107,10 +107,10 @@ type getExistingApprovalType = {
 approvalRouter.post<{ leadId: string }, { message: string }, approvalDataType>(
   '/add/:leadId',
   fetchUser,
-  async (req:any, res:any) => {
+  async (req: any, res: any) => {
     try {
       const { leadId } = req.params;
-      
+
       const clientId = req.clientId;
       const checkApprovalExist = await approvalModel.getApproval({
         leadId,
@@ -155,7 +155,7 @@ approvalRouter.post<{ leadId: string }, { message: string }, approvalDataType>(
         }
       }
     } catch (error) {
-  //    logger.error(error);
+      //    logger.error(error);
       res.status(500).send({ message: 'Some error occured!' });
     }
   },
@@ -166,7 +166,7 @@ approvalRouter.put<
   { leadId: string },
   { message: string },
   updateApprovalDataType
->('/update/:leadId', fetchUser, async (req:any, res:any) => {
+>('/update/:leadId', fetchUser, async (req: any, res: any) => {
   try {
     const { leadId } = req.params;
     const userId = req.user.user;
@@ -232,7 +232,7 @@ approvalRouter.put<
       res.status(401).send({ message: 'Not authorized to update approval' });
     }
   } catch (error) {
-//    logger.error(error);
+    //    logger.error(error);
     res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -242,7 +242,7 @@ approvalRouter.put<
   { leadId: string },
   { message: string },
   { creditedBy: string }
->('/update-credited-by/:leadId', fetchUser, async (req:any, res:any) => {
+>('/update-credited-by/:leadId', fetchUser, async (req: any, res: any) => {
   try {
     const { leadId } = req.params;
     const userId = req.user.user;
@@ -288,7 +288,7 @@ approvalRouter.put<
         .send({ message: 'Not authorized to update credited by' });
     }
   } catch (error) {
-//    logger.error(error);
+    //    logger.error(error);
     return res.status(500).send({ message: 'Something went wrong!' });
   }
 });
@@ -297,7 +297,7 @@ approvalRouter.put<
 approvalRouter.get<
   { leadId: string },
   getApprovalType | { message: string } | null
->('/get/:leadId', fetchUser, async (req:any, res:any) => {
+>('/get/:leadId', fetchUser, async (req: any, res: any) => {
   try {
     const { leadId } = req.params;
     const clientId = req.clientId;
@@ -307,7 +307,7 @@ approvalRouter.get<
     });
     res.status(200).send(approvalData);
   } catch (error) {
-//    logger.error(error);
+    //    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -315,7 +315,7 @@ approvalRouter.get<
 approvalRouter.get<
   { leadId: string },
   GetSanctionLetterType | { message: string }
->('/get-sanction-letter/:leadId', async (req:any, res:any) => {
+>('/get-sanction-letter/:leadId', async (req: any, res: any) => {
   try {
     const { leadId } = req.params;
     const clientId = req.clientId;
@@ -326,7 +326,7 @@ approvalRouter.get<
 
     return res.status(200).send(approvalLetterDetails);
   } catch (error) {
-//    logger.error(error);
+    //    logger.error(error);
     res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -335,7 +335,7 @@ approvalRouter.post<
   { leadId: string },
   { message: string },
   { officialEmail: string }
->('/send-approval-email/:leadId', fetchUser, async (req:any, res:any) => {
+>('/send-approval-email/:leadId', fetchUser, async (req: any, res: any) => {
   try {
     const { leadId } = req.params;
     const { officialEmail } = req.body;
@@ -411,7 +411,7 @@ approvalRouter.post<
       },
       (err: Error | null, pdf: Buffer | null) => {
         if (err) {
-//logger.error(err);
+          //logger.error(err);
           return res.status(500).send({ message: 'Some error occurred!' });
         }
 
@@ -421,7 +421,7 @@ approvalRouter.post<
 
     return res.status(200).send({ message: 'Sanction letter sent!' });
   } catch (error) {
-//    logger.error(error);
+    //    logger.error(error);
     return res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -429,7 +429,7 @@ approvalRouter.post<
 approvalRouter.get<
   { leadId: string },
   getExistingApprovalType | { message: string } | null
->('/get-existing-approval/:leadId', async (req:any, res:any) => {
+>('/get-existing-approval/:leadId', async (req: any, res: any) => {
   try {
     const { leadId } = req.params;
     const clientId = req.clientId;
@@ -440,7 +440,7 @@ approvalRouter.get<
 
     res.status(200).send(response);
   } catch (error) {
-//    logger.error(error);
+    //    logger.error(error);
     return res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -448,7 +448,7 @@ approvalRouter.get<
 approvalRouter.get<
   { leadId: string },
   getApprovalType | { message: string } | null
->('/get-existing/:leadId', fetchUser, async (req:any, res:any) => {
+>('/get-existing/:leadId', fetchUser, async (req: any, res: any) => {
   try {
     const { leadId } = req.params;
     const clientId = req.clientId;
@@ -458,7 +458,7 @@ approvalRouter.get<
     });
     res.status(200).send(approvalData);
   } catch (error) {
-//    logger.error(error);
+    //    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });

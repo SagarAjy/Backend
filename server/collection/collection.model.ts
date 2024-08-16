@@ -1,4 +1,4 @@
-import { Prisma, lead_status } from '@prisma/client';
+import { Prisma, lead_status } from 'prisma/prisma-client';
 import { prisma } from '../../prisma-client';
 import { v4 as uuid } from 'uuid';
 import { callHistoryModel } from '../call-history/call-history.model';
@@ -259,7 +259,7 @@ const getFilteredCollections = async ({
         },
         {
           collection_user_id: {
-            in: teleCallers?.map(teleCaller => teleCaller.user_id) || [],
+            in: teleCallers?.map((teleCaller: any) => teleCaller.user_id) || [],
           },
         },
       ],
@@ -358,7 +358,7 @@ const getFilteredCollectionsCount = async ({
         },
         {
           collection_user_id: {
-            in: teleCallers?.map(teleCaller => teleCaller.user_id) || [],
+            in: teleCallers?.map((teleCaller: any) => teleCaller.user_id) || [],
           },
         },
       ],

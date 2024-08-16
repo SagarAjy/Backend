@@ -1,4 +1,4 @@
-import { lead_status } from '@prisma/client';
+import { lead_status } from 'prisma/prisma-client';
 import { userModel } from '../user/user.model';
 import { collectionModel } from './collection.model';
 import { collectionAdminModel } from './collection.model.admin';
@@ -29,7 +29,7 @@ const getCollections = async ({
 
   if (collections.length === 0) return null;
 
-  const collectionData = collections.map(async collection => {
+  const collectionData = collections.map(async (collection: any) => {
     const collectedBy = await userModel.getUser({
       userId: collection.collected_by,
       clientId,
@@ -168,7 +168,7 @@ const getAllCollections = async ({
   let collections: allCollections[] = [];
 
   await Promise.all(
-    collectedLeads.map(async collectedLead => {
+    collectedLeads.map(async (collectedLead: any) => {
       const customer = await customerModel.getCustomerById({
         customer_id: collectedLead.customer_id,
         clientId,
@@ -195,27 +195,29 @@ const getAllCollections = async ({
         collectionUserName = collectionUser?.name || '';
       }
 
-      const collectionInfo = collectedLead.collection.map(collectionInfo => {
-        return {
-          id: collectionInfo.collection_id,
-          leadId: collectedLead.lead_id,
-          loanNo: collectedLead.approval?.loan_no || '',
-          collectionUser: collectionUserName,
-          name: customer?.name || '',
-          email: customer?.email || '',
-          phoneNo: customer?.mobile || '',
-          repayDate: collectedLead.approval?.repay_date || new Date(),
-          paymentAmount: collectionInfo.collected_amount,
-          paymentMode: collectionInfo.collected_mode,
-          paymentDate: collectionInfo.collected_date,
-          referenceNo: collectionInfo.reference_no,
-          discountAmount: collectionInfo.discount_amount,
-          settlementAmount: collectionInfo.settlement_amount,
-          status: collectedLead.status,
-          createdAt: collectionInfo.created_at,
-          employerName: employerName,
-        };
-      });
+      const collectionInfo = collectedLead.collection.map(
+        (collectionInfo: any) => {
+          return {
+            id: collectionInfo.collection_id,
+            leadId: collectedLead.lead_id,
+            loanNo: collectedLead.approval?.loan_no || '',
+            collectionUser: collectionUserName,
+            name: customer?.name || '',
+            email: customer?.email || '',
+            phoneNo: customer?.mobile || '',
+            repayDate: collectedLead.approval?.repay_date || new Date(),
+            paymentAmount: collectionInfo.collected_amount,
+            paymentMode: collectionInfo.collected_mode,
+            paymentDate: collectionInfo.collected_date,
+            referenceNo: collectionInfo.reference_no,
+            discountAmount: collectionInfo.discount_amount,
+            settlementAmount: collectionInfo.settlement_amount,
+            status: collectedLead.status,
+            createdAt: collectionInfo.created_at,
+            employerName: employerName,
+          };
+        },
+      );
 
       collections = collections.concat(collectionInfo);
     }),
@@ -251,7 +253,7 @@ const getWaiverRequests = async ({
     clientId,
   });
 
-  const waiverRequests = allWaiverRequests.map(async waiverRequest => {
+  const waiverRequests = allWaiverRequests.map(async (waiverRequest: any) => {
     const customer = await customerModel.getCustomerById({
       customer_id: waiverRequest.customer_id,
       clientId,
@@ -363,7 +365,7 @@ const getMasterCollectionData = async ({
     clientId,
   });
 
-  const collections = allLoans.map(async loan => {
+  const collections = allLoans.map(async (loan: any) => {
     const leadDetails = await leadsModel.getLeadById({
       leadId: loan.lead_id,
       clientId,
@@ -512,9 +514,9 @@ const getCollectionDocument = async ({
     clientId,
   });
 
-  const collectionDocuments = documents.map(async document => {
+  const collectionDocuments = documents.map(async (document: any) => {
     // const signedUrl = await getSignedURLForS3(document.document_url);
-    const signedUrl = "HELLOURL";
+    const signedUrl = 'HELLOURL';
     return {
       documentId: document.document_id,
       url: signedUrl,

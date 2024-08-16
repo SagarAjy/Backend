@@ -4,7 +4,7 @@ import {
   house_types,
   lead_status,
   roles,
-} from '@prisma/client';
+} from 'prisma/prisma-client';
 import { approvalModel } from '../approval/approval.model';
 import { customerModel } from '../customer/customer.model';
 import { leadsModel } from '../leads/leads.model';
@@ -94,7 +94,7 @@ const getDisbursalReports = async ({
 
   if (disbursalData.length === 0) return null;
 
-  const response = disbursalData.map(async disbursal => {
+  const response = disbursalData.map(async (disbursal: any) => {
     const approvalData = await approvalModel.getApproval({
       leadId: disbursal.lead_id,
       clientId,
@@ -238,7 +238,7 @@ const getCollectionsReport = async ({
   }
   if (allCollections.length === 0) return null;
 
-  const collectionsReport = allCollections.map(async collection => {
+  const collectionsReport = allCollections.map(async (collection: any) => {
     const disbursalData = await disbursalModel.getDisbursal({
       leadId: collection.lead_id,
       clientId,
@@ -266,9 +266,12 @@ const getCollectionsReport = async ({
       clientId,
     });
 
-    const totalCollectionAmount = allCollections.reduce((acc, collection) => {
-      return acc + collection.collected_amount;
-    }, 0);
+    const totalCollectionAmount = allCollections.reduce(
+      (acc: any, collection: any) => {
+        return acc + collection.collected_amount;
+      },
+      0,
+    );
 
     if (employerData.length === 0) {
       employerName = '';
@@ -429,9 +432,12 @@ const creditManagerStats = async ({
     clientId,
   });
 
-  const totalcollectionMonth = collections.reduce((accumulator, collection) => {
-    return accumulator + collection.collected_amount;
-  }, 0);
+  const totalcollectionMonth = collections.reduce(
+    (accumulator: any, collection: any) => {
+      return accumulator + collection.collected_amount;
+    },
+    0,
+  );
 
   //find loans with repay date in given time interval
   const repayLoans = await reportsModel.getAllLoanCollectedApprovedByUserId({
@@ -537,7 +543,7 @@ const collectionManagerStats = async ({
     clientId,
   });
 
-  allTeleCallers.map(teleCaller => {
+  allTeleCallers.map((teleCaller: any) => {
     allReportess.push({
       id: teleCaller.user_id,
       user_reportee_id: teleCaller.user_id,
@@ -554,9 +560,12 @@ const collectionManagerStats = async ({
   });
 
   //calculate total collection
-  const totalCollectedAmount = collections.reduce((accumulator, collection) => {
-    return accumulator + collection.collected_amount;
-  }, 0);
+  const totalCollectedAmount = collections.reduce(
+    (accumulator: any, collection: any) => {
+      return accumulator + collection.collected_amount;
+    },
+    0,
+  );
 
   //find all loans with repay date in the given time span
   const repayLoans = await reportsModelAdmin.getAllRepayLoan({
@@ -701,9 +710,12 @@ const teleCallerStats = async ({
     endDate,
     clientId,
   });
-  const totalCollectionMonth = collections.reduce((accumulator, collection) => {
-    return accumulator + collection.collected_amount;
-  }, 0);
+  const totalCollectionMonth = collections.reduce(
+    (accumulator: any, collection: any) => {
+      return accumulator + collection.collected_amount;
+    },
+    0,
+  );
   const repayLoans = await reportsModel.getClosedLoanCollectionByUser({
     userId,
     startDate,
@@ -765,7 +777,7 @@ const teleCallerStats = async ({
     return response;
   } else if (userDetails?.role === roles.Tele_Caller) {
     let newObj;
-    const leadsWorkedOn:any = await leadsModel.leadAssignedCountByUserId({
+    const leadsWorkedOn: any = await leadsModel.leadAssignedCountByUserId({
       userId,
       startDate,
       endDate,
@@ -791,7 +803,7 @@ const teleCallerStats = async ({
       clientId,
       status: lead_status.Interested,
     });
-     
+
     const totalWorkedOn = parseInt(leadsWorkedOn[0].count, 10);
     let delta3 = 0;
     if (leadsWorkedOn) {
@@ -869,7 +881,7 @@ const collectionManagerDailyTrack = async ({
     clientId,
   });
 
-  allTeleCallers.map(teleCaller => {
+  allTeleCallers.map((teleCaller: any) => {
     collectionUsers.push({
       id: teleCaller.user_id,
       user_reportee_id: teleCaller.user_id,
@@ -903,23 +915,23 @@ const collectionManagerDailyTrack = async ({
     });
 
     const partPaymentCases = collections.filter(
-      collection => collection.leads.status === 'Part_Payment',
+      (collection: any) => collection.leads.status === 'Part_Payment',
     );
     const partPayemntCasesSet = new Set(
-      partPaymentCases.map(c => c.leads.lead_id),
+      partPaymentCases.map((c: any) => c.leads.lead_id),
     );
 
     const collectedCases = new Set(
-      collections.map(collection => collection.leads.lead_id),
+      collections.map((collection: any) => collection.leads.lead_id),
     );
 
     // get total loan amount of the cases to collect on the day
-    const totalLoanAmount = loans.reduce((sum, loan) => {
+    const totalLoanAmount = loans.reduce((sum: any, loan: any) => {
       return sum + (loan.leads?.approval?.loan_amt_approved || 0);
     }, 0);
 
     // CURRENTLY ON TOTAL AMOUNT
-    const totalRepayAmount = loans.reduce((sum, loan) => {
+    const totalRepayAmount = loans.reduce((sum: any, loan: any) => {
       const interest =
         (loan.leads?.approval?.loan_amt_approved || 0) *
         (loan.leads?.approval?.roi || 0) *
@@ -928,12 +940,12 @@ const collectionManagerDailyTrack = async ({
       return sum + ((loan.leads?.approval?.loan_amt_approved || 0) + interest);
     }, 0);
 
-    const totalCollection = collections.reduce((sum, collection) => {
+    const totalCollection = collections.reduce((sum: any, collection: any) => {
       return sum + collection.collected_amount;
     }, 0);
 
     const totalPartPaymentCollection = partPaymentCases.reduce(
-      (sum, partPayment) => {
+      (sum: any, partPayment: any) => {
         return sum + partPayment.collected_amount;
       },
       0,
@@ -997,7 +1009,7 @@ const getCollectionByUsers = async ({
     clientId,
   });
 
-  allTeleCallers.map(teleCaller => {
+  allTeleCallers.map((teleCaller: any) => {
     collectionUsers.push({
       id: teleCaller.user_id,
       user_reportee_id: teleCaller.user_id,
@@ -1027,7 +1039,7 @@ const getCollectionByUsers = async ({
   }
 
   // map all collection users and find their collection amount and target
-  const response = collectionUsers.map(async collectionUser => {
+  const response = collectionUsers.map(async (collectionUser: any) => {
     const collectionUserDetails = await userModel.getUser({
       userId: collectionUser.user_reportee_id,
       clientId,
@@ -1042,9 +1054,12 @@ const getCollectionByUsers = async ({
       endDate,
     });
 
-    const totalCollectionAmount = collections.reduce((acc, collection) => {
-      return acc + collection.collected_amount;
-    }, 0);
+    const totalCollectionAmount = collections.reduce(
+      (acc: any, collection: any) => {
+        return acc + collection.collected_amount;
+      },
+      0,
+    );
 
     //find all loans with repay date in the given time span
     const repayLoans = await reportsModel.getAllLoanCollectedByUserId({
@@ -1193,7 +1208,8 @@ const creditManagerReporteePerformanceDaily = async ({
       endDate: endOfDay(day),
     });
     const totalDisbursalDay = dailyDisbursal.reduce(
-      (acc, curr) => acc + (curr.leads.approval?.loan_amt_approved || 0),
+      (acc: any, curr: any) =>
+        acc + (curr.leads.approval?.loan_amt_approved || 0),
       0,
     );
     return {
@@ -1227,7 +1243,8 @@ const creditManagerReporteePerformanceMonthly = async ({
       endDate: lastDateOfMonth,
     });
     const totalDisbursalDay = dailyDisbursal.reduce(
-      (acc, curr) => acc + (curr.leads.approval?.loan_amt_approved || 0),
+      (acc: any, curr: any) =>
+        acc + (curr.leads.approval?.loan_amt_approved || 0),
       0,
     );
     return {
@@ -1283,7 +1300,7 @@ const getCibilData = async ({
     }
   }
 
-  const cibilData = disbursedLoans.map(async loan => {
+  const cibilData = disbursedLoans.map(async (loan: any) => {
     const customerDetails = await customerModel.getCustomerById({
       customer_id: loan.customer_id,
       clientId,

@@ -1,4 +1,4 @@
-import { roles, user_status } from '@prisma/client';
+import { roles, user_status } from 'prisma/prisma-client';
 import { userModel } from './user.model';
 import { userReporteeModel } from '../user-reportee/user-reportee.model';
 import { userAdminModel } from './user.admin.model';

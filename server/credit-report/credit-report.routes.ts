@@ -3,7 +3,6 @@ import { creditReportModel } from './credit-report.model';
 //import { logger } from '../../logger';
 import { fetchUser } from '../middleware/auth.middleware';
 import { creditReportService } from './credit-report.service';
-import { liabilities } from '@prisma/client';
 import { leadsModel } from '../leads/leads.model';
 
 export const creditReportRouter: Router = express.Router();

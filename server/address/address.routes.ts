@@ -1,14 +1,22 @@
 import express, { Router } from 'express';
-import { Request, Response,NextFunction } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { fetchUser } from '../middleware/auth.middleware';
 import { addressService } from './address.service';
 //import { logger } from '../../logger';
+
+// import {
+//   Prisma,
+//   verification_status,
+//   address_type,
+//   house_types
+// } from 'prisma/prisma-client';
 import {
   Prisma,
   verification_status,
   address_type,
   house_types,
-} from '@prisma/client';
+} from 'prisma/prisma-client';
+
 import { addressModel } from './address.model';
 import { leadsModel } from '../leads/leads.model';
 
@@ -36,9 +44,8 @@ export type getAddressType = Omit<addAddressType, 'isChecked'> & {
 addressRouter.post<{ leadId: string }, Record<never, never>, addAddressType>(
   '/add/:leadId',
   fetchUser,
-  async (req:any, res:any) => {
+  async (req: any, res: any) => {
     try {
-      
       const clientId = req.clientId;
       const { leadId } = req.params;
       const leadDetails = await leadsModel.getLeadById({ leadId, clientId });
@@ -49,7 +56,6 @@ addressRouter.post<{ leadId: string }, Record<never, never>, addAddressType>(
         clientId,
       });
 
-    
       const userId = req.user.user;
       const { address, city, state, pincode, houseType, status } = req.body;
 
@@ -88,7 +94,7 @@ addressRouter.post<{ leadId: string }, Record<never, never>, addAddressType>(
       }
       return res.status(200).send({ message: 'Address Added!' });
     } catch (error) {
-  //    logger.error(error);
+      //    logger.error(error);
       return res.status(500).send({ message: 'Some error occured!' });
     }
   },
@@ -98,9 +104,8 @@ addressRouter.post<{ leadId: string }, Record<never, never>, addAddressType>(
 addressRouter.get<{ leadId: string }, getAddressType[] | { message: string }>(
   '/getAddress/:leadId',
   fetchUser,
-  async (req:any, res:any) => {
+  async (req: any, res: any) => {
     try {
-
       const clientId = req.clientId;
       const { leadId } = req.params;
       const addressDetails = await addressService.getAddress({
@@ -109,7 +114,7 @@ addressRouter.get<{ leadId: string }, getAddressType[] | { message: string }>(
       });
       res.status(200).send(addressDetails);
     } catch (error) {
-  //    logger.error(error);
+      //    logger.error(error);
       return res.status(500).send({ message: 'Some error occured!' });
     }
   },
@@ -119,12 +124,12 @@ addressRouter.get<{ leadId: string }, getAddressType[] | { message: string }>(
 addressRouter.put<{ addressId: string }>(
   '/update/:addressId',
   fetchUser,
-  async (req:any, res:any) => {
+  async (req: any, res: any) => {
     try {
       const { addressId } = req.params;
-      
+
       const userId = req.user.user;
-    
+
       const clientId = req.clientId;
       await addressModel.updateAddress({
         addressId,
@@ -136,7 +141,7 @@ addressRouter.put<{ addressId: string }>(
         clientId,
       });
       res.status(200).send({ message: 'Address details updated!' });
-    } catch (error) {
+    } catch (error: any) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2025') {
           return res
@@ -144,22 +149,25 @@ addressRouter.put<{ addressId: string }>(
             .send({ message: 'Address already verified!', code: 'P2025' }); // * since address is already verified
         }
       }
-  //    logger.error(error);
+      //    logger.error(error);
       return res.status(500).send({ message: 'Some error occured!' });
     }
   },
 );
 
 //delete address by addressId
-addressRouter.delete('/delete/:addressId', fetchUser, async (req:any, res:any) => {
-  try {
-  
-    const clientId = req.clientId;
-    const { addressId } = req.params;
-    await addressModel.deleteAddress({ addressId, clientId });
-    return res.status(200).send({ message: 'Address successfully deleted' });
-  } catch (error) {
-//    logger.error(error);
-    return res.status(500).send({ message: 'Some error occured!' });
-  }
-});
+addressRouter.delete(
+  '/delete/:addressId',
+  fetchUser,
+  async (req: any, res: any) => {
+    try {
+      const clientId = req.clientId;
+      const { addressId } = req.params;
+      await addressModel.deleteAddress({ addressId, clientId });
+      return res.status(200).send({ message: 'Address successfully deleted' });
+    } catch (error) {
+      //    logger.error(error);
+      return res.status(500).send({ message: 'Some error occured!' });
+    }
+  },
+);

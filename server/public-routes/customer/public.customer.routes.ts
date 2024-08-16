@@ -10,7 +10,7 @@ import {
   lead_status,
   marital_status,
   verification_status,
-} from '@prisma/client';
+} from 'prisma/prisma-client';
 import { fetchCustomer } from '../../middleware/customer.auth.middleware';
 //import { logger } from '../../../logger';
 import { customerService } from './public.customer.service';
@@ -154,7 +154,7 @@ customerPublicRouter.post<
   Record<never, never>,
   { id: string; token: string; name: string } | { message: string },
   CreateLeadsBodyType
->('/create-lead',  async (req:any, res:any) => {
+>('/create-lead', async (req: any, res: any) => {
   try {
     const {
       phoneNo,
@@ -185,7 +185,7 @@ customerPublicRouter.post<
     });
     let response: string;
     if (customerDetails) {
-      console.log("i m in if")
+      console.log('i m in if');
 
       response = await customerModel.updateCustomer({
         name: name,
@@ -200,7 +200,7 @@ customerPublicRouter.post<
         clientId,
       });
     } else {
-      console.log("i m in else")
+      console.log('i m in else');
       response = await customerModel.createCustomer({
         name: name,
         aadhar_no: aadhaar,
@@ -343,7 +343,7 @@ customerPublicRouter.post<
       name,
     });
   } catch (error) {
-//    logger.error(error);
+    //    logger.error(error);
     res.status(500).send({ message: 'Internal Server Error!' });
   }
 });
@@ -351,11 +351,10 @@ customerPublicRouter.post<
 customerPublicRouter.get<
   Record<never, never>,
   CustomerDetailsType | { message: string }
->('/customer-details', fetchCustomer,  async (req:any, res:any) => {
+>('/customer-details', fetchCustomer, async (req: any, res: any) => {
   try {
-     
     const phoneNo = req.phoneNo.phoneNo;
-     
+
     const clientId = req.clientId;
 
     const customer = await customerService.getCustomerByPhoneNo({
@@ -364,7 +363,7 @@ customerPublicRouter.get<
     });
     res.status(200).send(customer);
   } catch (error) {
-//    logger.error(error);
+    //    logger.error(error);
     res.status(500).send({ message: 'Internal Server Error!' });
   }
 });
@@ -372,11 +371,10 @@ customerPublicRouter.get<
 customerPublicRouter.get<
   Record<never, never>,
   CustomerApplicationDetailsType | { message: string } | null
->('/application-details', fetchCustomer,  async (req:any, res:any) => {
+>('/application-details', fetchCustomer, async (req: any, res: any) => {
   try {
-     
     const phoneNo = req.phoneNo.phoneNo;
-     
+
     const clientId = req.clientId;
 
     const applicationDetails =
@@ -389,7 +387,7 @@ customerPublicRouter.get<
     }
     return res.status(200).send(null);
   } catch (error) {
-//    logger.error(error);
+    //    logger.error(error);
     res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -397,11 +395,10 @@ customerPublicRouter.get<
 customerPublicRouter.get<
   Record<never, never>,
   CustomerDocumentsType[] | { message: string }
->('/get-documents', fetchCustomer,  async (req:any, res:any) => {
+>('/get-documents', fetchCustomer, async (req: any, res: any) => {
   try {
-     
     const phoneNo = req.phoneNo.phoneNo;
-     
+
     const clientId = req.clientId;
     const documentDetails = await customerService.getCustomerDocumentsByPhoneNo(
       {
@@ -412,7 +409,7 @@ customerPublicRouter.get<
 
     res.status(200).send(documentDetails);
   } catch (error) {
-//    logger.error(error);
+    //    logger.error(error);
     res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -420,64 +417,70 @@ customerPublicRouter.get<
 customerPublicRouter.get<
   { documentType: document_type },
   CustomerDocumentsType | { message: string }
->('/get-document-type/:documentType', fetchCustomer,  async (req:any, res:any) => {
-  try {
-     
-    const phoneNo = req.phoneNo.phoneNo;
-     
-    const clientId = req.clientId;
+>(
+  '/get-document-type/:documentType',
+  fetchCustomer,
+  async (req: any, res: any) => {
+    try {
+      const phoneNo = req.phoneNo.phoneNo;
 
-    const { documentType } = req.params;
-    const documentDetails =
-      await customerService.getCustomerDocumentByDocumentType({
-        documentType,
-        phoneNo,
-        clientId,
-      });
+      const clientId = req.clientId;
 
-    res.status(200).send(documentDetails);
-  } catch (error) {
-//    logger.error(error);
-    res.status(500).send({ message: 'Some error occured' });
-  }
-});
+      const { documentType } = req.params;
+      const documentDetails =
+        await customerService.getCustomerDocumentByDocumentType({
+          documentType,
+          phoneNo,
+          clientId,
+        });
+
+      res.status(200).send(documentDetails);
+    } catch (error) {
+      //    logger.error(error);
+      res.status(500).send({ message: 'Some error occured' });
+    }
+  },
+);
 
 customerPublicRouter.post<
   Record<never, never>,
   { message: string },
   UploadDocumentType
->('/upload-documents', fetchCustomer, fileUpload,  async (req:any, res:any) => {
-  try {
-     
-    const phoneNo = req.phoneNo.phoneNo;
+>(
+  '/upload-documents',
+  fetchCustomer,
+  fileUpload,
+  async (req: any, res: any) => {
+    try {
+      const phoneNo = req.phoneNo.phoneNo;
 
-    const customerDetails = await customerModel.getCustomerByPhoneNo({
-      phoneNo,
-      clientId: req.body.clientId,
-    });
-    await documentsModel.addDocument({
-      customerId: customerDetails?.customer_id || '',
-      userId: null,
-       
-      documentUrl: req.file?.location,
-      documentType: req.body.documentType,
-      password: req.body.password,
-      status: 'Not_Verified',
-      clientId: req.body.clientId,
-    });
-    res.status(200).send({ message: 'Succesfully uploaded!' });
-  } catch (error) {
-//    logger.error(error);
-    res.status(500).send({ message: 'Some error occured' });
-  }
-});
+      const customerDetails = await customerModel.getCustomerByPhoneNo({
+        phoneNo,
+        clientId: req.body.clientId,
+      });
+      await documentsModel.addDocument({
+        customerId: customerDetails?.customer_id || '',
+        userId: null,
+
+        documentUrl: req.file?.location,
+        documentType: req.body.documentType,
+        password: req.body.password,
+        status: 'Not_Verified',
+        clientId: req.body.clientId,
+      });
+      res.status(200).send({ message: 'Succesfully uploaded!' });
+    } catch (error) {
+      //    logger.error(error);
+      res.status(500).send({ message: 'Some error occured' });
+    }
+  },
+);
 
 customerPublicRouter.post<{ documentId: string }, { message: string }>(
   '/delete-document/:documentId',
   fetchCustomer,
-   async (req:any, res:any) => {
+  async (req: any, res: any) => {
     try {
-       
       const clientId = req.clientId;
 
       const { documentId } = req.params;
@@ -507,7 +510,7 @@ customerPublicRouter.post<{ documentId: string }, { message: string }>(
 
       return res.status(200).send({ message: 'File Deleted Sccessfully!' });
     } catch (error) {
-  //    logger.error(error);
+      //    logger.error(error);
       res.status(500).send({ message: 'Some error occured' });
     }
   },
@@ -518,11 +521,10 @@ customerPublicRouter.post<
   Record<never, never>,
   Record<never, never>,
   addAddressType
->('/add-address', fetchCustomer,  async (req:any, res:any) => {
+>('/add-address', fetchCustomer, async (req: any, res: any) => {
   try {
-     
     const clientId = req.clientId;
-     
+
     const phoneNo = req.phoneNo.phoneNo;
 
     const customerDetails = await customerModel.getCustomerByPhoneNo({
@@ -561,7 +563,7 @@ customerPublicRouter.post<
     }
     res.status(200).send({ message: 'Address Added!' });
   } catch (error) {
-//    logger.error(error);
+    //    logger.error(error);
     res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -570,11 +572,10 @@ customerPublicRouter.post<
 customerPublicRouter.get<
   { addressType: address_type },
   getAddressType[] | { message: string }
->('/get-address/:addressType', fetchCustomer,  async (req:any, res:any) => {
+>('/get-address/:addressType', fetchCustomer, async (req: any, res: any) => {
   try {
-     
     const clientId = req.clientId;
-     
+
     const phoneNo = req.phoneNo.phoneNo;
 
     const { addressType } = req.params;
@@ -585,7 +586,7 @@ customerPublicRouter.get<
     });
     res.status(200).send(addressDetails);
   } catch (error) {
-//    logger.error(error);
+    //    logger.error(error);
     return res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -594,10 +595,10 @@ customerPublicRouter.get<
 customerPublicRouter.put<{ addressId: string }>(
   '/update-address/:addressId',
   fetchCustomer,
-   async (req:any, res:any) => {
+  async (req: any, res: any) => {
     try {
       const { addressId } = req.params;
-       
+
       const clientId = req.clientId;
 
       await addressModel.updateAddress({
@@ -607,7 +608,7 @@ customerPublicRouter.put<{ addressId: string }>(
         clientId,
       });
       res.status(200).send({ message: 'Address details updated!' });
-    } catch (error) {
+    } catch (error: any) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2025') {
           return res
@@ -615,7 +616,7 @@ customerPublicRouter.put<{ addressId: string }>(
             .send({ message: 'Address already verified!', code: 'P2025' }); // * since address is already verified
         }
       }
-  //    logger.error(error);
+      //    logger.error(error);
       return res.status(500).send({ message: 'Some error occured!' });
     }
   },
@@ -626,11 +627,10 @@ customerPublicRouter.post<
   Record<never, never>,
   Record<never, never>,
   addReferenceType
->('/add-reference', fetchCustomer,  async (req:any, res:any) => {
+>('/add-reference', fetchCustomer, async (req: any, res: any) => {
   try {
-     
     const phoneNo = req.phoneNo.phoneNo;
-     
+
     const clientId = req.clientId;
 
     const customerDetails = await customerModel.getCustomerByPhoneNo({
@@ -646,7 +646,7 @@ customerPublicRouter.post<
     });
     return res.status(200).send({ message: 'Reference Added' });
   } catch (error) {
-//    logger.error(error);
+    //    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -655,11 +655,10 @@ customerPublicRouter.post<
 customerPublicRouter.get<
   { leadId: string },
   getReferenceType[] | { message: string }
->('/get-references', fetchCustomer,  async (req:any, res:any) => {
+>('/get-references', fetchCustomer, async (req: any, res: any) => {
   try {
-     
     const clientId = req.clientId;
-     
+
     const phoneNo = req.phoneNo.phoneNo;
 
     const customerDetails = await customerModel.getCustomerByPhoneNo({
@@ -674,7 +673,7 @@ customerPublicRouter.get<
 
     res.status(200).send(refernceDetails);
   } catch (error) {
-//    logger.error(error);
+    //    logger.error(error);
     return res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -683,7 +682,7 @@ customerPublicRouter.get<
 customerPublicRouter.delete(
   '/delete-reference/:referenceId',
   fetchCustomer,
-   async (req:any, res:any) => {
+  async (req: any, res: any) => {
     try {
       const { referenceId } = req.params;
       await referenceModel.deleteReference({ referenceId });
@@ -691,7 +690,7 @@ customerPublicRouter.delete(
         .status(201)
         .send({ message: 'Reference successfully deleted!' });
     } catch (error) {
-  //    logger.error(error);
+      //    logger.error(error);
       return res.status(500).send({ message: 'Some error occured!' });
     }
   },
@@ -701,11 +700,10 @@ customerPublicRouter.post<
   Record<never, never>,
   Record<never, never>,
   addEmployerType
->('/add-employer', fetchCustomer,  async (req:any, res:any) => {
+>('/add-employer', fetchCustomer, async (req: any, res: any) => {
   try {
-     
     const phoneNo = req.phoneNo.phoneNo;
-     
+
     const clientId = req.clientId;
 
     const customerDetails = await customerModel.getCustomerByPhoneNo({
@@ -721,7 +719,7 @@ customerPublicRouter.post<
     });
     return res.status(200).send({ message: 'Employer Added' });
   } catch (error) {
-//    logger.error(error);
+    //    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -730,11 +728,10 @@ customerPublicRouter.post<
 customerPublicRouter.get<
   Record<never, never>,
   getEmployerType[] | { message: string }
->('/get-employer', fetchCustomer,  async (req:any, res:any) => {
+>('/get-employer', fetchCustomer, async (req: any, res: any) => {
   try {
-     
     const clientId = req.clientId;
-     
+
     const phoneNo = req.phoneNo.phoneNo;
 
     const customerDetails = await customerModel.getCustomerByPhoneNo({
@@ -747,7 +744,7 @@ customerPublicRouter.get<
     });
     res.status(200).send(referenceDetails);
   } catch (error) {
-//    logger.error(error);
+    //    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -756,7 +753,7 @@ customerPublicRouter.get<
 customerPublicRouter.delete<{ employerId: string }, { message: string }>(
   '/delete-employer/:employerId',
   fetchCustomer,
-   async (req:any, res:any) => {
+  async (req: any, res: any) => {
     try {
       const { employerId } = req.params;
       await employerModel.deleteEmployer({ employerId });
@@ -764,7 +761,7 @@ customerPublicRouter.delete<{ employerId: string }, { message: string }>(
         .status(201)
         .send({ message: 'Employer successfully deleted!' });
     } catch (error) {
-  //    logger.error(error);
+      //    logger.error(error);
       return res.status(500).send({ message: 'Some error occured' });
     }
   },
@@ -773,11 +770,10 @@ customerPublicRouter.delete<{ employerId: string }, { message: string }>(
 customerPublicRouter.get<
   Record<never, never>,
   ApplicationHistoryDataType[] | { message: string }
->('/get-application-history', fetchCustomer,  async (req:any, res:any) => {
+>('/get-application-history', fetchCustomer, async (req: any, res: any) => {
   try {
-     
     const phoneNo = req.phoneNo.phoneNo;
-     
+
     const clientId = req.clientId;
 
     const applicationHistory =
@@ -787,7 +783,7 @@ customerPublicRouter.get<
       });
     res.status(200).send(applicationHistory);
   } catch (error) {
-//    logger.error(error);
+    //    logger.error(error);
     res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -796,9 +792,8 @@ customerPublicRouter.get<
 customerPublicRouter.get(
   '/get-reapply-data/:clientId',
   fetchCustomer,
-   async (req:any, res:any) => {
+  async (req: any, res: any) => {
     try {
-       
       const phoneNo = req.phoneNo.phoneNo;
       const { clientId } = req.params;
       const reApplyData = await customerService.getReapplyData({
@@ -807,7 +802,7 @@ customerPublicRouter.get(
       });
       res.status(200).send(reApplyData);
     } catch (error) {
-  //    logger.error(error);
+      //    logger.error(error);
       res.status(500).send({ message: 'Some error occured' });
     }
   },
@@ -817,10 +812,10 @@ customerPublicRouter.post<
   Record<never, never>,
   { message: string },
   ReapplyBodyType
->('/reapply', fetchCustomer,  async (req:any, res:any) => {
+>('/reapply', fetchCustomer, async (req: any, res: any) => {
   try {
-    console.log("I am AUTO REPLY")
-     
+    console.log('I am AUTO REPLY');
+
     const phoneNo = req.phoneNo.phoneNo;
 
     const {
@@ -881,7 +876,7 @@ customerPublicRouter.post<
 
           let leadAssignee = emptyUUID;
           await Promise.all(
-            userReportees.map(async userReportee => {
+            userReportees.map(async (userReportee: any) => {
               const userReporteeDetails = await userModel.getUser({
                 userId: userReportee.user_reportee_id || '',
                 clientId,
@@ -997,7 +992,7 @@ customerPublicRouter.post<
       message: 'Lead Created Successfully',
     });
   } catch (error) {
-//    logger.error(error);
+    //    logger.error(error);
     res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -1006,11 +1001,10 @@ customerPublicRouter.post<
 customerPublicRouter.get<
   Record<never, never>,
   { status: lead_status } | { message: string }
->('/get-latest-lead-status', fetchCustomer,  async (req:any, res:any) => {
+>('/get-latest-lead-status', fetchCustomer, async (req: any, res: any) => {
   try {
-     
     const clientId = req.clientId;
-     
+
     const phoneNo = req.phoneNo.phoneNo;
 
     const customerDetails = await customerModel.getCustomerByPhoneNo({
@@ -1026,7 +1020,7 @@ customerPublicRouter.get<
 
     res.status(200).send({ status: leadStatus });
   } catch (error) {
-//    logger.error(error);
+    //    logger.error(error);
     res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -1036,11 +1030,10 @@ customerPublicRouter.put<
   { leadId: string },
   { message: string },
   { status: lead_status }
->('/update-lead-status', fetchCustomer,  async (req:any, res:any) => {
+>('/update-lead-status', fetchCustomer, async (req: any, res: any) => {
   try {
-     
     const clientId = req.clientId;
-     
+
     const phoneNo = req.phoneNo.phoneNo;
 
     const customerDetails = await customerModel.getCustomerByPhoneNo({
@@ -1059,7 +1052,7 @@ customerPublicRouter.put<
     await leadsModel.updateLeadStatus({ leadId, status, clientId });
     res.status(200).send({ message: 'Lead Status Updated!' });
   } catch (error) {
-//    logger.error(error);
+    //    logger.error(error);
     res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -1068,9 +1061,8 @@ customerPublicRouter.put<
 customerPublicRouter.put<Record<never, never>, { message: string }>(
   '/update-approval',
   fetchCustomer,
-   async (req:any, res:any) => {
+  async (req: any, res: any) => {
     try {
-       
       const clientId = req.clientId;
 
       const { approvalAmount, processingFees, conversionFees, tenure, loanNo } =
@@ -1122,7 +1114,7 @@ customerPublicRouter.put<Record<never, never>, { message: string }>(
       const clientDetails = await clientModel.getClient({ clientId });
 
       const kycURL = `${process.env.DIGIO_BASE_URL}/client/kyc/v2/request/with_template`;
-      const kycRequest:any = await axios.post(
+      const kycRequest: any = await axios.post(
         kycURL,
         {
           customer_identifier: customerDetails?.email,
@@ -1256,7 +1248,7 @@ customerPublicRouter.put<Record<never, never>, { message: string }>(
 
       res.status(200).send({ message: 'Approval Updated!' });
     } catch (error) {
-  //    logger.error(error);
+      //    logger.error(error);
       console.log(error);
       res.status(500).send({ message: 'Some error occured' });
     }
@@ -1266,11 +1258,10 @@ customerPublicRouter.put<Record<never, never>, { message: string }>(
 customerPublicRouter.get<
   { loanNo: string },
   GetKYCDetailsResponse | { message: string } | null
->('/get-kyc-details/:loanNo', fetchCustomer,  async (req:any, res:any) => {
+>('/get-kyc-details/:loanNo', fetchCustomer, async (req: any, res: any) => {
   try {
-     
     const clientId = req.clientId;
-     
+
     const phoneNo = req.phoneNo.phoneNo;
 
     const { loanNo } = req.params;
@@ -1293,7 +1284,7 @@ customerPublicRouter.get<
 
     res.status(200).send(kycRequestDetails);
   } catch (error) {
-//    logger.error(error);
+    //    logger.error(error);
     res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -1301,12 +1292,12 @@ customerPublicRouter.get<
 customerPublicRouter.get<
   { loanNo: string },
   GetESignDocsResponse | { message: string } | null
->('/get-e-sign-details/:loanNo', fetchCustomer,  async (req:any, res:any) => {
+>('/get-e-sign-details/:loanNo', fetchCustomer, async (req: any, res: any) => {
   try {
     const { loanNo } = req.params;
-     
+
     const clientId = req.clientId;
-     
+
     const phoneNo = req.phoneNo.phoneNo;
 
     const customerDetails = await customerService.getCustomerByPhoneNo({
@@ -1326,7 +1317,7 @@ customerPublicRouter.get<
     });
     res.status(200).send(eSignDocsRequest);
   } catch (error) {
-//    logger.error(error);
+    //    logger.error(error);
     res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -1335,11 +1326,10 @@ customerPublicRouter.get<
 customerPublicRouter.get(
   '/regenerate-digio-token/:docId',
   fetchCustomer,
-   async (req:any, res:any) => {
+  async (req: any, res: any) => {
     try {
-       
       const clientId = req.clientId;
-       
+
       const phoneNo = req.phoneNo.phoneNo;
 
       const customerDetails = await customerService.getCustomerByPhoneNo({
@@ -1350,7 +1340,7 @@ customerPublicRouter.get(
       const { docId } = req.params;
 
       const regenerateTokenUrl = `${process.env.DIGIO_BASE_URL}/user/auth/generate_token`;
-      const response:any = await axios.post(
+      const response: any = await axios.post(
         regenerateTokenUrl,
         {
           entity_id: docId,
@@ -1369,7 +1359,7 @@ customerPublicRouter.get(
 
       res.status(200).send({ token: response.data.response.id });
     } catch (error) {
-  //    logger.error(error);
+      //    logger.error(error);
       res.status(500).send({ message: 'Some error occured!' });
     }
   },
@@ -1378,11 +1368,10 @@ customerPublicRouter.get(
 customerPublicRouter.post(
   '/create-customer-disbursal',
   fetchCustomer,
-   async (req:any, res:any) => {
+  async (req: any, res: any) => {
     try {
-       
       const clientId = req.clientId;
-       
+
       const phoneNo = req.phoneNo.phoneNo;
 
       const customerDetails = await customerService.getCustomerByPhoneNo({
@@ -1399,9 +1388,10 @@ customerPublicRouter.post(
         loanNo,
       } = req.body;
 
-      const clientDetails :any= await clientModel.getClient({ clientId });
+      const clientDetails: any = await clientModel.getClient({ clientId });
 
-      const clientBankAccounts = clientDetails?.client_bank_accounts.at(0).value;
+      const clientBankAccounts =
+        clientDetails?.client_bank_accounts.at(0).value;
 
       const approvalData = await approvalModel.getApprovalByLoanNo({
         loanNo,
@@ -1422,7 +1412,7 @@ customerPublicRouter.post(
         bankBranch: bankBranch,
         bankName: bank,
         customerId: customerDetails?.id || '',
-         
+
         companyAccountNo: clientBankAccounts,
         leadId: approvalData?.lead_id || '',
         chequeNo: '0',
@@ -1440,7 +1430,7 @@ customerPublicRouter.post(
       });
       res.status(200).send({ message: 'Disbursal Initiated!' });
     } catch (e) {
-     // logger.error(e);
+      // logger.error(e);
       res.status(500).send({ message: 'Some error occured!' });
     }
   },

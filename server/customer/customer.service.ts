@@ -23,7 +23,7 @@ const getCustomerByLeadId = async ({
 
   let customerPictureUrl = '';
   const customerPicture = documents.filter(
-    document => document.document_type === 'Selfie',
+    (document:any) => document.document_type === 'Selfie',
   );
 
   if (customerPicture.length === 0) {

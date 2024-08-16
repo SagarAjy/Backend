@@ -1,4 +1,4 @@
-import { lead_status } from '@prisma/client';
+import { lead_status } from 'prisma/prisma-client';
 import express, { Router } from 'express';
 import { leadsModel } from '../leads/leads.model';
 import { fetchUser } from '../middleware/auth.middleware';
@@ -23,13 +23,13 @@ callHistoryRouter.post<
   { leadId: string },
   Record<never, never>,
   callHistoryDataType
->('/create/:leadId', fetchUser, async (req:any,res:any) => {
+>('/create/:leadId', fetchUser, async (req: any, res: any) => {
   try {
     const { leadId } = req.params;
     const { callType, status, remark } = req.body;
-    
+
     const userId = req.user.user;
-    
+
     const clientId = req.clientId;
 
     const lead = await leadsModel.getLeadById({
@@ -50,7 +50,7 @@ callHistoryRouter.post<
     });
     res.status(200).send({ message: 'Call history created' });
   } catch (error) {
-//    logger.error(error);
+    //    logger.error(error);
     res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -59,7 +59,7 @@ callHistoryRouter.post<
 callHistoryRouter.get<
   { leadId: string },
   callHistoryDataType[] | { message: string }
->('/get/:leadId', fetchUser, async (req:any,res:any) => {
+>('/get/:leadId', fetchUser, async (req: any, res: any) => {
   try {
     const { leadId } = req.params;
     const clientId = req.clientId;
@@ -69,7 +69,7 @@ callHistoryRouter.get<
     });
     res.status(200).send(callHistoryForLead);
   } catch (error) {
-//    logger.error(error);
+    //    logger.error(error);
     res.status(500).send({ message: 'Some error occured!' });
   }
 });

@@ -1,5 +1,5 @@
 import express, { Router } from 'express';
-import { Prisma, roles, user_status } from '@prisma/client';
+import { Prisma, roles, user_status } from 'prisma/prisma-client';
 import { fetchUser } from '../middleware/auth.middleware';
 import { userModel } from './user.model';
 import { userService } from './user.service';
@@ -52,15 +52,13 @@ type usersWithRole = {
 userRouter.post<Record<never, never>, Record<never, never>, createUserBodyType>(
   '/add',
   fetchUser,
-   async (req:any, res:any) => {
+  async (req: any, res: any) => {
     try {
       const { name, email, mobile, branch, role, status, allowed_mac } =
         req.body;
 
-       
       const clientId = req.clientId;
 
-       
       const created_by = req.user.user; // * getting user_id from auth middleware
       const userDetails = await userModel.addUser({
         name,
@@ -88,13 +86,13 @@ userRouter.post<Record<never, never>, Record<never, never>, createUserBodyType>(
       });
 
       return res.status(200).send(userDetails);
-    } catch (error) {
+    } catch (error: any) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
           return res.status(401).send({ message: 'Email already exists!' }); // * since email is unique constraint
         }
       }
-  //    logger.error(error);
+      //    logger.error(error);
       return res.status(500).send({ message: 'Some error occured' });
     }
   },
@@ -106,13 +104,12 @@ userRouter.get<
   { users: usersType[]; userCount: number } | { message: string },
   Record<never, never>,
   { limit: number; offset: number; search?: string }
->('/all', fetchUser,  async (req:any, res:any) => {
+>('/all', fetchUser, async (req: any, res: any) => {
   try {
     const limit = Number(req.query.limit);
     const offset = Number(req.query.offset);
     const searchparam = decodeURIComponent(req.query.search || '');
 
-     
     const clientId = req.clientId;
 
     const userDetails = await userService.getUsers({
@@ -123,7 +120,7 @@ userRouter.get<
     });
     return res.status(200).send(userDetails);
   } catch (error) {
-//    logger.error(error);
+    //    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -134,13 +131,13 @@ userRouter.get<
   usersWithRole[] | { message: string },
   Record<never, never>,
   { branch: string }
->('/get/role/:userRole', fetchUser,  async (req:any, res:any) => {
+>('/get/role/:userRole', fetchUser, async (req: any, res: any) => {
   try {
     const { userRole } = req.params;
     const { branch } = req.query;
-     
+
     const userId = req.user.user;
-     
+
     const clientId = req.clientId;
 
     const pdTeam: usersWithRole[] = await userService.getUsersByRole({
@@ -156,7 +153,7 @@ userRouter.get<
     });
     return res.status(200).send(pdTeam);
   } catch (error) {
-//    logger.error(error);
+    //    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -166,11 +163,11 @@ userRouter.get<
   usersWithRole[] | { message: string },
   Record<never, never>,
   { branch: string }
->('/get/reassign/:userRole', fetchUser,  async (req:any, res:any) => {
+>('/get/reassign/:userRole', fetchUser, async (req: any, res: any) => {
   try {
     const { userRole } = req.params;
     const { branch } = req.query;
-     
+
     const clientId = req.clientId;
 
     const pdTeam: usersWithRole[] = await userService.getReassignUsersByRole({
@@ -185,7 +182,7 @@ userRouter.get<
     });
     return res.status(200).send(pdTeam);
   } catch (error) {
-//    logger.error(error);
+    //    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -194,11 +191,10 @@ userRouter.get<
 userRouter.put<Record<never, never>, Record<never, never>, updateUserBodyType>(
   '/update',
   fetchUser,
-   async (req:any, res:any) => {
+  async (req: any, res: any) => {
     try {
-       
       const clientId = req.clientId;
-       
+
       const userId = req.user.user;
 
       const userDetails = await userModel.getUser({ userId, clientId });
@@ -211,7 +207,7 @@ userRouter.put<Record<never, never>, Record<never, never>, updateUserBodyType>(
       });
       return res.status(200).send({ message: 'user updated' });
     } catch (error) {
-  //    logger.error(error);
+      //    logger.error(error);
       return res.status(500).send({ message: 'Some error occured' });
     }
   },

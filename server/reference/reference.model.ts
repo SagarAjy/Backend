@@ -1,4 +1,4 @@
-import { relation_types } from '@prisma/client';
+import { relation_types } from 'prisma/prisma-client';
 import { prisma } from '../../prisma-client';
 import { v4 as uuid } from 'uuid';
 

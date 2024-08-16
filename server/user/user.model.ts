@@ -1,4 +1,4 @@
-import { roles, user_status } from '@prisma/client';
+import { roles, user_status } from 'prisma/prisma-client';
 import { prisma } from '../../prisma-client';
 import { v4 as uuid } from 'uuid';
 import { novuNotification } from '../novu/novu.model';
@@ -195,10 +195,7 @@ const getUser = async ({
     },
   });
   return user;
-
-
 };
-
 
 const getUserWithoutClientId = async ({ userId }: { userId: string }) => {
   const user = await prisma.users.findFirst({
@@ -257,7 +254,7 @@ const getUsersByRole = async ({
       branch,
       status: 'Active',
       user_id: {
-        in: userReportees.map(reportee => reportee.user_reportee_id),
+        in: userReportees.map((reportee: any) => reportee.user_reportee_id),
       },
       client_ids: {
         has: clientId,

@@ -5,7 +5,7 @@ import {
   loan_status,
   loan_type,
   userreportees,
-} from '@prisma/client';
+} from 'prisma/prisma-client';
 import { prisma } from '../../prisma-client';
 import { userReportees } from '../leads/leads.model';
 import { disbursalModel } from '../disbursal/disbursal.model';
@@ -294,7 +294,9 @@ const getAllLoanPending = async ({
           {
             leads: {
               collection_user_id: {
-                in: teleCallers?.map(teleCaller => teleCaller.user_id) || [],
+                in:
+                  teleCallers?.map((teleCaller: any) => teleCaller.user_id) ||
+                  [],
               },
             },
           },
@@ -411,7 +413,9 @@ const getAllLoanPendingCount = async ({
           {
             leads: {
               collection_user_id: {
-                in: teleCallers?.map(teleCaller => teleCaller.user_id) || [],
+                in:
+                  teleCallers?.map((teleCaller: any) => teleCaller.user_id) ||
+                  [],
               },
             },
           },

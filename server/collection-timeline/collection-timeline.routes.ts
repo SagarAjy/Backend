@@ -1,4 +1,4 @@
-import { waiver_approval_status_type } from '@prisma/client';
+import { waiver_approval_status_type } from 'prisma/prisma-client';
 import express, { Router } from 'express';
 import { leadsModel } from '../leads/leads.model';
 import { fetchUser } from '../middleware/auth.middleware';
@@ -28,13 +28,13 @@ collectionTimelineRouter.post<
   { leadId: string },
   Record<never, never>,
   postCollectionTimelineDataType
->('/create/:leadId', fetchUser,  async (req:any, res:any) => {
+>('/create/:leadId', fetchUser, async (req: any, res: any) => {
   try {
     const { leadId } = req.params;
     const { relatedTo, customerResponse } = req.body;
-     
+
     const userId = req.user.user;
-     
+
     const clientId = req.clientId;
 
     const lead = await leadsModel.getLeadById({
@@ -52,7 +52,7 @@ collectionTimelineRouter.post<
     });
     res.status(200).send({ message: 'Collection timeline created' });
   } catch (error) {
-//    logger.error(error);
+    //    logger.error(error);
     res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -61,10 +61,10 @@ collectionTimelineRouter.post<
 collectionTimelineRouter.get<
   { leadId: string },
   getCollectionTimelineDataType[] | { message: string }
->('/get/:leadId', fetchUser,  async (req:any, res:any) => {
+>('/get/:leadId', fetchUser, async (req: any, res: any) => {
   try {
     const { leadId } = req.params;
-     
+
     const clientId = req.clientId;
     const collectionTimeLineForLead =
       await collectionTimelineService.getCallHistory({
@@ -73,7 +73,7 @@ collectionTimelineRouter.get<
       });
     res.status(200).send(collectionTimeLineForLead);
   } catch (error) {
-//    logger.error(error);
+    //    logger.error(error);
     res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -86,11 +86,11 @@ collectionTimelineRouter.post<
     waiverAmount: number;
     waiverAmountType: string;
   }
->('/raise-waiver-request/:leadId', fetchUser,  async (req:any, res:any) => {
+>('/raise-waiver-request/:leadId', fetchUser, async (req: any, res: any) => {
   try {
     const { leadId } = req.params;
     const { waiverRequest, waiverAmount, waiverAmountType } = req.body;
-     
+
     const clientId = req.clientId;
     await leadsModel.updateLeadWaiverRequest({
       leadId,
@@ -109,7 +109,7 @@ collectionTimelineRouter.post<
 
     return res.status(200).send({ message: 'Waiver request raised' });
   } catch (error) {
-//    logger.error(error);
+    //    logger.error(error);
     res.status(500).send({ message: 'Some error occured!' });
   }
 });

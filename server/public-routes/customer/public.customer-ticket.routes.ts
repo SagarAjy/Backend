@@ -4,7 +4,7 @@ import { customerModel } from '../../customer/customer.model';
 import { ticketModel } from '../../tickets/ticket.model';
 //import { logger } from '../../../logger';
 import { ticketService } from '../../tickets/ticket.service';
-import { ticket_type } from '@prisma/client';
+import { ticket_type } from 'prisma/prisma-client';
 import { novuNotification } from '../../novu/novu.model';
 
 type CustomerTicketType = {
@@ -22,11 +22,10 @@ customerSupportRouter.post<
   Record<never, never>,
   { message: string },
   { query: string; category: ticket_type }
->('/create-ticket', fetchCustomer,  async (req:any, res:any) => {
+>('/create-ticket', fetchCustomer, async (req: any, res: any) => {
   try {
-     
     const phoneNo = req.phoneNo.phoneNo;
-     
+
     const clientId = req.clientId;
 
     const cutomerDetails = await customerModel.getCustomerByPhoneNo({
@@ -54,7 +53,7 @@ customerSupportRouter.post<
 
     res.status(200).send({ message: 'Ticket created successfully!' });
   } catch (error) {
-//    logger.error(error);
+    //    logger.error(error);
     res.status(500).send({ message: 'Something went wrong!' });
   }
 });
@@ -62,11 +61,10 @@ customerSupportRouter.post<
 customerSupportRouter.get<
   Record<never, never>,
   CustomerTicketType[] | { message: string }
->('/get-my-tickets', fetchCustomer,  async (req:any, res:any) => {
+>('/get-my-tickets', fetchCustomer, async (req: any, res: any) => {
   try {
-     
     const clientId = req.clientId;
-     
+
     const phoneNo = req.phoneNo.phoneNo;
 
     const customerDetails = await customerModel.getCustomerByPhoneNo({
@@ -81,7 +79,7 @@ customerSupportRouter.get<
 
     res.status(200).send(tickets);
   } catch (error) {
-//    logger.error(error);
+    //    logger.error(error);
     res.status(500).send({ message: 'Something went wrong!' });
   }
 });

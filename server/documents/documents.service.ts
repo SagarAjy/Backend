@@ -16,7 +16,7 @@ const getDocument = async ({
     clientId,
   });
 
-  const documentsData = documentResponse.map(async documents => {
+  const documentsData = documentResponse.map(async (documents:any) => {
     let verfiedBy = null;
     if (documents.verified_by) {
       verfiedBy = await userModel.getUser({

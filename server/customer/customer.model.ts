@@ -1,4 +1,4 @@
-import { genders, marital_status } from '@prisma/client';
+import { genders, marital_status } from 'prisma/prisma-client';
 import { prisma } from '../../prisma-client';
 import { v4 as uuid } from 'uuid';
 import { novuNotification } from '../novu/novu.model';
@@ -151,7 +151,7 @@ const getCustomerByPhoneNo = async ({
       client_id: clientId,
     },
   });
-console.log("getting customer by phone ")
+  console.log('getting customer by phone ');
   return response;
 };
 

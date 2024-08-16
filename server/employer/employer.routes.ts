@@ -1,6 +1,6 @@
 import express, { Router } from 'express';
 import { fetchUser } from '../middleware/auth.middleware';
-import { Prisma, verification_status } from '@prisma/client';
+import { Prisma, verification_status } from 'prisma/prisma-client';
 import { leadsModel } from '../leads/leads.model';
 import { employerModel } from './employer.model';
 //import { logger } from '../../logger';
@@ -39,12 +39,12 @@ export type getEmployerType = {
 employerRouter.post<{ leadId: string }, Record<never, never>, addEmployerType>(
   '/add/:leadId',
   fetchUser,
-   async (req:any, res:any) => {
+  async (req: any, res: any) => {
     try {
       const { leadId } = req.params;
-       
+
       const userId = req.user.user;
-       
+
       const clientId = req.clientId;
       const leadDetails = await leadsModel.getLeadById({ leadId, clientId });
       await employerModel.addEmployer({
@@ -58,7 +58,7 @@ employerRouter.post<{ leadId: string }, Record<never, never>, addEmployerType>(
       });
       return res.status(200).send({ message: 'Employer Added' });
     } catch (error) {
-  //    logger.error(error);
+      //    logger.error(error);
       return res.status(500).send({ message: 'Some error occured' });
     }
   },
@@ -68,10 +68,10 @@ employerRouter.post<{ leadId: string }, Record<never, never>, addEmployerType>(
 employerRouter.get<{ leadId: string }, getEmployerType[] | { message: string }>(
   '/get/:leadId',
   fetchUser,
-   async (req:any, res:any) => {
+  async (req: any, res: any) => {
     try {
       const { leadId } = req.params;
-       
+
       const clientId = req.clientId;
       const referenceDetails = await employerService.getEmployer({
         leadId,
@@ -79,7 +79,7 @@ employerRouter.get<{ leadId: string }, getEmployerType[] | { message: string }>(
       });
       res.status(200).send(referenceDetails);
     } catch (error) {
-  //    logger.error(error);
+      //    logger.error(error);
       return res.status(500).send({ message: 'Some error occured' });
     }
   },
@@ -90,10 +90,10 @@ employerRouter.put<
   { employerId: string },
   getEmployerType[] | { message: string; code?: string },
   addEmployerType
->('/update/:employerId', fetchUser,  async (req:any, res:any) => {
+>('/update/:employerId', fetchUser, async (req: any, res: any) => {
   try {
     const { employerId } = req.params;
-     
+
     const userId = req.user.user;
     await employerModel.updateEmployer({
       employerId,
@@ -104,7 +104,7 @@ employerRouter.put<
       ...req.body,
     });
     res.status(200).send({ message: 'Employer details updated!' });
-  } catch (error) {
+  } catch (error: any) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === 'P2025') {
         return res
@@ -112,19 +112,23 @@ employerRouter.put<
           .send({ message: 'Employer already verified!', code: 'P2025' }); // * since user is already verified
       }
     }
-//    logger.error(error);
+    //    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });
 
 //delete employer
-employerRouter.delete('/delete/:employerId', fetchUser,  async (req:any, res:any) => {
-  try {
-    const { employerId } = req.params;
-    await employerModel.deleteEmployer({ employerId });
-    return res.status(201).send('Employer successfully deleted!');
-  } catch (error) {
-//    logger.error(error);
-    return res.status(500).send({ message: 'Some error occured' });
-  }
-});
+employerRouter.delete(
+  '/delete/:employerId',
+  fetchUser,
+  async (req: any, res: any) => {
+    try {
+      const { employerId } = req.params;
+      await employerModel.deleteEmployer({ employerId });
+      return res.status(201).send('Employer successfully deleted!');
+    } catch (error) {
+      //    logger.error(error);
+      return res.status(500).send({ message: 'Some error occured' });
+    }
+  },
+);
