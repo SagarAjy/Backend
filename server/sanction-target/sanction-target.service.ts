@@ -25,7 +25,7 @@ const getSanctionTarget = async ({
     clientId,
   });
 
-  const allSanctionTargets = sanctionTargets.map(async target => {
+  const allSanctionTargets = sanctionTargets.map(async (target:any) => {
     const approvedByDetails = await userModel.getUser({
       userId: target.approved_by,
       clientId,

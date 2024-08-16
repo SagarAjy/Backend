@@ -18,7 +18,7 @@ const getBranchTarget = async ({
     searchparam,
   });
 
-  const allBranchTargets = branchTargets.map(async target => {
+  const allBranchTargets = branchTargets.map(async (target:any) => {
     const approvedByDetails = await userModel.getUser({
       userId: target.approved_by,
       clientId,

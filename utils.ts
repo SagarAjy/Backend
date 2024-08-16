@@ -1,42 +1,59 @@
 import crypto from 'crypto';
-import { differenceInCalendarDays, parse, format } from 'date-fns';
-import { collectionModel } from './server/collection/collection.model';
-import { Prisma } from '@prisma/client';
+import { differenceInCalendarDays, format, parse } from 'date-fns';
 
-// encryption of data
 const secretKey = Buffer.from(process.env.AES_SECRET_KEY || '', 'hex');
 
-type EncryptedData = {
+// Define types for function parameters and return values
+
+interface Collection {
+  collected_date: Date;
+  collected_amount: number;
+}
+
+interface RepaymentParams {
+  principal: number;
+  tenure: number;
+  roi: number;
+  penaltyRoi: number;
+  amtApproved: number;
+  disbursalDate: Date;
+  repaymentDate: Date;
+  currentDate: Date;
+  collections: Collection[];
+}
+
+interface RepaymentResult {
+  totalInterest: number;
+  currentRepayAmount: number;
+  penaltyInterest: number;
+  penaltyDays: number;
+}
+
+interface EncryptionResult {
   iv: string;
   encryptedData: string;
   authTag: string;
-};
+}
 
-// * function to generate random otp
-export const generateOTP = () => {
+// Function to generate random OTP
+export const generateOTP = (): number => {
   return Math.floor(1000 + Math.random() * 9000);
 };
 
-export const formatIndianNumber = (number: number) => {
-  // Convert the number to a string for easier manipulation
+// Format number as Indian currency
+export const formatIndianNumber = (number: number): string => {
   const numStr = number.toFixed(1).toString();
-
-  // Split the number into integer and decimal parts
   const [integerPart, decimalPart] = numStr.split('.');
-
-  // Format the integer part with commas
   const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-
-  // Combine the formatted integer and decimal parts
   const formattedNumber = decimalPart
     ? `${formattedInteger}.${decimalPart}`
     : formattedInteger;
-
   return '₹' + formattedNumber + '/-';
 };
 
-export const convertToIndianWords = (number: number) => {
-  const units = [
+// Convert number to Indian words
+export const convertToIndianWords = (number: number): string => {
+  const units: string[] = [
     '',
     'One',
     'Two',
@@ -48,8 +65,7 @@ export const convertToIndianWords = (number: number) => {
     'Eight',
     'Nine',
   ];
-
-  const teens = [
+  const teens: string[] = [
     '',
     'Eleven',
     'Twelve',
@@ -61,8 +77,7 @@ export const convertToIndianWords = (number: number) => {
     'Eighteen',
     'Nineteen',
   ];
-
-  const tens = [
+  const tens: string[] = [
     '',
     'Ten',
     'Twenty',
@@ -75,25 +90,21 @@ export const convertToIndianWords = (number: number) => {
     'Ninety',
   ];
 
-  const convertChunk = (num: number) => {
+  const convertChunk = (num: number): string => {
     let words = '';
-
     if (num >= 100) {
       words += units[Math.floor(num / 100)] + ' Hundred ';
       num %= 100;
     }
-
     if (num >= 11 && num <= 19) {
       words += teens[num - 10] + ' ';
     } else if (num === 10 || num >= 20) {
       words += tens[Math.floor(num / 10)] + ' ';
       num %= 10;
     }
-
     if (num >= 1 && num <= 9) {
       words += units[num] + ' ';
     }
-
     return words;
   };
 
@@ -102,32 +113,27 @@ export const convertToIndianWords = (number: number) => {
   }
 
   let words = '';
-
   if (number >= 1e9) {
     words += convertChunk(Math.floor(number / 1e9)) + 'Billion ';
     number %= 1e9;
   }
-
   if (number >= 1e7) {
     words += convertChunk(Math.floor(number / 1e7)) + 'Crore ';
     number %= 1e7;
   }
-
   if (number >= 1e5) {
     words += convertChunk(Math.floor(number / 1e5)) + 'Lakh ';
     number %= 1e5;
   }
-
   if (number >= 1e3) {
     words += convertChunk(Math.floor(number / 1e3)) + 'Thousand ';
     number %= 1e3;
   }
-
   words += convertChunk(number);
-
   return words.trim();
 };
 
+// Process items in batches
 export const processInBatch = async <T, R>(
   items: T[],
   processFunc: (item: T) => Promise<R>,
@@ -142,7 +148,8 @@ export const processInBatch = async <T, R>(
   return results;
 };
 
-export const encrypt = (text: string) => {
+// Encrypt data
+export const encrypt = (text: string): EncryptionResult => {
   const iv = crypto.randomBytes(16);
   const cipher = crypto.createCipheriv('aes-256-gcm', secretKey, iv);
   let encrypted = cipher.update(text, 'utf8', 'hex');
@@ -155,7 +162,8 @@ export const encrypt = (text: string) => {
   };
 };
 
-export const decrypt = (hash: EncryptedData) => {
+// Decrypt data
+export const decrypt = (hash: EncryptionResult): string => {
   const decipher = crypto.createDecipheriv(
     'aes-256-gcm',
     secretKey,
@@ -167,6 +175,7 @@ export const decrypt = (hash: EncryptedData) => {
   return decrypted;
 };
 
+// Get current repay amount
 export const getCurrentRepayAmount = ({
   principal,
   tenure,
@@ -177,81 +186,44 @@ export const getCurrentRepayAmount = ({
   repaymentDate,
   currentDate,
   collections,
-
-}: {
-
-  principal: number;
-  tenure: number;
-  roi: number;
-  penaltyRoi: number;
-  amtApproved: number;
-  disbursalDate: Date;
-  repaymentDate: Date;
-  currentDate: Date;
-  collections: Prisma.PromiseReturnType<typeof collectionModel.getCollections>;
-}) => {
+}: RepaymentParams): RepaymentResult => {
   let currentRepayAmount = 0;
-
   let newPrincipal = amtApproved;
-  let prevInterestDate = disbursalDate; // start from the disbursal date
+  let prevInterestDate = disbursalDate;
   let repayDate = repaymentDate;
-
-  //total values
-
   let totalInterest = 0;
   let penaltyInterest = 0;
   let penaltyDays = 0;
 
   if (collections.length === 0) {
-    // if today date less than equal to repay date then no penalty etc
     if (currentDate <= repayDate) {
       const tempTenure = differenceInCalendarDays(new Date(), prevInterestDate);
       totalInterest = principal * roi * tempTenure * 0.01;
-    }
-    // if today date greater than repay date then normal interest till repay date then penalty interest
-    // till today date
-    else if (currentDate > repayDate) {
+    } else {
       const tempTenure = differenceInCalendarDays(repayDate, prevInterestDate);
       totalInterest = principal * roi * tempTenure * 0.01;
       penaltyDays = differenceInCalendarDays(currentDate, repayDate);
       penaltyInterest = principal * penaltyRoi * penaltyDays * 0.01;
     }
     currentRepayAmount = principal + totalInterest + penaltyInterest;
-  } else if (collections.length > 0) {
-    // today date less than or equal to repay date then
-    // we map all collections and calculate interest till collection date
-    // then add this interest to total interest and subtract collected amount from principal + interest
-
-    // check if first collection date is before repay date
+  } else {
     const firstCollection = collections[collections.length - 1];
-
-    // format date to dd-MM-yyyy then back to collected date to fix timezone issue
     const firstCollectionDate = firstCollection.collected_date;
 
-    // if first collection date is after repay date then everything before
-    // is just total interest over the tenure
     if (firstCollectionDate > repayDate) {
       totalInterest = newPrincipal * roi * tenure * 0.01;
       prevInterestDate = repayDate;
-
       for (let i = collections.length - 1; i >= 0; i--) {
         const collection = collections[i];
-
         const collectionDate = collection.collected_date;
-
-        //no. of days till this collection made
         let penaltyDaysTillCollection = differenceInCalendarDays(
           collectionDate,
           prevInterestDate,
         );
-
-        //calculate penalty interest till this collection made
         let penaltyInterestTillCollection =
           newPrincipal * penaltyRoi * penaltyDaysTillCollection * 0.01;
-
         let amountToDistribute = collection.collected_amount;
 
-        // First, reduce penalty interest
         if (amountToDistribute > penaltyInterestTillCollection) {
           amountToDistribute -= penaltyInterestTillCollection;
           penaltyInterestTillCollection = 0;
@@ -260,7 +232,6 @@ export const getCurrentRepayAmount = ({
           amountToDistribute = 0;
         }
 
-        // Next, reduce regular interest
         if (amountToDistribute > totalInterest) {
           amountToDistribute -= totalInterest;
           totalInterest = 0;
@@ -269,34 +240,25 @@ export const getCurrentRepayAmount = ({
           amountToDistribute = 0;
         }
 
-        // Finally, reduce principal with any remaining amount
         newPrincipal -= amountToDistribute;
-        penaltyDays = penaltyDays + penaltyDaysTillCollection;
-        penaltyInterest = penaltyInterest + penaltyInterestTillCollection;
-
+        penaltyDays += penaltyDaysTillCollection;
+        penaltyInterest += penaltyInterestTillCollection;
         prevInterestDate = collectionDate;
       }
-    } else if (firstCollectionDate <= repayDate) {
+    } else {
       for (let i = collections.length - 1; i >= 0; i--) {
         const collection = collections[i];
-
         const collectionDate = collection.collected_date;
-
         let penaltyDaysTillCollection = 0;
         let penaltyInterestTillCollection = 0;
 
-        // if collection date is before repay date then calculate interest
         if (collectionDate <= repayDate) {
           let daysTillCollection = differenceInCalendarDays(
             collectionDate,
             prevInterestDate,
           );
-
-          // calculate interest for this tenure
           let interestTillCollection =
             newPrincipal * roi * daysTillCollection * 0.01;
-
-          // subtract this interest from collection amount
           let amountToDistribute = collection.collected_amount;
 
           if (amountToDistribute > interestTillCollection) {
@@ -307,25 +269,19 @@ export const getCurrentRepayAmount = ({
             amountToDistribute = 0;
           }
 
-          // subtract remaining collection amount from principal
           newPrincipal -= amountToDistribute;
-
-          totalInterest = totalInterest + interestTillCollection;
+          totalInterest += interestTillCollection;
         }
 
-        // if collection date is after repay date then calculate penalty interest
         if (collectionDate > repayDate) {
           penaltyDaysTillCollection = differenceInCalendarDays(
             collectionDate,
             prevInterestDate,
           );
-
           penaltyInterestTillCollection =
             newPrincipal * penaltyRoi * penaltyDaysTillCollection * 0.01;
-
           let amountToDistribute = collection.collected_amount;
 
-          // First, reduce penalty interest
           if (amountToDistribute > penaltyInterestTillCollection) {
             amountToDistribute -= penaltyInterestTillCollection;
             penaltyInterestTillCollection = 0;
@@ -334,7 +290,6 @@ export const getCurrentRepayAmount = ({
             amountToDistribute = 0;
           }
 
-          // Next, reduce regular interest
           if (amountToDistribute > totalInterest) {
             amountToDistribute -= totalInterest;
             totalInterest = 0;
@@ -343,11 +298,9 @@ export const getCurrentRepayAmount = ({
             amountToDistribute = 0;
           }
 
-          // Finally, reduce principal with any remaining amount
           newPrincipal -= amountToDistribute;
-          penaltyDays = penaltyDays + penaltyDaysTillCollection;
-          penaltyInterest = penaltyInterest + penaltyInterestTillCollection;
-
+          penaltyDays += penaltyDaysTillCollection;
+          penaltyInterest += penaltyInterestTillCollection;
           prevInterestDate = collectionDate;
         }
       }
@@ -357,9 +310,8 @@ export const getCurrentRepayAmount = ({
           repayDate,
           prevInterestDate,
         );
-
         let interestTillRepay = newPrincipal * roi * daysTillRepay * 0.01;
-        totalInterest = totalInterest + interestTillRepay;
+        totalInterest += interestTillRepay;
         prevInterestDate = repayDate;
       }
 
@@ -380,23 +332,27 @@ export const getCurrentRepayAmount = ({
   };
 };
 
+// Get due date
 export const getDueDate = (
-  startDate: string | Date,
+  startDate: Date | string,
   tenure: number,
 ): Date | null => {
   if (!startDate) return null;
-
   const parsedDate =
-    typeof startDate === 'string' ? parse(startDate, 'dd-MM-yyyy', new Date()) : startDate;
-
+    typeof startDate === 'string'
+      ? parse(startDate, 'dd-MM-yyyy', new Date())
+      : startDate;
   return new Date(parsedDate.getTime() + tenure * 24 * 60 * 60 * 1000);
 };
 
+// Format date
 export const formatDate = (date: Date | string): string => {
   const parsedDate =
     typeof date === 'string' ? parse(date, 'yyyy-MM-dd', new Date()) : date;
   return format(parsedDate, 'dd-MM-yyyy');
 };
-export const generateTicketID = (randnum: string) => {
-  return "";
-}
+
+// Generate ticket ID (Placeholder function)
+export const generateTicketID = (randnum: any): string => {
+  return '';
+};

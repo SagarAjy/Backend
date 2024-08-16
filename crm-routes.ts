@@ -30,6 +30,7 @@ import { auditLogRouter } from './server/audit-logs/audit-logs.routes';
 import { reportsDownloadRouter } from './server/reports/reports.download.routes';
 import { servicesRouter } from './server/services/services.routes';
 import { customerSupportRouter } from './server/tickets/ticket.routes';
+import PanRouter from './server/Pan/Pan.Router';
 
 export const crmRouter: Router = express.Router();
 
@@ -64,3 +65,6 @@ crmRouter.use('/pd-visit', pdVisitRouter);
 crmRouter.use('/audit-logs', auditLogRouter);
 crmRouter.use('/services', servicesRouter);
 crmRouter.use('/customer-support', customerSupportRouter);
+
+//PAN KYC
+crmRouter.use('/Pankyc',PanRouter)

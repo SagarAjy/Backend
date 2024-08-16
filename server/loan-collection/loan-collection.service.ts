@@ -32,7 +32,7 @@ const getAllCollectionManagerLeads = async ({
 
   // Find how many loans are closed for each lead so that if 2nd time application can go to Loan officer
   // instead of Credit manager
-  const response = allLeads.map(async lead => {
+  const response = allLeads.map(async (lead:any) => {
     const loanCount = await leadsModel.getClosedLoanCount({
       customerId: lead.customer_id,
       clientId,
@@ -70,7 +70,7 @@ const getCollectionLeads = async ({
     allLeads = await leadsModel.getLeadByUserId({ userId, clientId });
   }
 
-  const response = allLeads.map(async lead => {
+  const response = allLeads.map(async (lead:any) => {
     const loanCount = await leadsModel.getClosedLoanCount({
       customerId: lead.customer_id,
       clientId,

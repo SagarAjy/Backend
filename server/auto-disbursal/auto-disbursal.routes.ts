@@ -1,6 +1,6 @@
 import { parse, differenceInCalendarDays } from 'date-fns';
 import express, { Router } from 'express';
-import { logger } from '../../logger';
+//import { logger } from '../../logger';
 import { approvalModel } from '../approval/approval.model';
 import { disbursalModel } from '../disbursal/disbursal.model';
 import { fetchUser } from '../middleware/auth.middleware';
@@ -11,6 +11,7 @@ import { customerModel } from '../customer/customer.model';
 import { autoDisbursalModel } from './auto-disbursal.model';
 import { auditLogModel } from '../audit-logs/audit-logs.model';
 // import { decrypt, getSignedURLForS3 } from '../../utils';
+import { decrypt} from '../../utils';
 import { clientModel } from '../clients/clients.model';
 import { loanModel } from '../loan/loan.model';
 
@@ -41,10 +42,9 @@ autoDisbursalRouter.post<
   { leadId: string },
   { message: string },
   disbursalDataType
->('/add/:leadId', fetchUser, async (req, res) => {
+>('/add/:leadId', fetchUser, async (req:any, res:any) => {
   try {
     const { leadId } = req.params;
-    //@ts-ignore
     const clientId = req.clientId;
     const checkDisbursalAlreadyExist = await disbursalModel.getDisbursal({
       leadId,
@@ -55,7 +55,6 @@ autoDisbursalRouter.post<
         .status(301)
         .send({ message: 'Loan already disbursed for this lead!' });
     } else {
-      //@ts-ignore
       const userId = req.user.user;
       const userDetails = await userModel.getUser({ userId, clientId });
       const approvalData = await approvalModel.getApproval({
@@ -85,17 +84,16 @@ autoDisbursalRouter.post<
           const clientInfo = await clientModel.getClient({ clientId });
 
           const cashFreeClientId = clientInfo?.cashfree_client_id || '';
-          const cashFreeSecretEncrypted = clientInfo?.cashfree_secret_key;
+          const cashFreeSecretEncrypted:any = clientInfo?.cashfree_secret_key;
           const publicKeyUrl = clientInfo?.cashfree_public_key_url || '';
 
-          //@ts-ignore
           const cashFreeSecret = decrypt(cashFreeSecretEncrypted);
 
           // const getPublicKeySignedUrl = await getSignedURLForS3(publicKeyUrl);
           const getPublicKeySignedUrl ="";
           const publicKeyApiReponse = await axios.get(getPublicKeySignedUrl);
 
-          const publicKey = publicKeyApiReponse.data;
+          const publicKey:any = publicKeyApiReponse.data;
 
           // get UNIX timestamp
           const timestamp = Math.floor(Date.now() / 1000);
@@ -110,7 +108,7 @@ autoDisbursalRouter.post<
           // The encrypted data is in the form of a Buffer, convert it to a base64 string
           const signature = encryptedData.toString('base64');
 
-          const cashFreeToken = await axios.post(
+          const cashFreeToken:any = await axios.post(
             process.env.CASHFREE_BASE_URL + 'payout/v1/authorize',
             {},
             {
@@ -125,7 +123,7 @@ autoDisbursalRouter.post<
 
           if (cashFreeToken.data.status === 'SUCCESS') {
             try {
-              const payment = await axios.post(
+              const payment:any = await axios.post(
                 `${process.env.CASHFREE_BASE_URL}payout/v1.2/directTransfer`,
                 {
                   amount: Math.round(disbursalAmount * 100) / 100,
@@ -211,7 +209,7 @@ autoDisbursalRouter.post<
 
               res.status(200).send({ message: 'Disbursal added!' });
             } catch (error) {
-              logger.error(error);
+          //    logger.error(error);
             }
           } else {
             res
@@ -224,7 +222,7 @@ autoDisbursalRouter.post<
       }
     }
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -232,9 +230,8 @@ autoDisbursalRouter.post<
 autoDisbursalRouter.get<
   { leadId: string },
   autoDisbursalDataType | { message: string }
->('/get-transfer-info/:leadId', fetchUser, async (req, res) => {
+>('/get-transfer-info/:leadId', fetchUser, async (req:any,res:any) => {
   try {
-    //@ts-ignore
     const clientId = req.clientId;
 
     const { leadId } = req.params;
@@ -249,7 +246,7 @@ autoDisbursalRouter.get<
       utr: autoDisbursalDetails.at(0)?.utr_no || '',
     });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -257,11 +254,9 @@ autoDisbursalRouter.get<
 autoDisbursalRouter.put<
   { leadId: string },
   autoDisbursalDataType | { message: string }
->('/update-transfer-info/:leadId', fetchUser, async (req, res) => {
+>('/update-transfer-info/:leadId', fetchUser, async (req:any,res:any) => {
   try {
-    //@ts-ignore
     const clientId = req.clientId;
-    //@ts-ignore
     const userId = req.user.user;
 
     const { leadId } = req.params;
@@ -271,10 +266,9 @@ autoDisbursalRouter.put<
     const loanDetails = await loanModel.getLoanByLeadId({ leadId, clientId });
 
     const cashFreeClientId = clientInfo?.cashfree_client_id || '';
-    const cashFreeSecretEncrypted = clientInfo?.cashfree_secret_key;
+    const cashFreeSecretEncrypted:any = clientInfo?.cashfree_secret_key;
     const publicKeyUrl = clientInfo?.cashfree_public_key_url || '';
 
-    //@ts-ignore
     const cashFreeSecret = decrypt(cashFreeSecretEncrypted);
 
     // get public key for cashfree
@@ -282,7 +276,7 @@ autoDisbursalRouter.put<
     const getPublicKeySignedUrl = "";
     const publicKeyApiReponse = await axios.get(getPublicKeySignedUrl);
 
-    const publicKey = publicKeyApiReponse.data;
+    const publicKey:any = publicKeyApiReponse.data;
 
     // get UNIX timestamp
     const timestamp = Math.floor(Date.now() / 1000);
@@ -302,7 +296,7 @@ autoDisbursalRouter.put<
       clientId,
     });
 
-    const cashFreeToken = await axios.post(
+    const cashFreeToken:any = await axios.post(
       process.env.CASHFREE_BASE_URL + 'payout/v1/authorize',
       {},
       {
@@ -318,7 +312,7 @@ autoDisbursalRouter.put<
     if (cashFreeToken.data.status === 'SUCCESS') {
       if (autoDisbursalDetails.length !== 0) {
         const referenceId = autoDisbursalDetails.at(0)?.payment_id;
-        const paymentStatus = await axios.get(
+        const paymentStatus:any = await axios.get(
           `${process.env.CASHFREE_BASE_URL}payout/v1.2/getTransferStatus?referenceId=${referenceId}`,
           {
             headers: {
@@ -366,7 +360,7 @@ autoDisbursalRouter.put<
       res.status(401).send({ message: 'Cashfree failed to verify token!' });
     }
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Some error occured!' });
   }
 });

@@ -167,7 +167,7 @@ const getLeads = async ({
     });
   }
 
-  const leads = allLeads.map(async lead => {
+  const leads = allLeads.map(async (lead: any) => {
     const customer = await customerModel.getCustomerById({
       customer_id: lead.customer_id,
       clientId,
@@ -280,7 +280,7 @@ const getLeadsByCustomerId = async ({
     clientId,
   });
 
-  const leads = leadDetails.map(lead => {
+  const leads = leadDetails.map((lead: any) => {
     return {
       id: lead.lead_id,
       requiredAmount: lead.loan_required || '',
@@ -393,7 +393,7 @@ const getCreditLeads = async ({
     });
   }
 
-  const leads = allLeads.map(async lead => {
+  const leads = allLeads.map(async (lead: any) => {
     const customer = await customerModel.getCustomerById({
       customer_id: lead.customer_id,
       clientId,
@@ -532,7 +532,7 @@ const getDisbursalLeads = async ({
     });
   }
 
-  const leads = allLeads.map(async lead => {
+  const leads = allLeads.map(async (lead: any) => {
     const customer = await customerModel.getCustomerById({
       customer_id: lead.customer_id,
       clientId,

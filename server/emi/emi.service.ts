@@ -13,7 +13,7 @@ const getEMISForLoanNo = async ({
     clientId,
   });
 
-  const emiData = getEMIsForLoanNo.map(emi => ({
+  const emiData = getEMIsForLoanNo.map((emi:any) => ({
     emiId: emi.emi_id,
     emiLoanNo: emi.loan_no,
     emiDate: emi.emi_date,
@@ -39,7 +39,7 @@ const getEMILoanHistory = async ({
   });
 
   const emiLoanHistory = await Promise.all(
-    getEMILoanHistory.map(async emiLoan => {
+    getEMILoanHistory.map(async (emiLoan:any) => {
       const getEMIsForLoanNo = await emiModel.getEMIsForLoanNo({
         loanNo: emiLoan.loan_no || '',
         clientId,
@@ -50,7 +50,7 @@ const getEMILoanHistory = async ({
         clientId: clientId,
       });
 
-      const emiData = getEMIsForLoanNo.map(emi => ({
+      const emiData = getEMIsForLoanNo.map((emi:any) => ({
         emiId: emi.emi_id,
         emiLoanNo: emi.loan_no,
         emiDate: emi.emi_date,

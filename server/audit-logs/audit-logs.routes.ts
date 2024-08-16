@@ -1,7 +1,7 @@
 import express, { Router } from 'express';
 import { fetchUser } from '../middleware/auth.middleware';
 import { auditLogService } from './audit-logs.service';
-import { logger } from '../../logger';
+//import { logger } from '../../logger';
 
 export const auditLogRouter: Router = express.Router();
 
@@ -22,12 +22,10 @@ auditLogRouter.get<
     limit: string;
     offset: string;
   }
->('/get-logs', fetchUser, async (req, res) => {
+>('/get-logs', fetchUser, async (req:any, res:any) => {
   try {
     const limit = Number(req.query.limit) || 10;
     const offset = Number(req.query.offset) || 0;
-
-    //@ts-ignore
     const clientId = req.clientId;
 
     const auditLogs = await auditLogService.getAllLogs({
@@ -38,7 +36,7 @@ auditLogRouter.get<
 
     res.status(200).send(auditLogs);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Something went wrong!' });
   }
 });

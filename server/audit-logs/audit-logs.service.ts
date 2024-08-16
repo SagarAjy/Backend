@@ -20,7 +20,7 @@ const getAllLogs = async ({
     clientId,
   });
 
-  const logData = allLogs.map(async log => {
+  const logData = allLogs.map(async (log:any) => {
     const userDetails = await userModel.getUser({
       userId: log.user_id,
       clientId,

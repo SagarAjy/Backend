@@ -220,9 +220,12 @@ const getDownloadCollectionsReport = async ({
       clientId,
     });
 
-    const totalCollectionAmount = allCollections.reduce((acc, collection) => {
-      return acc + collection.collected_amount;
-    }, 0);
+    const totalCollectionAmount = allCollections.reduce(
+      (acc: any, collection: any) => {
+        return acc + collection.collected_amount;
+      },
+      0,
+    );
 
     if (employerData.length === 0) {
       employerName = '';

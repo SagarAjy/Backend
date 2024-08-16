@@ -1,5 +1,5 @@
 import express, { Router } from 'express';
-import { logger } from '../../logger';
+//import { logger } from '../../logger';
 import { fetchUser } from '../middleware/auth.middleware';
 import { userModel } from '../user/user.model';
 import { sanctionTargetModel } from './sanction-target.model';
@@ -31,11 +31,11 @@ sanctionTargetRouter.post<
   Record<never, never>,
   { message: string },
   addSanctionTargetType
->('/add', fetchUser, async (req, res) => {
+>('/add', fetchUser,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const userId = req.user.user;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const userDetails = await userModel.getUser({ userId, clientId });
     const sanctionUserDetails = await userModel.getUser({
@@ -56,7 +56,7 @@ sanctionTargetRouter.post<
     });
     return res.status(200).send({ message: 'Sanction target added' });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -75,9 +75,9 @@ sanctionTargetRouter.get<
     startDate?: string;
     endDate?: string;
   }
->('/get', fetchUser, async (req, res) => {
+>('/get', fetchUser,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const limit = Number(req.query.limit) || 10;
     const offset = Number(req.query.offset) || 0;
@@ -95,7 +95,7 @@ sanctionTargetRouter.get<
     const startString = startMonth + ' ' + year;
     const endString = endMonth + ' ' + year;
 
-    //@ts-ignore
+     
     const userId = req.user.user;
     const userDetails = await userModel.getUser({ userId, clientId });
     if (userDetails?.role !== 'Admin')
@@ -121,7 +121,7 @@ sanctionTargetRouter.get<
     }
     return res.status(200).send(sanctionTargets);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -131,11 +131,11 @@ sanctionTargetRouter.put<
   { sanctionTargetId: string },
   { message: string },
   { target: number; sanctionUserId: string }
->('/update/:sanctionTargetId', fetchUser, async (req, res) => {
+>('/update/:sanctionTargetId', fetchUser,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const userId = req.user.user;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const { sanctionTargetId } = req.params;
     const userDetails = await userModel.getUser({ userId, clientId });
@@ -149,7 +149,7 @@ sanctionTargetRouter.put<
     });
     return res.status(200).send({ message: 'Sanction target updated' });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });

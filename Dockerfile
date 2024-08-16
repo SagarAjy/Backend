@@ -1,38 +1,23 @@
-# Set the base image to Node 18
+# Use official Node.js image as base
 FROM node:18
 
-# File Author / Maintainer
-LABEL maintainer="Neelesh Ranjan Jha"
-
-# Update the repository sources list
-RUN apt-get update && apt-get upgrade -y
-
-# Install Chromium
-RUN apt-get install -y chromium
-
-# Set the working directory to /app
+# Set the working directory
 WORKDIR /app
 
-# Bundle your app source inside the docker image
+# Copy package.json and package-lock.json
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy the rest of your application code
 COPY . .
 
-# Set TimeZone correctly
-ENV TZ=Asia/Kolkata
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+# Build the TypeScript code
+RUN npm run build
 
-# Install all the dependencies
-RUN yarn install
+# Expose the port your app runs on
+EXPOSE 5000
 
-# Build the API
-RUN yarn build
-
-# Your app binds to port 8080 so you'll use the EXPOSE instruction to have it mapped by the docker daemon
-EXPOSE 8080
-
-# Set environment variable to disable Chromium's sandbox (this is required if you are running as root)
-ENV CHROME_BIN=/usr/bin/chromium-browser
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-ENV PUPPETEER_ARGS='--no-sandbox'
-
-# Start command
-CMD [ "node", "build/server.js" ]
+# Start the application
+CMD ["npm", "start"]

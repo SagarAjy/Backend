@@ -18,7 +18,7 @@ const getAddress = async ({
     clientId,
   });
 
-  const addresses = addressData.map(async address => {
+  const addresses = addressData.map(async (address: any) => {
     let verfiedBy = null;
     if (address.verified_by !== null) {
       verfiedBy = await userModel.getUser({
@@ -35,7 +35,6 @@ const getAddress = async ({
       pincode: address.pincode,
       houseType: address.house_type,
       status: address.status,
-      //@ts-ignore
       verifiedBy: verfiedBy?.name || null,
       createdAt: address.created_at,
       updatedAt: address.updated_at,
@@ -65,7 +64,7 @@ const getAddressByType = async ({
     clientId,
   });
 
-  const addresses = addressData.map(address => {
+  const addresses = addressData.map((address: any) => {
     return {
       id: address.address_id || '',
       type: address.type,

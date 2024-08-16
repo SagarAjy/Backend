@@ -2,9 +2,9 @@ import {
   differenceInCalendarDays,
   differenceInDays,
   format,
-  isWithinInterval,
   parse,
 } from 'date-fns';
+import { isWithinInterval } from 'date-fns';
 import { approvalModel } from '../approval/approval.model';
 import { loanModel } from './loan.model';
 import { customerModel } from '../customer/customer.model';
@@ -59,7 +59,7 @@ const getLoan = async ({
       disbursalDate: loanData?.disbursal_date || new Date(),
     });
 
-  const paidAmount = collections.reduce((acc, collection) => {
+  const paidAmount = collections.reduce((acc: any, collection: any) => {
     return acc + collection.collected_amount;
   }, 0);
 
@@ -146,56 +146,58 @@ const getBankUpdate = async ({
 
   if (allBankUpdateLoans.length === 0) return null;
 
-  const bankUpdateData = allBankUpdateLoans.map(async bankUpdateLeads => {
-    const leadDetails = await leadsModel.getLeadById({
-      leadId: bankUpdateLeads.lead_id,
-      clientId,
-    });
-    const loanApprovalData = await approvalModel.getApproval({
-      leadId: bankUpdateLeads.lead_id,
-      clientId,
-    });
-    const customerDetails = await customerModel.getCustomerById({
-      customer_id: leadDetails?.customer_id || '',
-      clientId,
-    });
-
-    let approvedBy = 'N/A';
-    if (loanApprovalData?.credited_by !== null) {
-      const userDetails = await userModel.getUser({
-        userId: loanApprovalData?.credited_by || '',
+  const bankUpdateData = allBankUpdateLoans.map(
+    async (bankUpdateLeads: any) => {
+      const leadDetails = await leadsModel.getLeadById({
+        leadId: bankUpdateLeads.lead_id,
         clientId,
       });
-      approvedBy = userDetails?.name || '';
-    }
+      const loanApprovalData = await approvalModel.getApproval({
+        leadId: bankUpdateLeads.lead_id,
+        clientId,
+      });
+      const customerDetails = await customerModel.getCustomerById({
+        customer_id: leadDetails?.customer_id || '',
+        clientId,
+      });
 
-    return {
-      id: bankUpdateLeads.loan_id,
-      leadId: bankUpdateLeads.lead_id,
-      loanNo: bankUpdateLeads.loan_no || '',
-      name: customerDetails?.name || '',
-      branch: loanApprovalData?.branch || '',
-      loanType: loanApprovalData?.loan_type || '',
-      phoneNo: customerDetails?.mobile || '',
-      email: customerDetails?.email || '',
-      approvalAmount: loanApprovalData?.loan_amt_approved || 0,
-      disbursalAmount: bankUpdateLeads.disbursal_amount,
-      approvalDate: loanApprovalData?.updated_at || new Date(),
-      disbursalDate: bankUpdateLeads.disbursal_date || '',
-      roi: loanApprovalData?.roi || 0,
-      tenure: loanApprovalData?.tenure || 0,
-      processingFeePercent: loanApprovalData?.processing_fee_percent || 0,
-      processingFee: loanApprovalData?.processing_fee || 0,
-      conversionFeesPercent: loanApprovalData?.conversion_fee_percent || 0,
-      conversionFees: loanApprovalData?.conversion_fees || 0,
-      accountNumber: bankUpdateLeads.account_no,
-      bankName: bankUpdateLeads.bank,
-      bankBranch: bankUpdateLeads.bank_branch,
-      ifscCode: bankUpdateLeads.bank_ifsc,
-      cibil: loanApprovalData?.cibil || 0,
-      approvedBy,
-    };
-  });
+      let approvedBy = 'N/A';
+      if (loanApprovalData?.credited_by !== null) {
+        const userDetails = await userModel.getUser({
+          userId: loanApprovalData?.credited_by || '',
+          clientId,
+        });
+        approvedBy = userDetails?.name || '';
+      }
+
+      return {
+        id: bankUpdateLeads.loan_id,
+        leadId: bankUpdateLeads.lead_id,
+        loanNo: bankUpdateLeads.loan_no || '',
+        name: customerDetails?.name || '',
+        branch: loanApprovalData?.branch || '',
+        loanType: loanApprovalData?.loan_type || '',
+        phoneNo: customerDetails?.mobile || '',
+        email: customerDetails?.email || '',
+        approvalAmount: loanApprovalData?.loan_amt_approved || 0,
+        disbursalAmount: bankUpdateLeads.disbursal_amount,
+        approvalDate: loanApprovalData?.updated_at || new Date(),
+        disbursalDate: bankUpdateLeads.disbursal_date || '',
+        roi: loanApprovalData?.roi || 0,
+        tenure: loanApprovalData?.tenure || 0,
+        processingFeePercent: loanApprovalData?.processing_fee_percent || 0,
+        processingFee: loanApprovalData?.processing_fee || 0,
+        conversionFeesPercent: loanApprovalData?.conversion_fee_percent || 0,
+        conversionFees: loanApprovalData?.conversion_fees || 0,
+        accountNumber: bankUpdateLeads.account_no,
+        bankName: bankUpdateLeads.bank,
+        bankBranch: bankUpdateLeads.bank_branch,
+        ifscCode: bankUpdateLeads.bank_ifsc,
+        cibil: loanApprovalData?.cibil || 0,
+        approvedBy,
+      };
+    },
+  );
   const bankDataResponse = {
     bankUpdateData: await Promise.all(bankUpdateData),
     bankUpdateCount: bankUpdateLoansCount,
@@ -487,7 +489,7 @@ const allPendingLoansRemnderEmail = async ({
     });
   }
 
-  const loans = allLoans.map(async loan => {
+  const loans = allLoans.map(async (loan: any) => {
     const collections = await collectionModel.getCollections({
       leadId: loan.lead_id,
       clientId,
@@ -608,7 +610,7 @@ const getLoanHistory = async ({
 
   if (loanHistory.length === 0) return null;
 
-  const loans = loanHistory.map(async loan => {
+  const loans = loanHistory.map(async (loan: any) => {
     const approvalData = await approvalModel.getApproval({
       leadId: loan.lead_id,
       clientId,

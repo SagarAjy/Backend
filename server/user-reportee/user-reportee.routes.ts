@@ -1,6 +1,6 @@
 import express, { Router } from 'express';
 import { userReporteeModel } from './user-reportee.model';
-import { logger } from '../../logger';
+//import { logger } from '../../logger';
 import { fetchUser } from '../middleware/auth.middleware';
 
 export const userReporteeRouter: Router = express.Router();
@@ -15,15 +15,15 @@ userReporteeRouter.post<
   Record<never, never>,
   { message: string },
   userReporteeRequestType
->('/assign', fetchUser, async (req, res) => {
+>('/assign', fetchUser,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const { reporteeId, userId } = req.body;
     await userReporteeModel.createReportee({ reporteeId, userId, clientId });
     res.status(200).send({ message: 'User Reportee created' });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Internal Server Error' });
   }
 });
@@ -32,9 +32,9 @@ userReporteeRouter.put<
   Record<never, never>,
   { message: string },
   userReporteeRequestType
->('/update-assign', fetchUser, async (req, res) => {
+>('/update-assign', fetchUser,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const { reporteeId, userId } = req.body;
     const userReportee = await userReporteeModel.getUserReportingByReporteeId({
@@ -49,7 +49,7 @@ userReporteeRouter.put<
     });
     res.status(200).send({ message: 'User Reportee created' });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Internal Server Error' });
   }
 });
@@ -57,9 +57,9 @@ userReporteeRouter.put<
 userReporteeRouter.delete<{ reporteeId: string }>(
   '/delete',
   fetchUser,
-  async (req, res) => {
+   async (req:any, res:any) => {
     try {
-      //@ts-ignore
+       
       const clientId = req.clientId;
       const { reporteeId } = req.params;
       const userReportee = await userReporteeModel.getUserReportingByReporteeId(
@@ -75,7 +75,7 @@ userReporteeRouter.delete<{ reporteeId: string }>(
       });
       res.status(200).send({ message: 'User Reportee Successfully deleted' });
     } catch (error) {
-      logger.error(error);
+  //    logger.error(error);
       res.status(500).send({ message: 'Internal Server Error' });
     }
   },

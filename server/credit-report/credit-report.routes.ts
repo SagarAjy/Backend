@@ -1,9 +1,8 @@
 import express, { Router } from 'express';
 import { creditReportModel } from './credit-report.model';
-import { logger } from '../../logger';
+//import { logger } from '../../logger';
 import { fetchUser } from '../middleware/auth.middleware';
 import { creditReportService } from './credit-report.service';
-import { liabilities } from '@prisma/client';
 import { leadsModel } from '../leads/leads.model';
 
 export const creditReportRouter: Router = express.Router();
@@ -46,9 +45,9 @@ creditReportRouter.post<
   { leadId: string },
   { message: string },
   addCreditReportType
->('/add/:leadId', fetchUser, async (req, res) => {
+>('/add/:leadId', fetchUser,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const { leadId } = req.params;
     const leadDetails = await leadsModel.getLeadById({ leadId, clientId });
@@ -63,17 +62,17 @@ creditReportRouter.post<
         .status(409)
         .send({ message: 'Credit report already exist for this user' });
     }
-    const liabilities = req.body.liabilities;
+    const liabilities:any = req.body.liabilities;
     let credit = 0;
     let debit = 0;
-    liabilities.map(liability => {
+    liabilities.map((liability:any) => {
       credit = credit + liability.credit;
       debit = debit + liability.debit;
     });
     const obligation = debit - credit;
-    const incomes = req.body.grossIncome;
+    const incomes:any = req.body.grossIncome;
     let grossIncome = 0;
-    incomes.map(income => {
+    incomes.map((income:any) => {
       grossIncome += income;
     });
     grossIncome = grossIncome / incomes.length;
@@ -103,7 +102,7 @@ creditReportRouter.post<
 
     return res.status(200).send({ message: 'Credit report created' });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -112,10 +111,10 @@ creditReportRouter.post<
 creditReportRouter.get<
   { leadId: string },
   getCreditReportData | { message: string } | null
->('/get/:leadId', fetchUser, async (req, res) => {
+>('/get/:leadId', fetchUser,  async (req:any, res:any) => {
   try {
     const { leadId } = req.params;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const creditReport = await creditReportService.getCreditReport({
       leadId,
@@ -123,7 +122,7 @@ creditReportRouter.get<
     });
     res.status(200).send(creditReport);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -133,22 +132,22 @@ creditReportRouter.put<
   { creditReportId: string },
   { message: string },
   updateCreditReportType
->('/update/:creditReportId', fetchUser, async (req, res) => {
+>('/update/:creditReportId', fetchUser,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const { creditReportId } = req.params;
     const liabilities = req.body.liabilities;
     let credit = 0;
     let debit = 0;
-    liabilities.map(liability => {
+    liabilities.map((liability:any) => {
       credit = credit + liability.credit;
       debit = debit + liability.debit;
     });
     const obligation = debit - credit;
     const incomes = req.body.grossIncome;
     let grossIncome = 0;
-    incomes.map(income => {
+    incomes.map((income:any) => {
       grossIncome += income;
     });
     grossIncome = grossIncome / incomes.length;
@@ -176,7 +175,7 @@ creditReportRouter.put<
     }
     return res.status(200).send({ message: 'Updated successfully' });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send();
   }
 });

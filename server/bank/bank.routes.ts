@@ -1,5 +1,5 @@
 import express, { Router, response } from 'express';
-import { logger } from '../../logger';
+//import { logger } from '../../logger';
 import { bankModel } from './bank.model';
 
 export const bankRouter: Router = express.Router();
@@ -17,7 +17,7 @@ type bankGetType = {
 
 bankRouter.get<{ ifsc: string }, bankGetType | { message: string } | null>(
   '/get/:ifsc',
-  async (req, res) => {
+   async (req:any, res:any) => {
     try {
       let { ifsc } = req.params;
       ifsc = decodeURIComponent(ifsc);
@@ -25,7 +25,7 @@ bankRouter.get<{ ifsc: string }, bankGetType | { message: string } | null>(
 
       res.status(200).send(response);
     } catch (error) {
-      logger.error(error);
+  //    logger.error(error);
       res.status(500).send({ message: 'Some error occured!' });
     }
   },

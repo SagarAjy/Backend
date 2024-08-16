@@ -2,11 +2,12 @@ import jwt from 'jsonwebtoken';
 
 const secretKey = process.env.SECRET_KEY || '';
 
-//@ts-ignore
-const fetchUser = (req, res, next) => {
+ 
+const fetchUser = (req:any, res:any, next:any) => {
   try {
     const authHeader = req.header('auth-token');
-    const clientId = req.header('client-id');
+    const clientId = req.header('client-Id');
+    console.log("clientId from backend auth=",clientId)
     if (!authHeader) {
       return res.status(401).send({ message: 'Invalid Token' });
     }

@@ -14,7 +14,7 @@ const getCallHistory = async ({
     },
   );
 
-  const timeline = callHistoryByLeadId.map(async timeline => {
+  const timeline = callHistoryByLeadId.map(async (timeline:any) => {
     const calledByUser = await userModel.getUser({
       userId: timeline.contacted_by,
       clientId,

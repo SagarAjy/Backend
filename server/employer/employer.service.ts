@@ -16,7 +16,7 @@ const getEmployer = async ({
     customerId: leadDetails?.customer_id || '',
   });
 
-  const employers = employerData.map(async employer => {
+  const employers = employerData.map(async (employer:any) => {
     let createdBy = null;
     if (employer.verified_by !== null) {
       createdBy = await userModel.getUser({
@@ -54,7 +54,7 @@ const getEmployerByCustomerId = async ({
     customerId,
   });
 
-  const employers = employerData.map(async employer => {
+  const employers = employerData.map(async (employer:any) => {
     let createdBy = null;
     if (employer.verified_by !== null) {
       createdBy = await userModel.getUser({

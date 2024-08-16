@@ -1,6 +1,6 @@
 import express, { Router } from 'express';
 import { fetchUser } from '../middleware/auth.middleware';
-import { logger } from '../../logger';
+//import { logger } from '../../logger';
 import { leadsModel } from '../leads/leads.model';
 import { relation_types } from '@prisma/client';
 import { referenceModel } from './reference.model';
@@ -29,12 +29,12 @@ referenceRouter.post<
   { leadId: string },
   Record<never, never>,
   addReferenceType
->('/add/:leadId', fetchUser, async (req, res) => {
+>('/add/:leadId', fetchUser, async (req: any, res: any) => {
   try {
     const { leadId } = req.params;
-    //@ts-ignore
+
     const userId = req.user.user;
-    //@ts-ignore
+
     const clientId = req.clientId;
     const leadDetails = await leadsModel.getLeadById({ leadId, clientId });
     await referenceModel.addReference({
@@ -45,7 +45,7 @@ referenceRouter.post<
     });
     return res.status(200).send({ message: 'Reference Added' });
   } catch (error) {
-    logger.error(error);
+    //    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -54,10 +54,10 @@ referenceRouter.post<
 referenceRouter.get<
   { leadId: string },
   getReferenceType[] | { message: string }
->('/get/:leadId', fetchUser, async (req, res) => {
+>('/get/:leadId', fetchUser, async (req: any, res: any) => {
   try {
     const { leadId } = req.params;
-    //@ts-ignore
+
     const clientId = req.clientId;
     const refernceDetails = await referenceService.getReferenceByLeadId({
       leadId,
@@ -65,7 +65,7 @@ referenceRouter.get<
     });
     res.status(200).send(refernceDetails);
   } catch (error) {
-    logger.error(error);
+    //    logger.error(error);
     return res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -75,11 +75,10 @@ referenceRouter.put<
   { referenceId: string },
   getReferenceType[] | { message: string },
   addReferenceType
->('/update/:referenceId', fetchUser, async (req, res) => {
+>('/update/:referenceId', fetchUser, async (req: any, res: any) => {
   try {
     const { referenceId } = req.params;
 
-    //@ts-ignore
     const userId = req.user.user;
     await referenceModel.updateReference({
       referenceId,
@@ -88,19 +87,25 @@ referenceRouter.put<
     });
     res.status(200).send({ message: 'Reference details updated!' });
   } catch (error) {
-    logger.error(error);
+    //    logger.error(error);
     return res.status(500).send({ message: 'Some error occured!' });
   }
 });
 
 //delete reference by referenceId
-referenceRouter.delete('/delete/:referenceId', fetchUser, async (req, res) => {
-  try {
-    const { referenceId } = req.params;
-    await referenceModel.deleteReference({ referenceId });
-    return res.status(201).send({ message: 'Reference successfully deleted!' });
-  } catch (error) {
-    logger.error(error);
-    return res.status(500).send({ message: 'Some error occured!' });
-  }
-});
+referenceRouter.delete(
+  '/delete/:referenceId',
+  fetchUser,
+  async (req: any, res: any) => {
+    try {
+      const { referenceId } = req.params;
+      await referenceModel.deleteReference({ referenceId });
+      return res
+        .status(201)
+        .send({ message: 'Reference successfully deleted!' });
+    } catch (error) {
+      //    logger.error(error);
+      return res.status(500).send({ message: 'Some error occured!' });
+    }
+  },
+);
