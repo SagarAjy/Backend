@@ -14,8 +14,8 @@
     "inlineSources": true                // Embed source maps inline
   },
   "include": [
-    "server/**/*.ts",
-    "server/**/*.tsx",
+    "*.ts",
+    "*.tsx",
     "babel.config.js"                    // Include additional configuration files
   ],
   "exclude": [

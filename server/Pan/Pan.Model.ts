@@ -28,12 +28,12 @@ const panModel = {
 };
 export default panModel;
 
-async function getPanDetails(clientId: string) {
+async function getPanDetails(phoneNo: string) {
   try {
     //Fetching the Pan Number with help of client
-
     const { customer_id = '', pancard = '' }: any =
-      await getCustomerId(clientId);
+      await getCustomerId(phoneNo);
+    //Now we are calling the PAN API
     const response: any = await axios.post(
       PAN_VERIFICATION_API_ENDPOINT,
       {
@@ -55,7 +55,7 @@ async function getPanDetails(clientId: string) {
 
     if (response.data.status_code === 200) {
       //Fetching the customer id with help of client id
-      const custId = await getCustomerId(clientId);
+      const custId = await getCustomerId(phoneNo);
       let dbRes = async ({
         customer_id,
         data,
@@ -84,10 +84,10 @@ async function getPanDetails(clientId: string) {
   }
 }
 
-const getCustomerId = async (d: string) => {
+const getCustomerId = async (mobile: string) => {
   const customer = await prisma.customers.findFirst({
     where: {
-      client_id: d,
+      mobile: mobile,
     },
   });
 
