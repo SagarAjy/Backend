@@ -14,7 +14,7 @@ const getTicketForCustomer = async ({
     clientId,
   });
 
-  const customerTicketData = customerTickets.map(ticket => {
+  const customerTicketData = customerTickets.map((ticket:any) => {
     return {
       id: ticket.ticket_id,
       ticketNumber: ticket.ticket_number,
@@ -55,7 +55,7 @@ const getAllTickets = async ({
     clientId,
   });
 
-  const customerTicketData = customerTickets.map(async ticket => {
+  const customerTicketData = customerTickets.map(async (ticket:any) => {
     const customerDetails = await customerModel.getCustomerById({
       customer_id: ticket.created_by,
       clientId,
@@ -144,7 +144,7 @@ const getTicketChat = async ({
 }) => {
   const ticketChats = await ticketModel.getTicketChat({ ticketId, clientId });
 
-  const ticketChatsData = ticketChats.map(async chat => {
+  const ticketChatsData = ticketChats.map(async (chat:any) => {
     const chatUser = chat.comment_by_user_type;
 
     let commentByUser = null;

@@ -2,7 +2,7 @@ import express, { Router } from 'express';
 import { fetchUser } from '../middleware/auth.middleware';
 import { ticketService } from './ticket.service';
 import { ticket_type } from '@prisma/client';
-import { logger } from '../../logger';
+//import { logger } from '../../logger';
 import { ticketModel } from './ticket.model';
 import { emptyUUID } from '../../constants';
 import { parse } from 'date-fns';
@@ -40,9 +40,8 @@ customerSupportRouter.get<
     startDate?: string;
     endDate?: string;
   }
->('/get-all-tickets', fetchUser, async (req, res) => {
+>('/get-all-tickets', fetchUser, async (req: any, res: any) => {
   try {
-    //@ts-ignore
     const clientId = req.clientId;
 
     const limit = Number(req.query.limit) || 10;
@@ -70,7 +69,7 @@ customerSupportRouter.get<
 
     res.status(200).send(tickets);
   } catch (error) {
-    logger.error(error);
+    //    logger.error(error);
     res.status(500).send({ message: 'Something went wrong!' });
   }
 });
@@ -78,9 +77,8 @@ customerSupportRouter.get<
 customerSupportRouter.get<
   { ticketId: string },
   { message: string } | TicketType
->('/get-ticket/:ticketId', fetchUser, async (req, res) => {
+>('/get-ticket/:ticketId', fetchUser, async (req: any, res: any) => {
   try {
-    //@ts-ignore
     const clientId = req.clientId;
 
     const ticketId = req.params.ticketId;
@@ -92,7 +90,7 @@ customerSupportRouter.get<
 
     res.status(200).send(ticketInfo);
   } catch (error) {
-    logger.error(error);
+    //    logger.error(error);
     res.status(500).send({ message: 'Something went wrong!' });
   }
 });
@@ -100,9 +98,8 @@ customerSupportRouter.get<
 customerSupportRouter.get<
   { ticketId: string },
   { message: string } | TicketChatType[]
->('/get-ticket-chat/:ticketId', fetchUser, async (req, res) => {
+>('/get-ticket-chat/:ticketId', fetchUser, async (req: any, res: any) => {
   try {
-    //@ts-ignore
     const clientId = req.clientId;
 
     const ticketId = req.params.ticketId;
@@ -114,7 +111,7 @@ customerSupportRouter.get<
 
     res.status(200).send(ticketChat);
   } catch (error) {
-    logger.error(error);
+    //    logger.error(error);
     res.status(500).send({ message: 'Something went wrong!' });
   }
 });
@@ -122,11 +119,10 @@ customerSupportRouter.get<
 customerSupportRouter.post<{ ticketId: string }, { message: string }>(
   '/create-chat/:ticketId',
   fetchUser,
-  async (req, res) => {
+  async (req: any, res: any) => {
     try {
-      //@ts-ignore
       const clientId = req.clientId;
-      //@ts-ignore
+
       const userId = req.user.user;
 
       const ticketId = req.params.ticketId;
@@ -141,7 +137,7 @@ customerSupportRouter.post<{ ticketId: string }, { message: string }>(
 
       res.status(200).send({ message: 'Chat created!' });
     } catch (error) {
-      logger.error(error);
+      //    logger.error(error);
       res.status(500).send({ message: 'Something went wrong!' });
     }
   },
@@ -150,9 +146,8 @@ customerSupportRouter.post<{ ticketId: string }, { message: string }>(
 customerSupportRouter.put<{ ticketId: string }, { message: string }>(
   '/update-ticket/:ticketId',
   fetchUser,
-  async (req, res) => {
+  async (req: any, res: any) => {
     try {
-      //@ts-ignore
       const clientId = req.clientId;
 
       const ticketId = req.params.ticketId;
@@ -175,7 +170,7 @@ customerSupportRouter.put<{ ticketId: string }, { message: string }>(
 
       res.status(200).send({ message: 'Ticket updated!' });
     } catch (error) {
-      logger.error(error);
+      //    logger.error(error);
       res.status(500).send({ message: 'Something went wrong!' });
     }
   },

@@ -1,4 +1,4 @@
-import { roles } from '@prisma/client';
+import { roles } from 'prisma/prisma-client';
 import { prisma } from '../../prisma-client';
 
 const getUsersByRole = async ({

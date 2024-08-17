@@ -2,7 +2,7 @@ import express, { Router } from 'express';
 import { generateOTP } from '../../../utils';
 import { customerOtpModel } from '../customer-otp/public.customer-otp.model';
 import jwt from 'jsonwebtoken';
-import { logger } from '../../../logger';
+//import { logger } from '../../../logger';
 import { customerModel } from '../../customer/customer.model';
 import { fetchCustomer } from '../../middleware/customer.auth.middleware';
 import axios from 'axios';
@@ -22,11 +22,11 @@ customerAuthRouter.post<
   Record<never, never>,
   { message: string },
   { phoneNo: string; clientId: string }
->('/get_otp', async (req, res) => {
+>('/get_otp',  async (req:any, res:any) => {
   try {
    
    
-    const { phoneNo, clientId } = req.body;
+    const { phoneNo, clientId }:any = req.body;
     let phoneOtp = 0;
     // * generate otp
     if (process.env.ENVIRONMENT === 'production') {
@@ -68,7 +68,7 @@ customerAuthRouter.post<
 
     res.status(200).send({ message: 'OTP Sent' });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(400).send({ message: 'Invalid Phone Number' });
   }
 });
@@ -77,7 +77,7 @@ customerAuthRouter.post<
   Record<never, never>,
   { customer: CustomerType; customerExists: boolean } | { message: string },
   { phoneNo: string; otp: string; clientId: string }
->('/validate', async (req, res) => {
+>('/validate',  async (req:any, res:any) => {
   try {
     console.log(req.body)
     const { phoneNo, otp, clientId } = req.body;
@@ -131,7 +131,7 @@ customerAuthRouter.post<
       customerExists,
     });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(400).send({ message: 'Invalid Phone Number' });
   }
 });
@@ -139,11 +139,12 @@ customerAuthRouter.post<
 customerAuthRouter.get<
   Record<never, never>,
   { id: string; token: string; name: string } | { message: string }
->('/revalidate', fetchCustomer, async (req, res) => {
+  >('/revalidate', fetchCustomer,  async (req:any, res:any) => {
+    //('/revalidate', fetchCustomer,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const phoneNo = req.phoneNo.phoneNo;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const data = { phoneNo };
     // * signing jwt token

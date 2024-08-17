@@ -1,7 +1,7 @@
 import multer from 'multer';
 import multerS3 from 'multer-s3';
 import { S3Client } from '@aws-sdk/client-s3';
-import { logger } from '../../logger';
+//import { logger } from '../../logger';
 import { v4 as uuid } from 'uuid';
 
 const s3Client = new S3Client({
@@ -16,8 +16,8 @@ const s3Client = new S3Client({
   forcePathStyle: false,
 });
 
-//@ts-ignore
-const fileUpload = (req, res, next) => {
+ 
+const fileUpload = (req:any, res:any, next:any) => {
   try {
     const uploadFile = multer({
       storage: multerS3({
@@ -45,18 +45,18 @@ const fileUpload = (req, res, next) => {
 
     uploadFile(req, res, err => {
       if (err) {
-        logger.error(err);
+//logger.error(err);
         return res.status(500).send({ message: 'File upload failed' });
       }
       next(); //  move to next function when the file upload is complete
     });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
   }
 };
 
-//@ts-ignore
-const collectionFileUpload = (req, res, next) => {
+ 
+const collectionFileUpload = (req:any, res:any, next:any) => {
   try {
     const uploadFile = multer({
       storage: multerS3({
@@ -84,13 +84,13 @@ const collectionFileUpload = (req, res, next) => {
 
     uploadFile(req, res, err => {
       if (err) {
-        logger.error(err);
+//logger.error(err);
         return res.status(500).send({ message: 'File upload failed' });
       }
       next(); //  move to next function when the file upload is complete
     });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
   }
 };
 

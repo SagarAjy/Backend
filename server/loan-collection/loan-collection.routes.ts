@@ -1,7 +1,7 @@
 import express, { Router } from 'express';
 import { fetchUser } from '../middleware/auth.middleware';
 import { userModel } from '../user/user.model';
-import { logger } from '../../logger';
+//import { logger } from '../../logger';
 import { loanCollectionModel } from './loan-collection.model';
 import { leadsModel } from '../leads/leads.model';
 import { loanCollectionService } from './loan-collection.service';
@@ -22,11 +22,11 @@ loanCollectionRouter.post<
   Record<never, never>,
   { message: string },
   loanCollectionExecutiveDataType
->('/assign-executive', fetchUser, async (req, res) => {
+>('/assign-executive', fetchUser,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const userId = req.user.user;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const userDetails = await userModel.getUser({ userId, clientId });
     if (userDetails?.role !== 'Admin') {
@@ -40,7 +40,7 @@ loanCollectionRouter.post<
       message: 'Collection executives assigned to collection manager',
     });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(403).send({ message: 'Not authorized' });
   }
 });
@@ -49,11 +49,11 @@ loanCollectionRouter.post<
   Record<never, never>,
   { message: string },
   loanCollectionExecutiveLeadDataType
->('/assign-leads', fetchUser, async (req, res) => {
+>('/assign-leads', fetchUser,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const userId = req.user.user;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const userDetails = await userModel.getUser({ userId, clientId });
     if (
@@ -68,7 +68,7 @@ loanCollectionRouter.post<
       message: 'Leads assigned',
     });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     res.status(403).send({ message: 'Not authorized' });
   }
 });
@@ -77,10 +77,10 @@ loanCollectionRouter.post<
 loanCollectionRouter.get<
   { userId: string },
   { message: string } | ({ id: string } | undefined)[]
->('/get/:userId', fetchUser, async (req, res) => {
+>('/get/:userId', fetchUser,  async (req:any, res:any) => {
   try {
     let { userId } = req.params; //*NOTE:userId is collection manager or credit manager id
-    //@ts-ignore
+     
     const clientId = req.clientId;
 
     const userDetails = await userModel.getUser({ userId, clientId });
@@ -96,7 +96,7 @@ loanCollectionRouter.get<
       );
 
       return res.status(200).send(
-        response.filter(res => {
+        response.filter((res:any) => {
           return res !== undefined;
         }),
       );
@@ -104,7 +104,7 @@ loanCollectionRouter.get<
       return res.status(403).send({ message: 'Not authorized' });
     }
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -113,11 +113,11 @@ loanCollectionRouter.get<
 loanCollectionRouter.get<
   { userId: string },
   { message: string } | ({ id: string } | undefined)[]
->('/get', fetchUser, async (req, res) => {
+>('/get', fetchUser,  async (req:any, res:any) => {
   try {
-    //@ts-ignore
+     
     const userId = req.user.user;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const userDetails = await userModel.getUser({ userId, clientId });
     if (
@@ -134,7 +134,7 @@ loanCollectionRouter.get<
       return res.status(403).send({ message: 'Not authorized' });
     }
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });

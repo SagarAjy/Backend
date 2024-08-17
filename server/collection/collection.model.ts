@@ -259,7 +259,7 @@ const getFilteredCollections = async ({
         },
         {
           collection_user_id: {
-            in: teleCallers?.map(teleCaller => teleCaller.user_id) || [],
+            in: teleCallers?.map((teleCaller: any) => teleCaller.user_id) || [],
           },
         },
       ],
@@ -358,7 +358,7 @@ const getFilteredCollectionsCount = async ({
         },
         {
           collection_user_id: {
-            in: teleCallers?.map(teleCaller => teleCaller.user_id) || [],
+            in: teleCallers?.map((teleCaller: any) => teleCaller.user_id) || [],
           },
         },
       ],

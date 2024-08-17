@@ -3,7 +3,7 @@ import { clientModel } from './clients.model';
 const getClientsByUserId = async ({ clientIds }: { clientIds: string[] }) => {
 
   const clientsData = await clientModel.getClientsByUserId({ clientIds });
-  const clients = clientsData.map(client => {
+  const clients = clientsData.map((client:any) => {
     return {
       clientId: client.client_id,
       logo: client.client_logo,

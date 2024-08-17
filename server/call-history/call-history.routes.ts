@@ -3,7 +3,7 @@ import express, { Router } from 'express';
 import { leadsModel } from '../leads/leads.model';
 import { fetchUser } from '../middleware/auth.middleware';
 import { callHistoryModel } from './call-history.model';
-import { logger } from '../../logger';
+//import { logger } from '../../logger';
 import { callHistoryService } from './call-history.service';
 
 export const callHistoryRouter: Router = express.Router();
@@ -23,13 +23,13 @@ callHistoryRouter.post<
   { leadId: string },
   Record<never, never>,
   callHistoryDataType
->('/create/:leadId', fetchUser, async (req, res) => {
+>('/create/:leadId', fetchUser, async (req: any, res: any) => {
   try {
     const { leadId } = req.params;
     const { callType, status, remark } = req.body;
-    //@ts-ignore
+
     const userId = req.user.user;
-    //@ts-ignore
+
     const clientId = req.clientId;
 
     const lead = await leadsModel.getLeadById({
@@ -50,7 +50,7 @@ callHistoryRouter.post<
     });
     res.status(200).send({ message: 'Call history created' });
   } catch (error) {
-    logger.error(error);
+    //    logger.error(error);
     res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -59,10 +59,9 @@ callHistoryRouter.post<
 callHistoryRouter.get<
   { leadId: string },
   callHistoryDataType[] | { message: string }
->('/get/:leadId', fetchUser, async (req, res) => {
+>('/get/:leadId', fetchUser, async (req: any, res: any) => {
   try {
     const { leadId } = req.params;
-    //@ts-ignore
     const clientId = req.clientId;
     const callHistoryForLead = await callHistoryService.getCallHistory({
       leadId,
@@ -70,7 +69,7 @@ callHistoryRouter.get<
     });
     res.status(200).send(callHistoryForLead);
   } catch (error) {
-    logger.error(error);
+    //    logger.error(error);
     res.status(500).send({ message: 'Some error occured!' });
   }
 });

@@ -1,7 +1,7 @@
 import express, { Router } from 'express';
 import { customerService } from './customer.service';
 import { genders, lead_status, marital_status } from '@prisma/client';
-import { logger } from '../../logger';
+//import { logger } from '../../logger';
 import { customerModel } from './customer.model';
 import { fetchUser } from '../middleware/auth.middleware';
 import { auditLogModel } from '../audit-logs/audit-logs.model';
@@ -43,9 +43,8 @@ export const customerRouter: Router = express.Router();
 customerRouter.get<{ leadId: string }, customerDataType>(
   '/lead/:leadId',
   fetchUser,
-  async (req, res) => {
+  async (req: any, res: any) => {
     try {
-      //@ts-ignore
       const clientId = req.clientId;
       const { leadId } = req.params;
       const customerInfo = await customerService.getCustomerByLeadId({
@@ -54,7 +53,7 @@ customerRouter.get<{ leadId: string }, customerDataType>(
       });
       res.status(200).send(customerInfo);
     } catch (error) {
-      logger.error(error);
+      //    logger.error(error);
       res.status(500).send({ message: 'Some error occured!' });
     }
   },
@@ -64,11 +63,10 @@ customerRouter.get<{ leadId: string }, customerDataType>(
 customerRouter.put<{ leadId: string }, Record<never, never>, customerBodyType>(
   '/update',
   fetchUser,
-  async (req, res) => {
+  async (req: any, res: any) => {
     try {
-      //@ts-ignore
       const clientId = req.clientId;
-      //@ts-ignore
+
       const userId = req.user.user;
 
       const customer = await customerModel.getCustomerByPhoneNo({
@@ -94,7 +92,7 @@ customerRouter.put<{ leadId: string }, Record<never, never>, customerBodyType>(
       });
       res.status(200).send({ message: 'Customer updated successfully!' });
     } catch (error) {
-      logger.error(error);
+      //    logger.error(error);
       res.status(500).send({ message: 'Some error occured!' });
     }
   },
@@ -104,11 +102,10 @@ customerRouter.put<
   Record<never, never>,
   Record<never, never>,
   { customerId: string; oldPhoneNo: string; newPhoneNo: string }
->('/update-phone', fetchUser, async (req, res) => {
+>('/update-phone', fetchUser, async (req: any, res: any) => {
   try {
-    //@ts-ignore
     const clientId = req.clientId;
-    //@ts-ignore
+
     const userId = req.user.user;
 
     const { customerId, oldPhoneNo, newPhoneNo } = req.body;
@@ -127,7 +124,7 @@ customerRouter.put<
 
     res.status(200).send({ message: 'Customer updated successfully!' });
   } catch (error) {
-    logger.error(error);
+    //    logger.error(error);
     res.status(500).send({ message: 'Some error occurred!' });
   }
 });

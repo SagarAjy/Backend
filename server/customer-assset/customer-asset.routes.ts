@@ -1,5 +1,5 @@
 import express, { Router } from 'express';
-import { logger } from '../../logger';
+//import { logger } from '../../logger';
 import { fetchUser } from '../middleware/auth.middleware';
 import { leadsModel } from '../leads/leads.model';
 import { customerAssetModel } from './customer-asset.model';
@@ -27,10 +27,10 @@ customerAssetRouter.post<
   { leadId: string },
   { message: string },
   addCustomerAssetType
->('/add/:leadId', fetchUser, async (req, res) => {
+>('/add/:leadId', fetchUser,  async (req:any, res:any) => {
   try {
     const { leadId } = req.params;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const leadDetails = await leadsModel.getLeadById({ leadId, clientId });
 
@@ -41,7 +41,7 @@ customerAssetRouter.post<
     });
     return res.status(200).send({ message: 'Asset added !' });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -50,15 +50,15 @@ customerAssetRouter.post<
 customerAssetRouter.get<
   { leadId: string },
   getCustomerAssetType[] | { message: string } | null
->('/get/:leadId', fetchUser, async (req, res) => {
+>('/get/:leadId', fetchUser,  async (req:any, res:any) => {
   try {
     const { leadId } = req.params;
-    //@ts-ignore
+     
     const clientId = req.clientId;
     const assets = await customerAssetService.getAsset({ leadId, clientId });
     return res.status(200).send(assets);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -68,14 +68,14 @@ customerAssetRouter.put<
   Record<never, never>,
   { message: string },
   updateCustomerAssetType
->('/update', fetchUser, async (req, res) => {
+>('/update', fetchUser,  async (req:any, res:any) => {
   try {
     await customerAssetModel.updateAsset({
       ...req.body,
     });
     return res.status(200).send({ message: 'Asset updated !' });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -84,12 +84,12 @@ customerAssetRouter.put<
 customerAssetRouter.delete<{ assetId: string }, { message: string }>(
   '/delete/:assetId',
   fetchUser,
-  async (req, res) => {
+   async (req:any, res:any) => {
     try {
       await customerAssetModel.deleteAsset({ assetId: req.params.assetId });
       return res.status(200).send({ message: 'Asset deleted!' });
     } catch (error) {
-      logger.error(error);
+  //    logger.error(error);
       return res.status(500).send({ message: 'Some error occured' });
     }
   },

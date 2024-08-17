@@ -13,7 +13,7 @@ const getCallHistory = async ({
     clientId,
   });
 
-  const callHistory = callHistoryByLeadId.map(async callHistory => {
+  const callHistory = callHistoryByLeadId.map(async (callHistory:any) => {
     const calledByUser = await userModel.getUser({
       userId: callHistory.called_by,
       clientId,

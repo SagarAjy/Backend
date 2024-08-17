@@ -38,7 +38,7 @@ const getCustomerByPhoneNo = async ({
   if (customerPicture.length === 0) {
     customerPictureUrl = '';
   } else {
-    const signedUrl = "HELLOURL";
+    const signedUrl = 'HELLOURL';
     // const signedUrl = await getSignedURLForS3(
     //   customerPicture[0]?.document_url || '',
     // );
@@ -273,9 +273,12 @@ const getCustomerApplicationHistoryByPhoneNo = async ({
         clientId,
       });
       loanNo = loan?.loan_no || '';
-      collectionAmount = collection.reduce((accumulator, collection) => {
-        return accumulator + collection.collected_amount;
-      }, 0);
+      collectionAmount = collection.reduce(
+        (accumulator: any, collection: any) => {
+          return accumulator + collection.collected_amount;
+        },
+        0,
+      );
     }
 
     let stepsCompleted = 0;

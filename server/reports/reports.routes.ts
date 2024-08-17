@@ -1,7 +1,7 @@
 import { genders, house_types, lead_status } from '@prisma/client';
 import express, { Router } from 'express';
 import { reportsService } from './reports.service';
-import { logger } from '../../logger';
+//import { logger } from '../../logger';
 import { fetchUser } from '../middleware/auth.middleware';
 import { userModel } from '../user/user.model';
 import { adminReportsService } from './reports.admin.service';
@@ -132,16 +132,16 @@ reportsRouter.get<
     startDate?: string;
     endDate?: string;
   }
->('/disbursal', fetchUser, async (req, res) => {
+>('/disbursal', fetchUser, async (req: any, res: any) => {
   try {
     const limit = Number(req.query.limit);
     const offset = Number(req.query.offset);
     const searchparam = decodeURIComponent(req.query.search || '');
     const startDate = decodeURIComponent(req.query.startDate || '');
     const endDate = decodeURIComponent(req.query.endDate || '');
-    //@ts-ignore
+
     const userId = req.user.user;
-    //@ts-ignore
+
     const clientId = req.clientId;
     let response;
     if (startDate.length !== 0 && endDate.length !== 0) {
@@ -165,7 +165,7 @@ reportsRouter.get<
     }
     return res.status(200).send(response);
   } catch (error) {
-    logger.error(error);
+    //    logger.error(error);
     res.status(500).send({ message: 'Something went wrong!' });
   }
 });
@@ -184,16 +184,15 @@ reportsRouter.get<
     startDate?: string;
     endDate?: string;
   }
->('/collections', fetchUser, async (req, res) => {
+>('/collections', fetchUser, async (req: any, res: any) => {
   try {
-    //@ts-ignore
     const clientId = req.clientId;
     const limit = Number(req.query.limit);
     const offset = Number(req.query.offset);
     const searchparam = decodeURIComponent(req.query.search || '');
     const startDate = decodeURIComponent(req.query.startDate || '');
     const endDate = decodeURIComponent(req.query.endDate || '');
-    //@ts-ignore
+
     const userId = req.user.user;
 
     let response;
@@ -218,7 +217,7 @@ reportsRouter.get<
     }
     return res.status(200).send(response);
   } catch (error) {
-    logger.error(error);
+    //    logger.error(error);
     res.status(500).send({ message: 'Something went wrong!' });
   }
 });
@@ -229,16 +228,14 @@ reportsRouter.get<
   statsType | statsType[] | { message: string } | null,
   Record<never, never>,
   { year: string; month?: string; day?: string }
->('/stats', fetchUser, async (req, res) => {
+>('/stats', fetchUser, async (req: any, res: any) => {
   try {
-   
-    //@ts-ignore
     const userId = req.user.user;
     // const clientIdfromhrader = req.header('client-id');
-    //@ts-ignore
+
     const clientId = req.clientId;
     const userDetails = await userModel.getUser({ userId, clientId });
-    console.log("userDetails=",userDetails);
+    console.log('userDetails=', userDetails);
 
     const today = new Date();
     const thisYear = today.getFullYear();
@@ -291,7 +288,7 @@ reportsRouter.get<
     }
     return res.status(200).send(response);
   } catch (error) {
-    logger.error(error);
+    //    logger.error(error);
     res.status(500).send({ message: 'Something went wrong!' });
   }
 });
@@ -301,11 +298,10 @@ reportsRouter.get<
   performanceHistoryType[] | { message: string } | null,
   Record<never, never>,
   { year: string; month?: string }
->('/telecaller-performance', fetchUser, async (req, res) => {
+>('/telecaller-performance', fetchUser, async (req: any, res: any) => {
   try {
-    //@ts-ignore
     const userId = req.user.user;
-    //@ts-ignore
+
     const clientId = req.clientId;
     const today = new Date();
     const thisYear = today.getFullYear();
@@ -328,7 +324,7 @@ reportsRouter.get<
       return res.status(200).send(response);
     }
   } catch (error) {
-    logger.error(error);
+    //    logger.error(error);
     res.status(500).send({ message: 'Something went wrong!' });
   }
 });
@@ -338,38 +334,43 @@ reportsRouter.get<
   creditManagerreporteeType[] | { message: string } | null,
   Record<never, never>,
   { year: string; month?: string }
->('/credit-manager-disbursal-performance', fetchUser, async (req, res) => {
-  try {
-    //@ts-ignore
-    const userId = req.user.user;
-    //@ts-ignore
-    const clientId = req.clientId;
-    const today = new Date();
-    const thisYear = today.getFullYear();
-    const year = Number(req.query.year) || thisYear;
-    const month = Number(req.query.month) || 0;
-    let response;
-    if (month === 0) {
-      response = await reportsService.creditManagerReporteePerformanceMonthly({
-        userId,
-        year,
-        clientId,
-      });
-    } else {
-      response = await reportsService.creditManagerReporteePerformanceDaily({
-        userId,
-        year,
-        month,
-        clientId,
-      });
-    }
+>(
+  '/credit-manager-disbursal-performance',
+  fetchUser,
+  async (req: any, res: any) => {
+    try {
+      const userId = req.user.user;
 
-    return res.status(200).send(response);
-  } catch (error) {
-    logger.error(error);
-    res.status(500).send({ message: 'Something went wrong!' });
-  }
-});
+      const clientId = req.clientId;
+      const today = new Date();
+      const thisYear = today.getFullYear();
+      const year = Number(req.query.year) || thisYear;
+      const month = Number(req.query.month) || 0;
+      let response;
+      if (month === 0) {
+        response = await reportsService.creditManagerReporteePerformanceMonthly(
+          {
+            userId,
+            year,
+            clientId,
+          },
+        );
+      } else {
+        response = await reportsService.creditManagerReporteePerformanceDaily({
+          userId,
+          year,
+          month,
+          clientId,
+        });
+      }
+
+      return res.status(200).send(response);
+    } catch (error) {
+      //    logger.error(error);
+      res.status(500).send({ message: 'Something went wrong!' });
+    }
+  },
+);
 
 reportsRouter.get<
   | {
@@ -381,35 +382,37 @@ reportsRouter.get<
   | null,
   Record<never, never>,
   { month?: string; year?: string }
->('/collection-executive-data-report', fetchUser, async (req, res) => {
-  try {
-    //@ts-ignore
-    const userId = req.user.user;
-    //@ts-ignores
-    const clientId = req.clientId;
-    const userDetails = await userModel.getUser({ userId, clientId });
-    const today = new Date();
-    const thisYear = today.getFullYear();
-    const month = Number(req.query.month) || 0;
-    const year = Number(req.query.year) || thisYear;
+>(
+  '/collection-executive-data-report',
+  fetchUser,
+  async (req: any, res: any) => {
+    try {
+      const userId = req.user.user;
+      const clientId = req.clientId;
+      const userDetails = await userModel.getUser({ userId, clientId });
+      const today = new Date();
+      const thisYear = today.getFullYear();
+      const month = Number(req.query.month) || 0;
+      const year = Number(req.query.year) || thisYear;
 
-    let response;
-    if (userDetails?.role === 'Collection_Manager') {
-      response = await reportsService.getCollectionByUsers({
-        month,
-        year,
-        clientId,
-        userId,
-      });
-      return res.status(200).send(response);
-    } else {
-      return res.status(401).send({ message: 'Unauthorized' });
+      let response;
+      if (userDetails?.role === 'Collection_Manager') {
+        response = await reportsService.getCollectionByUsers({
+          month,
+          year,
+          clientId,
+          userId,
+        });
+        return res.status(200).send(response);
+      } else {
+        return res.status(401).send({ message: 'Unauthorized' });
+      }
+    } catch (error) {
+      //    logger.error(error);
+      res.status(500).send({ message: 'Something went wrong!' });
     }
-  } catch (error) {
-    logger.error(error);
-    res.status(500).send({ message: 'Something went wrong!' });
-  }
-});
+  },
+);
 
 reportsRouter.get<
   Record<never, never>,
@@ -422,7 +425,7 @@ reportsRouter.get<
     startDate: string;
     endDate: string;
   }
->('/cibil-data', fetchUser, async (req, res) => {
+>('/cibil-data', fetchUser, async (req: any, res: any) => {
   try {
     const limit = Number(req.query.limit);
     const offset = Number(req.query.offset);
@@ -430,9 +433,8 @@ reportsRouter.get<
     const startDate = decodeURIComponent(req.query.startDate || '');
     const endDate = decodeURIComponent(req.query.endDate || '');
 
-    //@ts-ignore
     const clientId = req.clientId;
-    //@ts-ignore
+
     const userId = req.user.user;
 
     let cibilData;
@@ -455,7 +457,7 @@ reportsRouter.get<
     }
     return res.status(200).send(cibilData);
   } catch (error) {
-    logger.error(error);
+    //    logger.error(error);
     res.status(500).send({ message: 'Something went wrong!' });
   }
 });
