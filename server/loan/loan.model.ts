@@ -5,7 +5,7 @@ import {
   loan_status,
   loan_type,
   userreportees,
-} from 'prisma/prisma-client';
+} from '@prisma/client';
 import { prisma } from '../../prisma-client';
 import { userReportees } from '../leads/leads.model';
 import { disbursalModel } from '../disbursal/disbursal.model';

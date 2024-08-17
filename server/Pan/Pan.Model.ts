@@ -1,4 +1,4 @@
-import { PrismaClient } from 'prisma/prisma-client';
+import { PrismaClient } from '@prisma/client';
 import { customerModel } from '../customer/customer.model';
 import axios from 'axios';
 import AxiosError from 'axios';

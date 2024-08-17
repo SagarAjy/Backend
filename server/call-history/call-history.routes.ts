@@ -1,4 +1,4 @@
-import { lead_status } from 'prisma/prisma-client';
+import { lead_status } from '@prisma/client';
 import express, { Router } from 'express';
 import { leadsModel } from '../leads/leads.model';
 import { fetchUser } from '../middleware/auth.middleware';

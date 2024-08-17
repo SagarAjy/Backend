@@ -5,7 +5,7 @@ import {
   lead_status,
   marital_status,
   waiver_approval_status_type,
-} from 'prisma/prisma-client';
+} from '@prisma/client';
 import { leadsModel } from './leads.model';
 import { customerModel } from '../customer/customer.model';
 import { userAssignedModel } from '../user-assigned/user-assigned.model';

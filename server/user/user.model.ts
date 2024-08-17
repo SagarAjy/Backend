@@ -1,4 +1,4 @@
-import { roles, user_status } from 'prisma/prisma-client';
+import { roles, user_status } from '@prisma/client';
 import { prisma } from '../../prisma-client';
 import { v4 as uuid } from 'uuid';
 import { novuNotification } from '../novu/novu.model';

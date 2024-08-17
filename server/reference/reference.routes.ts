@@ -2,7 +2,7 @@ import express, { Router } from 'express';
 import { fetchUser } from '../middleware/auth.middleware';
 //import { logger } from '../../logger';
 import { leadsModel } from '../leads/leads.model';
-import { relation_types } from 'prisma/prisma-client';
+import { relation_types } from '@prisma/client';
 import { referenceModel } from './reference.model';
 import { referenceService } from './reference.service';
 

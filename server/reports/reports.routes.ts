@@ -1,4 +1,4 @@
-import { genders, house_types, lead_status } from 'prisma/prisma-client';
+import { genders, house_types, lead_status } from '@prisma/client';
 import express, { Router } from 'express';
 import { reportsService } from './reports.service';
 //import { logger } from '../../logger';

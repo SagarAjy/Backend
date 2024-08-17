@@ -3,7 +3,7 @@ import { leadsModel } from '../leads/leads.model';
 import express from 'express';
 import { documentService } from './documents.service';
 //import { logger } from '../../logger';
-import { document_type, verification_status } from 'prisma/prisma-client';
+import { document_type, verification_status } from '@prisma/client';
 import { fileUpload, s3Client } from '../middleware/fileupload.middleware';
 import { DeleteObjectCommand } from '@aws-sdk/client-s3';
 import { documentsModel } from './documents.model';

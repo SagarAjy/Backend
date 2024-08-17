@@ -1,7 +1,7 @@
 import express, { Router } from 'express';
 import { fetchUser } from '../middleware/auth.middleware';
 import { ticketService } from './ticket.service';
-import { ticket_type } from 'prisma/prisma-client';
+import { ticket_type } from '@prisma/client';
 //import { logger } from '../../logger';
 import { ticketModel } from './ticket.model';
 import { emptyUUID } from '../../constants';

@@ -1,6 +1,6 @@
 import express, { Router } from 'express';
 import { fetchUser } from '../middleware/auth.middleware';
-import { Prisma, verification_status } from 'prisma/prisma-client';
+import { Prisma, verification_status } from '@prisma/client';
 import { leadsModel } from '../leads/leads.model';
 import { employerModel } from './employer.model';
 //import { logger } from '../../logger';

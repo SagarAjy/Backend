@@ -1,6 +1,6 @@
 import express, { Router } from 'express';
 import { customerService } from './customer.service';
-import { genders, lead_status, marital_status } from 'prisma/prisma-client';
+import { genders, lead_status, marital_status } from '@prisma/client';
 //import { logger } from '../../logger';
 import { customerModel } from './customer.model';
 import { fetchUser } from '../middleware/auth.middleware';

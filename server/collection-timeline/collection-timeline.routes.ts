@@ -1,4 +1,4 @@
-import { waiver_approval_status_type } from 'prisma/prisma-client';
+import { waiver_approval_status_type } from '@prisma/client';
 import express, { Router } from 'express';
 import { leadsModel } from '../leads/leads.model';
 import { fetchUser } from '../middleware/auth.middleware';

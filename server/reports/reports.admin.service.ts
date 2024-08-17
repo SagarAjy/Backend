@@ -14,7 +14,7 @@ import { approvalModel } from '../approval/approval.model';
 import { sanctionTargetModel } from '../sanction-target/sanction-target.model';
 import { reportsModel } from './reports.model';
 import { loanModel } from '../loan/loan.model';
-import { Prisma, roles } from 'prisma/prisma-client';
+import { Prisma, roles } from '@prisma/client';
 import { userReporteeModel } from '../user-reportee/user-reportee.model';
 import { leadsModel } from '../leads/leads.model';
 import { processInBatch } from '../../utils';

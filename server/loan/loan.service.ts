@@ -10,7 +10,7 @@ import { loanModel } from './loan.model';
 import { customerModel } from '../customer/customer.model';
 import { leadsModel } from '../leads/leads.model';
 import { collectionModel } from '../collection/collection.model';
-import { Prisma, lead_status, loan_type } from 'prisma/prisma-client';
+import { Prisma, lead_status, loan_type } from '@prisma/client';
 import { userModel } from '../user/user.model';
 import { loanAdminModel } from './loan.model.admin';
 import { userReporteeModel } from '../user-reportee/user-reportee.model';

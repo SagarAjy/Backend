@@ -259,7 +259,7 @@ const eSignDocRequestDetails = async ({
 
   if (eSignDocRequest) {
     const url = `${process.env.DIGIO_BASE_URL}/v2/client/document/${eSignDocRequest?.e_sign_doc_id}?name_validation=true`;
-    const requestDetails:any = await axios.get(url, {
+    const requestDetails: any = await axios.get(url, {
       headers: {
         Authorization:
           'Basic ' +
@@ -352,7 +352,7 @@ const getAllKYCRequestDetails = async ({
     });
   }
 
-  const kycRequestData = kycRequestDetails.map(async kyc => {
+  const kycRequestData = kycRequestDetails.map(async (kyc: any) => {
     const customerDetails = await customerModel.getCustomerById({
       customer_id: kyc.customer_identifier,
       clientId,
@@ -423,7 +423,7 @@ const getAllESignRequests = async ({
     });
   }
 
-  const eSignData = eSignDocRequestDetails.map(async eSign => {
+  const eSignData = eSignDocRequestDetails.map(async (eSign: any) => {
     const requestedBy = await userModel.getUser({
       userId: eSign.e_sign_request_by || '',
       clientId,

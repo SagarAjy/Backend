@@ -5,7 +5,7 @@ import { auditLogModel } from '../audit-logs/audit-logs.model';
 import { fetchUser } from '../middleware/auth.middleware';
 import express, { Router } from 'express';
 import { userModel } from '../user/user.model';
-import { genders, house_types, lead_status } from 'prisma/prisma-client';
+import { genders, house_types, lead_status } from '@prisma/client';
 
 export type getDisbursalsReportsType = {
   ['Lead Id']: string;

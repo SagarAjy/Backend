@@ -67,10 +67,10 @@ disbursalRouter.post<
   { leadId: string },
   { message: string },
   disbursalDataType
->('/add/:leadId', fetchUser,  async (req:any, res:any) => {
+>('/add/:leadId', fetchUser, async (req: any, res: any) => {
   try {
     const { leadId } = req.params;
-     
+
     const clientId = req.clientId;
     const checkDisbursalAlreadyExist = await disbursalModel.getDisbursal({
       leadId,
@@ -81,7 +81,6 @@ disbursalRouter.post<
         .status(301)
         .send({ message: 'Loan already disbursed for this lead!' });
     } else {
-       
       const userId = req.user.user;
       const userDetails = await userModel.getUser({ userId, clientId });
       const approvalData = await approvalModel.getApproval({
@@ -112,11 +111,11 @@ disbursalRouter.post<
           // const googleSheetKeySignedUrl = await getSignedURLForS3(
           //   clientDetails?.google_sheet_key_url || '',
           // );
-         const googleSheetKeySignedUrl="";
+          const googleSheetKeySignedUrl = '';
 
           const googleSheetId = clientDetails?.google_sheet_id || '';
 
-          const creds:any = await axios.get(googleSheetKeySignedUrl);
+          const creds: any = await axios.get(googleSheetKeySignedUrl);
 
           const jwt = new JWT({
             email: creds.data.client_email,
@@ -192,7 +191,7 @@ disbursalRouter.post<
       }
     }
   } catch (error) {
-//    logger.error(error);
+    //    logger.error(error);
     res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -202,13 +201,12 @@ disbursalRouter.put<
   { loanId: string },
   { message: string },
   { disbursalReferenceNo: string }
->('/add-utr/:loanId', fetchUser,  async (req:any, res:any) => {
+>('/add-utr/:loanId', fetchUser, async (req: any, res: any) => {
   try {
     const { loanId } = req.params;
 
-     
     const userId = req.user.user;
-     
+
     const clientId = req.clientId;
     await disbursalModel.updateDisbursalUTR({
       loanId,
@@ -235,7 +233,7 @@ disbursalRouter.put<
 
     res.status(200).send({ message: 'Disbursal updated!' });
   } catch (error) {
-//    logger.error(error);
+    //    logger.error(error);
     res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -245,7 +243,7 @@ disbursalRouter.put<
   { loanId: string },
   { message: string },
   updateDisbursalType
->('/edit-disbursal/:loanId', fetchUser,  async (req:any, res:any) => {
+>('/edit-disbursal/:loanId', fetchUser, async (req: any, res: any) => {
   try {
     const { loanId } = req.params;
 
@@ -258,9 +256,8 @@ disbursalRouter.put<
       accountType,
     } = req.body;
 
-     
     const userId = req.user.user;
-     
+
     const clientId = req.clientId;
     await disbursalModel.updateDisbursal({
       loanId,
@@ -323,7 +320,7 @@ disbursalRouter.put<
 
     res.status(200).send({ message: 'Disbursal updated!' });
   } catch (error) {
-//    logger.error(error);
+    //    logger.error(error);
     res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -333,13 +330,13 @@ disbursalRouter.put<
   { leadId: string },
   { message: string },
   { disbursedBy: string }
->('/update-disbursed-by/:leadId', fetchUser,  async (req:any, res:any) => {
+>('/update-disbursed-by/:leadId', fetchUser, async (req: any, res: any) => {
   try {
     const { leadId } = req.params;
     const { disbursedBy } = req.body;
-     
+
     const clientId = req.clientId;
-     
+
     const userId = req.user.user;
 
     const userDetails = await userModel.getUser({ userId, clientId });
@@ -377,7 +374,7 @@ disbursalRouter.put<
       return res.status(401).send({ message: 'Unauthorized!' });
     }
   } catch (error) {
-//    logger.error(error);
+    //    logger.error(error);
     return res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -386,10 +383,10 @@ disbursalRouter.put<
 disbursalRouter.get<
   { leadId: string },
   getDisbursalType | { message: string } | null
->('/get/:leadId', fetchUser,  async (req:any, res:any) => {
+>('/get/:leadId', fetchUser, async (req: any, res: any) => {
   try {
     const { leadId } = req.params;
-     
+
     const clientId = req.clientId;
     const disbursalData = await disbursalService.getDisbursal({
       leadId,
@@ -397,7 +394,7 @@ disbursalRouter.get<
     });
     res.status(200).send(disbursalData);
   } catch (error) {
-//    logger.error(error);
+    //    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -405,10 +402,10 @@ disbursalRouter.get<
 disbursalRouter.get<
   { leadId: string },
   getDisbursalType | { message: string } | null
->('/get-existing/:leadId', fetchUser,  async (req:any, res:any) => {
+>('/get-existing/:leadId', fetchUser, async (req: any, res: any) => {
   try {
     const { leadId } = req.params;
-     
+
     const clientId = req.clientId;
     const disbursalData = await disbursalService.getExisitingDisbursal({
       leadId,
@@ -416,7 +413,7 @@ disbursalRouter.get<
     });
     res.status(200).send(disbursalData);
   } catch (error) {
-//    logger.error(error);
+    //    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -424,12 +421,12 @@ disbursalRouter.get<
 disbursalRouter.delete<{ leadId: string }, { message: string }>(
   '/delete-disbursal/:leadId',
   fetchUser,
-   async (req:any, res:any) => {
+  async (req: any, res: any) => {
     try {
       const { leadId } = req.params;
-       
+
       const clientId = req.clientId;
-       
+
       const userId = req.user.user;
 
       const loanDetails = await loanModel.getLoanByLeadId({ leadId, clientId });
@@ -447,7 +444,7 @@ disbursalRouter.delete<{ leadId: string }, { message: string }>(
       });
       res.status(200).send({ message: 'Disbursal Deleted!' });
     } catch (error) {
-  //    logger.error(error);
+      //    logger.error(error);
       return res.status(500).send({ message: 'Some error occured' });
     }
   },

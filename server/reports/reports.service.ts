@@ -4,7 +4,7 @@ import {
   house_types,
   lead_status,
   roles,
-} from 'prisma/prisma-client';
+} from '@prisma/client';
 import { approvalModel } from '../approval/approval.model';
 import { customerModel } from '../customer/customer.model';
 import { leadsModel } from '../leads/leads.model';

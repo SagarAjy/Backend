@@ -10,7 +10,7 @@ import {
   lead_status,
   marital_status,
   verification_status,
-} from 'prisma/prisma-client';
+} from '@prisma/client';
 import { fetchCustomer } from '../../middleware/customer.auth.middleware';
 //import { logger } from '../../../logger';
 import { customerService } from './public.customer.service';

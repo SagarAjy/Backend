@@ -1,5 +1,5 @@
 import express, { Router } from 'express';
-import { Prisma, roles, user_status } from 'prisma/prisma-client';
+import { Prisma, roles, user_status } from '@prisma/client';
 import { fetchUser } from '../middleware/auth.middleware';
 import { userModel } from './user.model';
 import { userService } from './user.service';

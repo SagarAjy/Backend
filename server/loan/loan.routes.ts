@@ -10,7 +10,7 @@ import { userModel } from '../user/user.model';
 import { parse, add, format, startOfDay } from 'date-fns';
 import { customerModel } from '../customer/customer.model';
 import { novuNotification } from '../novu/novu.model';
-import formatIndianNumber from '../../'
+import { formatIndianNumber } from '../../utils';
 import { auditLogModel } from '../audit-logs/audit-logs.model';
 import { approvalService } from '../approval/approval.service';
 import { emiService } from '../emi/emi.service';

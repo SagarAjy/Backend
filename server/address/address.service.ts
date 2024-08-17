@@ -1,4 +1,4 @@
-import { address_type } from 'prisma/prisma-client';
+import { address_type } from '@prisma/client';
 import { customerModel } from '../customer/customer.model';
 import { leadsModel } from '../leads/leads.model';
 import { userModel } from '../user/user.model';
@@ -18,7 +18,7 @@ const getAddress = async ({
     clientId,
   });
 
-  const addresses = addressData.map(async address => {
+  const addresses = addressData.map(async (address: any) => {
     let verfiedBy = null;
     if (address.verified_by !== null) {
       verfiedBy = await userModel.getUser({
@@ -64,7 +64,7 @@ const getAddressByType = async ({
     clientId,
   });
 
-  const addresses = addressData.map(address => {
+  const addresses = addressData.map((address: any) => {
     return {
       id: address.address_id || '',
       type: address.type,

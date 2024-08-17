@@ -1,7 +1,7 @@
 import express, { Router } from 'express';
 //import { logger } from '../../logger';
 import { fetchUser } from '../middleware/auth.middleware';
-import { approval_status, loan_type } from 'prisma/prisma-client';
+import { approval_status, loan_type } from '@prisma/client';
 import { leadsModel } from '../leads/leads.model';
 import { approvalModel } from './approval.model';
 import { userModel } from '../user/user.model';

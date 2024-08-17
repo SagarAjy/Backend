@@ -3,7 +3,7 @@ import { adminReportsService } from './reports.admin.service';
 //import { logger } from '../../logger';
 import { fetchUser } from '../middleware/auth.middleware';
 import { userModel } from '../user/user.model';
-import { roles } from 'prisma/prisma-client';
+import { roles } from '@prisma/client';
 import { reportsService } from './reports.service';
 
 export const adminReportsRouter: Router = express.Router();

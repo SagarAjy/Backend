@@ -6,7 +6,7 @@ import {
   loan_type,
   marital_status,
   waiver_approval_status_type,
-} from 'prisma/prisma-client';
+} from '@prisma/client';
 import { customerModel } from '../customer/customer.model';
 import { userModel } from '../user/user.model';
 import { leadsModel } from './leads.model';

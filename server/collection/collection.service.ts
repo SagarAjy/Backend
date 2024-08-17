@@ -1,4 +1,4 @@
-import { lead_status } from 'prisma/prisma-client';
+import { lead_status } from '@prisma/client';
 import { userModel } from '../user/user.model';
 import { collectionModel } from './collection.model';
 import { collectionAdminModel } from './collection.model.admin';

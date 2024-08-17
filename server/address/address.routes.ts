@@ -9,13 +9,13 @@ import { addressService } from './address.service';
 //   verification_status,
 //   address_type,
 //   house_types
-// } from 'prisma/prisma-client';
+// } from '@prisma/client';
 import {
   Prisma,
   verification_status,
   address_type,
   house_types,
-} from 'prisma/prisma-client';
+} from '@prisma/client';
 
 import { addressModel } from './address.model';
 import { leadsModel } from '../leads/leads.model';

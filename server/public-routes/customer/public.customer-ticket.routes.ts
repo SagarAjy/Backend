@@ -4,7 +4,7 @@ import { customerModel } from '../../customer/customer.model';
 import { ticketModel } from '../../tickets/ticket.model';
 //import { logger } from '../../../logger';
 import { ticketService } from '../../tickets/ticket.service';
-import { ticket_type } from 'prisma/prisma-client';
+import { ticket_type } from '@prisma/client';
 import { novuNotification } from '../../novu/novu.model';
 
 type CustomerTicketType = {

@@ -1,9 +1,4 @@
-import {
-  Prisma,
-  house_types,
-  genders,
-  lead_status,
-} from 'prisma/prisma-client';
+import { Prisma, house_types, genders, lead_status } from '@prisma/client';
 import { differenceInCalendarDays, format, parse } from 'date-fns';
 import { getCurrentRepayAmount, processInBatch } from '../../utils';
 import { addressModel } from '../address/address.model';

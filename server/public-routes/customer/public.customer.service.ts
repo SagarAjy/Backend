@@ -8,7 +8,7 @@ import { loanModel } from '../../loan/loan.model';
 import { getCurrentRepayAmount } from '../../../utils';
 import { approvalModel } from '../../approval/approval.model';
 import { clientModel } from '../../clients/clients.model';
-import { document_type } from 'prisma/prisma-client';
+import { document_type } from '@prisma/client';
 
 const getCustomerByPhoneNo = async ({
   phoneNo,

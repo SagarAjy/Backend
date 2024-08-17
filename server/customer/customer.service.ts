@@ -23,7 +23,7 @@ const getCustomerByLeadId = async ({
 
   let customerPictureUrl = '';
   const customerPicture = documents.filter(
-    (document:any) => document.document_type === 'Selfie',
+    (document: any) => document.document_type === 'Selfie',
   );
 
   if (customerPicture.length === 0) {
@@ -33,7 +33,7 @@ const getCustomerByLeadId = async ({
     //   customerPicture[0]?.document_url || '',
     // );
 
-    const signedUrl="HELLOURL";
+    const signedUrl = 'HELLOURL';
 
     customerPictureUrl = signedUrl;
   }

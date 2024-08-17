@@ -1,4 +1,4 @@
-import { roles, user_status } from 'prisma/prisma-client';
+import { roles, user_status } from '@prisma/client';
 import { userModel } from './user.model';
 import { userReporteeModel } from '../user-reportee/user-reportee.model';
 import { userAdminModel } from './user.admin.model';
@@ -25,7 +25,7 @@ const getUsers = async ({
     clientId,
   });
 
-  const users = allUsers.map(async user => {
+  const users = allUsers.map(async (user: any) => {
     const createdByUserName = await userModel.getUser({
       userId: user.created_by,
       clientId,
@@ -107,7 +107,7 @@ const getUsersByRole = async ({
     });
   }
 
-  const users = usersByRole.map(user => {
+  const users = usersByRole.map((user: any) => {
     return {
       key: user.user_id,
       value: user.user_id,
@@ -135,7 +135,7 @@ const getReassignUsersByRole = async ({
     clientId,
   });
 
-  const users = usersByRole.map(user => {
+  const users = usersByRole.map((user: any) => {
     return {
       key: user.user_id,
       value: user.user_id,
