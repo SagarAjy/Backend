@@ -14,7 +14,7 @@ dotenv.config({ path: envPath ? envPath.toString() : undefined });
 
 const app: Express = express();
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 app.use(express.urlencoded({ extended: true }));
 app.set('trust proxy', true);
 app.use(Sentry.Handlers.requestHandler() as express.RequestHandler);
