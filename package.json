@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "nodemon src/server.ts",
     "build": "rimraf build",
-    "start": "node build/server.js",
+    "start": "node build/server.ts",
     "update-db": "npx prisma db pull",
     "generate-db": "npx prisma generate",
     "studio": "npx prisma studio",

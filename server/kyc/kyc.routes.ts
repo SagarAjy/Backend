@@ -125,18 +125,10 @@ export const kycRouter: Router = express.Router();
 kycRouter.post<{ leadId: string }, { message: string }>(
   '/request/:leadId',
   fetchUser,
-<<<<<<< HEAD
-   async (req:any, res:any) => {
-    try {
-       
-      const userId = req.user.user;
-       
-=======
   async (req: any, res: any) => {
     try {
       const userId = req.user.user;
 
->>>>>>> b66335b0e61614f7b0182cb22877adb48961110c
       const clientId = req.clientId;
       const { leadId } = req.params;
 
@@ -147,11 +139,7 @@ kycRouter.post<{ leadId: string }, { message: string }>(
       const clientDetails = await clientModel.getClient({ clientId });
 
       const digoUrl = `${process.env.DIGIO_BASE_URL}/client/kyc/v2/request/with_template`;
-<<<<<<< HEAD
-      const kycRequest:any = await axios.post(
-=======
       const kycRequest: any = await axios.post(
->>>>>>> b66335b0e61614f7b0182cb22877adb48961110c
         digoUrl,
         {
           customer_identifier: customerDetails.email,
@@ -182,11 +170,7 @@ kycRouter.post<{ leadId: string }, { message: string }>(
 
       res.status(200).send({ message: 'KYC Request sent!' });
     } catch (error) {
-<<<<<<< HEAD
-  //    logger.error(error);
-=======
       //    logger.error(error);
->>>>>>> b66335b0e61614f7b0182cb22877adb48961110c
       console.log(error);
       res.status(500).send({ message: 'Some error occured' });
     }
@@ -195,11 +179,7 @@ kycRouter.post<{ leadId: string }, { message: string }>(
 
 kycRouter.post<{ requestId: string }, { message: string }, { status: string }>(
   '/approve-kyc/:requestId',
-<<<<<<< HEAD
-   async (req:any, res:any) => {
-=======
   async (req: any, res: any) => {
->>>>>>> b66335b0e61614f7b0182cb22877adb48961110c
     try {
       const { requestId } = req.params;
       const digoUrl = `${process.env.DIGIO_BASE_URL}/client/kyc/v2/request/${requestId}/manage_approval`;
@@ -221,11 +201,7 @@ kycRouter.post<{ requestId: string }, { message: string }, { status: string }>(
 
       res.status(200).send({ message: 'KYC Request approved!' });
     } catch (error) {
-<<<<<<< HEAD
-  //    logger.error(error);
-=======
       //    logger.error(error);
->>>>>>> b66335b0e61614f7b0182cb22877adb48961110c
       res.status(500).send({ message: 'Some error occured' });
     }
   },
@@ -234,17 +210,10 @@ kycRouter.post<{ requestId: string }, { message: string }, { status: string }>(
 kycRouter.get<
   { leadId: string },
   GetKYCDetailsResponse | { message: string } | null
-<<<<<<< HEAD
->('/get-kyc-details/:leadId', fetchUser,  async (req:any, res:any) => {
-  try {
-    const { leadId } = req.params;
-     
-=======
 >('/get-kyc-details/:leadId', fetchUser, async (req: any, res: any) => {
   try {
     const { leadId } = req.params;
 
->>>>>>> b66335b0e61614f7b0182cb22877adb48961110c
     const clientId = req.clientId;
     const customerDetails = await customerService.getCustomerByLeadId({
       leadId,
@@ -259,11 +228,7 @@ kycRouter.get<
 
     res.status(200).send(kycRequestDetails);
   } catch (error) {
-<<<<<<< HEAD
-//    logger.error(error);
-=======
     //    logger.error(error);
->>>>>>> b66335b0e61614f7b0182cb22877adb48961110c
     res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -271,11 +236,7 @@ kycRouter.get<
 kycRouter.get<{ fileId: string }, BinaryData | { message: string }>(
   '/get-kyc-files/:fileId',
   fetchUser,
-<<<<<<< HEAD
-   async (req:any, res:any) => {
-=======
   async (req: any, res: any) => {
->>>>>>> b66335b0e61614f7b0182cb22877adb48961110c
     try {
       const { fileId } = req.params;
       const fileType = decodeURIComponent(req.query.fileType as string);
@@ -299,11 +260,7 @@ kycRouter.get<{ fileId: string }, BinaryData | { message: string }>(
       // Send the entire video content
       res.status(200).end(buffer, 'binary');
     } catch (error) {
-<<<<<<< HEAD
-  //    logger.error(error);
-=======
       //    logger.error(error);
->>>>>>> b66335b0e61614f7b0182cb22877adb48961110c
       res.status(500).send({ message: 'Some error occured' });
     }
   },
@@ -346,22 +303,12 @@ const getKYCVideo = async ({
 kycRouter.post<{ leadId: string }, { message: string }>(
   '/request-e-sign/:leadId',
   fetchUser,
-<<<<<<< HEAD
-   async (req:any, res:any) => {
-    try {
-      const { leadId } = req.params;
-
-       
-      const userId = req.user.user;
-       
-=======
   async (req: any, res: any) => {
     try {
       const { leadId } = req.params;
 
       const userId = req.user.user;
 
->>>>>>> b66335b0e61614f7b0182cb22877adb48961110c
       const clientId = req.clientId;
 
       const leadDetails = await leadsService.getLead({ leadId, clientId });
@@ -480,11 +427,7 @@ kycRouter.post<{ leadId: string }, { message: string }>(
 
       res.status(200).send({ message: 'E-Sign Request sent!' });
     } catch (error) {
-<<<<<<< HEAD
-  //    logger.error(error);
-=======
       //    logger.error(error);
->>>>>>> b66335b0e61614f7b0182cb22877adb48961110c
       res.status(500).send({ message: 'Some error occured' });
     }
   },
@@ -493,17 +436,10 @@ kycRouter.post<{ leadId: string }, { message: string }>(
 kycRouter.get<
   { leadId: string },
   GetESignDocsResponse | { message: string } | null
-<<<<<<< HEAD
->('/get-e-sign-docs/:leadId', fetchUser,  async (req:any, res:any) => {
-  try {
-    const { leadId } = req.params;
-     
-=======
 >('/get-e-sign-docs/:leadId', fetchUser, async (req: any, res: any) => {
   try {
     const { leadId } = req.params;
 
->>>>>>> b66335b0e61614f7b0182cb22877adb48961110c
     const clientId = req.clientId;
 
     const customerDetails = await customerService.getCustomerByLeadId({
@@ -518,11 +454,7 @@ kycRouter.get<
     });
     res.status(200).send(eSignDocsRequest);
   } catch (error) {
-<<<<<<< HEAD
-//    logger.error(error);
-=======
     //    logger.error(error);
->>>>>>> b66335b0e61614f7b0182cb22877adb48961110c
     res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -530,18 +462,6 @@ kycRouter.get<
 kycRouter.get<{ leadId: string }, BinaryData | { message: string }>(
   '/download-e-sign-doc/:leadId',
   fetchUser,
-<<<<<<< HEAD
-   async (req:any, res:any) => {
-    try {
-      const { leadId } = req.params;
-       
-      const userId = req.user.user;
-       
-      const clientId = req.clientId;
-
-      const eSignDocRequest = await kycModel.getESignDocRequest({ leadId });
-      const fileResponse:any = await axios.get(
-=======
   async (req: any, res: any) => {
     try {
       const { leadId } = req.params;
@@ -552,7 +472,6 @@ kycRouter.get<{ leadId: string }, BinaryData | { message: string }>(
 
       const eSignDocRequest = await kycModel.getESignDocRequest({ leadId });
       const fileResponse: any = await axios.get(
->>>>>>> b66335b0e61614f7b0182cb22877adb48961110c
         `${process.env.DIGIO_BASE_URL}/v2/client/document/download?document_id=${eSignDocRequest?.e_sign_doc_id}`,
         {
           headers: {
@@ -587,11 +506,7 @@ kycRouter.get<{ leadId: string }, BinaryData | { message: string }>(
       // Send the entire video content
       res.status(200).end(buffer, 'binary');
     } catch (error) {
-<<<<<<< HEAD
-  //    logger.error(error);
-=======
       //    logger.error(error);
->>>>>>> b66335b0e61614f7b0182cb22877adb48961110c
       res.status(500).send({ message: 'Some error occured' });
     }
   },
@@ -603,18 +518,10 @@ kycRouter.get<
   | { message: string },
   Record<never, never>,
   { limit: string; offset: string; search: string }
-<<<<<<< HEAD
->('/get-all-kyc', fetchUser,  async (req:any, res:any) => {
-  try {
-     
-    const userId = req.user.user;
-     
-=======
 >('/get-all-kyc', fetchUser, async (req: any, res: any) => {
   try {
     const userId = req.user.user;
 
->>>>>>> b66335b0e61614f7b0182cb22877adb48961110c
     const clientId = req.clientId;
     const limit = Number(req.query.limit) || 10;
     const offset = Number(req.query.offset) || 0;
@@ -628,11 +535,7 @@ kycRouter.get<
     });
     res.status(200).send(kycRequestDetails);
   } catch (error) {
-<<<<<<< HEAD
-//    logger.error(error);
-=======
     //    logger.error(error);
->>>>>>> b66335b0e61614f7b0182cb22877adb48961110c
     res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -643,18 +546,10 @@ kycRouter.get<
   | { message: string },
   Record<never, never>,
   { limit: string; offset: string; search: string }
-<<<<<<< HEAD
->('/get-all-e-sign-docs', fetchUser,  async (req:any, res:any) => {
-  try {
-     
-    const userId = req.user.user;
-     
-=======
 >('/get-all-e-sign-docs', fetchUser, async (req: any, res: any) => {
   try {
     const userId = req.user.user;
 
->>>>>>> b66335b0e61614f7b0182cb22877adb48961110c
     const clientId = req.clientId;
 
     const limit = Number(req.query.limit) || 10;
@@ -669,42 +564,11 @@ kycRouter.get<
     });
     res.status(200).send(eSignDocRequestDetails);
   } catch (error) {
-<<<<<<< HEAD
-//    logger.error(error);
-=======
     //    logger.error(error);
->>>>>>> b66335b0e61614f7b0182cb22877adb48961110c
     res.status(500).send({ message: 'Some error occured' });
   }
 });
 
-<<<<<<< HEAD
-kycRouter.delete('/delete-kyc/:kycId', fetchUser,  async (req:any, res:any) => {
-  try {
-    const { kycId } = req.params;
-     
-    const clientId = req.clientId;
-    await kycModel.deleteKYCRequest({ kycId, clientId });
-    res.status(200).send({ message: 'KYC Request deleted!' });
-  } catch (error) {
-//    logger.error(error);
-    res.status(500).send({ message: 'Some error occured' });
-  }
-});
-
-kycRouter.delete('/delete-e-sign/:eSignId', fetchUser,  async (req:any, res:any) => {
-  try {
-    const { eSignId } = req.params;
-     
-    const clientId = req.clientId;
-    await kycModel.deleteESignDocRequest({ eSignId, clientId });
-    res.status(200).send({ message: 'E-Sign Request deleted!' });
-  } catch (error) {
-//    logger.error(error);
-    res.status(500).send({ message: 'Some error occured' });
-  }
-});
-=======
 kycRouter.delete(
   '/delete-kyc/:kycId',
   fetchUser,
@@ -738,4 +602,3 @@ kycRouter.delete(
     }
   },
 );
->>>>>>> b66335b0e61614f7b0182cb22877adb48961110c

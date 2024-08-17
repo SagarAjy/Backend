@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client';
 import { customerModel } from '../customer/customer.model';
 import axios from 'axios';
 import AxiosError from 'axios';
-import PAN_CONFIG from './Pan.Config';
+import PAN_CONFIG from './pan.Config';
 import { response } from 'express';
 import { v4 as uuid } from 'uuid';
 import { string } from 'yup';
@@ -23,10 +23,10 @@ interface PanResponse {
   dob: string;
   // Add other fields as per the API documentation
 }
-const PanModel = {
+const panModel = {
   getPanDetails,
 };
-export default PanModel;
+export default panModel;
 
 async function getPanDetails(clientId: string) {
   try {

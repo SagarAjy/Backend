@@ -30,7 +30,7 @@ import { auditLogRouter } from './server/audit-logs/audit-logs.routes';
 import { reportsDownloadRouter } from './server/reports/reports.download.routes';
 import { servicesRouter } from './server/services/services.routes';
 import { customerSupportRouter } from './server/tickets/ticket.routes';
-import PanRouter from './server/Pan/Pan.Router';
+import panRouter from './server/pan/pan.Router';
 
 export const crmRouter: Router = express.Router();
 
@@ -67,4 +67,4 @@ crmRouter.use('/services', servicesRouter);
 crmRouter.use('/customer-support', customerSupportRouter);
 
 //PAN KYC
-crmRouter.use('/Pankyc',PanRouter)
+crmRouter.use('/pankyc', panRouter);

@@ -27,8 +27,8 @@ type getOTPBodyType = {
 
 type getOTPResponseType =
   | {
-    token: string;
-  }
+      token: string;
+    }
   | { message: string };
 
 type validateBodyType = {
@@ -38,23 +38,18 @@ type validateBodyType = {
 
 type validateResponseType =
   | {
-    token: string;
-    id: string;
-    tabsToRender?: tabsToRenderType[];
-    name: string;
-    role: string;
-    clientIds?: string[];
-  }
+      token: string;
+      id: string;
+      tabsToRender?: tabsToRenderType[];
+      name: string;
+      role: string;
+      clientIds?: string[];
+    }
   | { message: string };
 
 authRouter.post<Record<never, never>, getOTPResponseType, getOTPBodyType>(
   '/get_otp',
-<<<<<<< HEAD
-   async (req:any, res:any) => {
-
-=======
   async (req: any, res: any) => {
->>>>>>> b66335b0e61614f7b0182cb22877adb48961110c
     try {
       const { email } = req.body;
       const userDetails = await authModel.getUserIdByEmail({ email });
@@ -75,11 +70,7 @@ authRouter.post<Record<never, never>, getOTPResponseType, getOTPBodyType>(
 
       res.status(200).send({ message: 'OTP Sent' });
     } catch (error) {
-<<<<<<< HEAD
-  //    logger.error(error);
-=======
       //    logger.error(error);
->>>>>>> b66335b0e61614f7b0182cb22877adb48961110c
       res.status(400).send({ message: 'Invalid Email' });
     }
   },
@@ -89,11 +80,7 @@ authRouter.post<
   Record<never, never>,
   validateResponseType | { message: string },
   validateBodyType
-<<<<<<< HEAD
->('/validate',  async (req:any, res:any) => {
-=======
 >('/validate', async (req: any, res: any) => {
->>>>>>> b66335b0e61614f7b0182cb22877adb48961110c
   try {
     const { email, otp } = req.body;
 
@@ -147,19 +134,15 @@ authRouter.post<
       role: userDetails.role,
     });
   } catch (error) {
-  // logger.error(error);
-  res.status(500).send({ message: 'token expired' });
-}
+    // logger.error(error);
+    res.status(500).send({ message: 'token expired' });
+  }
 });
 
 authRouter.get<Record<never, never>, validateResponseType>(
   '/revalidate',
   fetchUser,
-<<<<<<< HEAD
-  async (req:any, res:any) => {
-=======
   async (req: any, res: any) => {
->>>>>>> b66335b0e61614f7b0182cb22877adb48961110c
     try {
       const userId = req.user.user;
 
@@ -206,15 +189,10 @@ authRouter.post<
   Record<never, never>,
   { message: string },
   { latitude: number; longitude: number; ipAddress: string }
-<<<<<<< HEAD
->('/login-event', fetchUser, async (req:any, res:any) => {
-=======
 >('/login-event', fetchUser, async (req: any, res: any) => {
->>>>>>> b66335b0e61614f7b0182cb22877adb48961110c
   try {
     const clientId = req.clientId;
     const userId = req.user.user;
-
 
     const { ipAddress, latitude, longitude } = req.body;
 
