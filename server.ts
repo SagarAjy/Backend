@@ -14,7 +14,7 @@ dotenv.config({ path: envPath ? envPath.toString() : undefined });
 
 const app: Express = express();
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 app.use(express.urlencoded({ extended: true }));
 app.set('trust proxy', true);
 app.use(Sentry.Handlers.requestHandler() as express.RequestHandler);
@@ -24,6 +24,7 @@ app.use(cors());
 app.use(express.json());
 app.use('/crm-api', crmRouter);
 app.use('/api', apiRouter);
+
 
 const emailSchedule = cron.schedule(
   '00 08 * * *',
@@ -36,10 +37,9 @@ const emailSchedule = cron.schedule(
   },
 );
 emailSchedule.stop();
+
 app.use(Sentry.Handlers.errorHandler() as express.ErrorRequestHandler);
-app.get('/health', (req: any, res: any) => {
-  res.status(200).send('Api health is Fine  :)');
-});
+
 app.listen(port, () => {
   console.log(`Orion is live at port ${port}`);
 });
