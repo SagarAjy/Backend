@@ -1,4 +1,4 @@
-import { loan_status, approval_status } from '@prisma/client';
+import { loan_status, approval_status } from 'prisma/prisma-client';
 import { prisma } from '../../prisma-client';
 
 // get all loans disbursed in the timespan

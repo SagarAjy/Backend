@@ -117,6 +117,7 @@ model customers {
   loan            loan[]
   reference       reference[]
   pans             pan_kyc[]
+  aadhar           aadharkyc[]
 }
 
 model document {
@@ -522,6 +523,17 @@ model pan_kyc {
   created_at DateTime @default(now()) @db.Timestamp(6)
   updated_at DateTime @default(now()) @db.Timestamp(6) @updatedAt
   customers   customers @relation(fields: [customer_id], references: [customer_id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model aadharkyc {
+  aadhar_Id      String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  customer_id    String   @db.Uuid
+  data_aadhar    Json     @db.Json
+  status         String   @default("active")
+  client_id      String   @unique 
+  created_at     DateTime @default(now()) @db.Timestamp(6)
+  updated_at     DateTime @default(now()) @db.Timestamp(6) @updatedAt
+  customers      customers @relation(fields: [customer_id], references: [customer_id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 

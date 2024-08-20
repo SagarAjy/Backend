@@ -1,4 +1,4 @@
-import { lead_status, loan_status, loan_type } from '@prisma/client';
+import { lead_status, loan_status, loan_type } from 'prisma/prisma-client';
 import { prisma } from '../../prisma-client';
 import { v4 as uuid } from 'uuid';
 import { leadsModel } from '../leads/leads.model';

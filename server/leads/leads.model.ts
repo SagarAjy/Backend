@@ -2,7 +2,7 @@ import {
   lead_status,
   loan_type,
   waiver_approval_status_type,
-} from '@prisma/client';
+} from 'prisma/prisma-client';
 import { prisma } from '../../prisma-client';
 import { v4 as uuid } from 'uuid';
 
