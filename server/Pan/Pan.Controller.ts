@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import panModel from './pan.Model';
 interface CustomRequest extends Request {
-  phoneNo?: string;
+  panNumber?: string;
 }
 const panController = {
   getPankyc,
@@ -14,8 +14,8 @@ async function getPankyc(
   next: NextFunction,
 ): Promise<void> {
   try {
-    let { phoneNo = '' }: any = req.phoneNo;
-    const panRes = await panModel.getPanDetails(phoneNo);
+    let { panNumber = '' } = req.body;
+    const panRes = await panModel.getPanDetails(panNumber);
     res.status(201).json({ message: 'Pan is verifed.' });
     next();
   } catch (error) {
