@@ -1,4 +1,4 @@
-import { event_type } from '@prisma/client';
+import { event_type } from 'prisma/prisma-client';
 import { prisma } from '../../prisma-client';
 import { v4 as uuid } from 'uuid';
 

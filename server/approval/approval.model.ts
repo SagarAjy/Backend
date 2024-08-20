@@ -1,4 +1,4 @@
-import { approval_status, lead_status, loan_type } from '@prisma/client';
+import { approval_status, lead_status, loan_type } from 'prisma/prisma-client';
 import { prisma } from '../../prisma-client';
 import { v4 as uuid } from 'uuid';
 import { callHistoryModel } from '../call-history/call-history.model';

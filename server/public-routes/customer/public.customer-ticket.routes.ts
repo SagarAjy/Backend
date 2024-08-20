@@ -2,7 +2,7 @@ import express, { Router } from 'express';
 import { fetchCustomer } from '../../middleware/customer.auth.middleware';
 import { customerModel } from '../../customer/customer.model';
 import { ticketModel } from '../../tickets/ticket.model';
-import { logger } from '../../../logger';
+//import { logger } from '../../../logger';
 import { ticketService } from '../../tickets/ticket.service';
 import { ticket_type } from '@prisma/client';
 import { novuNotification } from '../../novu/novu.model';
@@ -22,11 +22,10 @@ customerSupportRouter.post<
   Record<never, never>,
   { message: string },
   { query: string; category: ticket_type }
->('/create-ticket', fetchCustomer, async (req, res) => {
+>('/create-ticket', fetchCustomer, async (req: any, res: any) => {
   try {
-    //@ts-ignore
     const phoneNo = req.phoneNo.phoneNo;
-    //@ts-ignore
+
     const clientId = req.clientId;
 
     const cutomerDetails = await customerModel.getCustomerByPhoneNo({
@@ -54,7 +53,7 @@ customerSupportRouter.post<
 
     res.status(200).send({ message: 'Ticket created successfully!' });
   } catch (error) {
-    logger.error(error);
+    //    logger.error(error);
     res.status(500).send({ message: 'Something went wrong!' });
   }
 });
@@ -62,11 +61,10 @@ customerSupportRouter.post<
 customerSupportRouter.get<
   Record<never, never>,
   CustomerTicketType[] | { message: string }
->('/get-my-tickets', fetchCustomer, async (req, res) => {
+>('/get-my-tickets', fetchCustomer, async (req: any, res: any) => {
   try {
-    //@ts-ignore
     const clientId = req.clientId;
-    //@ts-ignore
+
     const phoneNo = req.phoneNo.phoneNo;
 
     const customerDetails = await customerModel.getCustomerByPhoneNo({
@@ -81,7 +79,7 @@ customerSupportRouter.get<
 
     res.status(200).send(tickets);
   } catch (error) {
-    logger.error(error);
+    //    logger.error(error);
     res.status(500).send({ message: 'Something went wrong!' });
   }
 });

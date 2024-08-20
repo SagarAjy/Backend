@@ -15,7 +15,7 @@ const getReferenceByLeadId = async ({
     customerId: leadDetails?.customer_id || '',
   });
 
-  const references = referenceData.map(async reference => {
+  const references = referenceData.map(async (reference:any) => {
     let createdByName = '';
     if (reference.created_by !== null) {
       const createdByUser = await userModel.getUser({
@@ -51,7 +51,7 @@ const getReferencesByCustomerId = async ({
     customerId,
   });
 
-  const references = referenceData.map(async reference => {
+  const references = referenceData.map(async (reference:any) => {
     let createdByName = '';
     if (reference.created_by !== null) {
       const createdByUser = await userModel.getUser({

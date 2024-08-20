@@ -2,7 +2,7 @@ import express, { Router } from 'express';
 import { authModel } from './auth.model';
 import jwt from 'jsonwebtoken';
 import { fetchUser } from '../middleware/auth.middleware';
-import { logger } from '../../logger';
+//import { logger } from '../../logger';
 import { tabsByRole } from '../../constants';
 import { userModel } from '../user/user.model';
 import { generateOTP } from '../../utils';
@@ -49,8 +49,7 @@ type validateResponseType =
 
 authRouter.post<Record<never, never>, getOTPResponseType, getOTPBodyType>(
   '/get_otp',
-  async (req, res) => {
-
+  async (req: any, res: any) => {
     try {
       const { email } = req.body;
       const userDetails = await authModel.getUserIdByEmail({ email });
@@ -71,7 +70,7 @@ authRouter.post<Record<never, never>, getOTPResponseType, getOTPBodyType>(
 
       res.status(200).send({ message: 'OTP Sent' });
     } catch (error) {
-      logger.error(error);
+      //    logger.error(error);
       res.status(400).send({ message: 'Invalid Email' });
     }
   },
@@ -81,7 +80,7 @@ authRouter.post<
   Record<never, never>,
   validateResponseType | { message: string },
   validateBodyType
->('/validate', async (req, res) => {
+>('/validate', async (req: any, res: any) => {
   try {
     const { email, otp } = req.body;
 
@@ -143,9 +142,8 @@ authRouter.post<
 authRouter.get<Record<never, never>, validateResponseType>(
   '/revalidate',
   fetchUser,
-  async (req, res) => {
+  async (req: any, res: any) => {
     try {
-      //@ts-ignore
       const userId = req.user.user;
 
       const data = { user: userId };
@@ -191,11 +189,9 @@ authRouter.post<
   Record<never, never>,
   { message: string },
   { latitude: number; longitude: number; ipAddress: string }
->('/login-event', fetchUser, async (req, res) => {
+>('/login-event', fetchUser, async (req: any, res: any) => {
   try {
-    //@ts-ignore
     const clientId = req.clientId;
-    //@ts-ignore
     const userId = req.user.user;
 
     const { ipAddress, latitude, longitude } = req.body;

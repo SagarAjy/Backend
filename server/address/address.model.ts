@@ -1,4 +1,8 @@
-import { address_type, house_types, verification_status } from '@prisma/client';
+import {
+  address_type,
+  house_types,
+  verification_status,
+} from 'prisma/prisma-client';
 import { prisma } from '../../prisma-client';
 import { v4 as uuid } from 'uuid';
 

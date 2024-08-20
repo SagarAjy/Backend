@@ -1,4 +1,4 @@
-import { lead_status } from '@prisma/client';
+import { lead_status } from 'prisma/prisma-client';
 import { prisma } from '../../prisma-client';
 
 //get all leads for admin

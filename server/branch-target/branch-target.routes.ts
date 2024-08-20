@@ -1,5 +1,5 @@
 import express, { Router } from 'express';
-import { logger } from '../../logger';
+//import { logger } from '../../logger';
 import { fetchUser } from '../middleware/auth.middleware';
 import { branchTargetModel } from './branch-target.model';
 import { userModel } from '../user/user.model';
@@ -27,11 +27,11 @@ branchTargetRouter.post<
   Record<never, never>,
   { message: string },
   addBranchTargetType
->('/add', fetchUser, async (req, res) => {
+>('/add', fetchUser, async (req:any,res:any) => {
   try {
-    //@ts-ignore
+   
     const userId = req.user.user;
-    //@ts-ignore
+   
     const clientId = req.clientId;
     const userDetails = await userModel.getUser({ userId, clientId });
     if (userDetails?.role !== 'Admin')
@@ -40,7 +40,7 @@ branchTargetRouter.post<
     await branchTargetModel.addBranchTarget({ userId, ...req.body, clientId });
     return res.status(200).send({ message: 'Branch target added' });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -57,14 +57,14 @@ branchTargetRouter.get<
     offset: string;
     search?: string;
   }
->('/get', fetchUser, async (req, res) => {
+>('/get', fetchUser, async (req:any,res:any) => {
   try {
     const limit = Number(req.query.limit) || 10;
     const offset = Number(req.query.offset) || 0;
     const searchparam = decodeURIComponent(req.query.search || '');
-    //@ts-ignore
+    
     const userId = req.user.user;
-    //@ts-ignore
+    
     const clientId = req.clientId;
     const userDetails = await userModel.getUser({ userId, clientId });
     //only admin can access branch targets
@@ -78,7 +78,7 @@ branchTargetRouter.get<
     });
     return res.status(200).send(branchTargets);
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -88,11 +88,11 @@ branchTargetRouter.put<
   { branchTargetId: string },
   { message: string },
   { target: number }
->('/update/:branchTargetId', fetchUser, async (req, res) => {
+>('/update/:branchTargetId', fetchUser, async (req:any,res:any) => {
   try {
-    //@ts-ignore
+    
     const userId = req.user.user;
-    //@ts-ignore
+    
     const clientId = req.clientId;
     const { branchTargetId } = req.params;
     const target = req.body.target;
@@ -103,7 +103,7 @@ branchTargetRouter.put<
     await branchTargetModel.updateBranchTarget({ branchTargetId, target });
     return res.status(200).send({ message: 'Branch target updated' });
   } catch (error) {
-    logger.error(error);
+//    logger.error(error);
     return res.status(500).send({ message: 'Some error occured' });
   }
 });

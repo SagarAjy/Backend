@@ -1,6 +1,6 @@
 import express, { Router } from 'express';
 import { loanService } from './loan.service';
-import { logger } from '../../logger';
+//import { logger } from '../../logger';
 import { lead_status, loan_type } from '@prisma/client';
 import { fetchUser } from '../middleware/auth.middleware';
 import { leadsModel } from '../leads/leads.model';
@@ -100,17 +100,17 @@ type loanHistory = {
 loanRouter.get<{ leadId: string }, getLoanType | { message: string } | null>(
   '/get/:leadId',
   fetchUser,
-  async (req, res) => {
+  async (req: any, res: any) => {
     try {
       const { leadId } = req.params;
-      //@ts-ignore
+
       const clientId = req.clientId;
 
       const loanData = await loanService.getLoan({ leadId, clientId });
 
       res.status(200).send(loanData);
     } catch (error) {
-      logger.error(error);
+      //    logger.error(error);
       res.status(500).send({ message: 'Some error occured' });
     }
   },
@@ -129,16 +129,14 @@ loanRouter.get<
     filterBy: string;
     search?: string;
   }
->('/get-bank-update', fetchUser, async (req, res) => {
+>('/get-bank-update', fetchUser, async (req: any, res: any) => {
   try {
-    //@ts-ignore
     const clientId = req.clientId;
     const limit = Number(req.query.limit) || 10;
     const offset = Number(req.query.offset) || 0;
     const filterBy = req.query.filterBy;
     const searchparam = decodeURIComponent(req.query.search || '');
 
-    //@ts-ignore
     const userId = req.user.user;
     const bankDetails = await loanService.getBankUpdate({
       filterBy,
@@ -151,7 +149,7 @@ loanRouter.get<
 
     return res.status(200).send(bankDetails);
   } catch (error) {
-    logger.error(error);
+    //    logger.error(error);
     res.status(500).send({ message: 'Some error occured' });
   }
 });
@@ -171,9 +169,8 @@ loanRouter.get<
     endDate?: string;
     assigneeId?: string;
   }
->('/get-payday-pending-loans', fetchUser, async (req, res) => {
+>('/get-payday-pending-loans', fetchUser, async (req: any, res: any) => {
   try {
-    //@ts-ignore
     const clientId = req.clientId;
     const limit = Number(req.query.limit) || 10;
     const offset = Number(req.query.offset) || 0;
@@ -183,7 +180,7 @@ loanRouter.get<
     const startDate = decodeURIComponent(req.query.startDate || '');
     const endDate = decodeURIComponent(req.query.endDate || '');
     const assigneeId = req.query.assigneeId;
-    //@ts-ignore
+
     const userId: string = req.user.user;
     let paydayPending;
     if (startDate.length !== 0 && endDate.length !== 0) {
@@ -214,7 +211,7 @@ loanRouter.get<
       return res.status(200).send(paydayPending);
     }
   } catch (error) {
-    logger.error(error);
+    //    logger.error(error);
     return res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -227,9 +224,8 @@ loanRouter.post<
   {
     days: string;
   }
->('/send-reminder-email', fetchUser, async (req, res) => {
+>('/send-reminder-email', fetchUser, async (req: any, res: any) => {
   try {
-    //@ts-ignore
     const clientId = req.clientId;
     const days = parseInt(req.query.days);
     const currentDate = new Date();
@@ -248,7 +244,7 @@ loanRouter.post<
     } else if (days === 2) {
       endDate = add(startDate, { days: 2 });
     }
-    //@ts-ignore
+
     const userId: string = req.user.user;
     let paydayPending;
 
@@ -259,12 +255,12 @@ loanRouter.post<
       clientId,
     });
     //removing null values from paydaypending array
-    const response = paydayPending.pendingLoans.filter(loan => {
+    const response = paydayPending.pendingLoans.filter((loan: any) => {
       if (loan !== null) return loan;
     });
 
     //making array of objects for mail
-    const data = response.map(async loan => {
+    const data = response.map(async (loan: any) => {
       const leadDetails = await leadsModel.getLeadById({
         leadId: loan?.leadId || '',
         clientId,
@@ -294,7 +290,7 @@ loanRouter.post<
     });
     return res.status(200).send({ message: 'Reminder email send' });
   } catch (error) {
-    logger.error(error);
+    //    logger.error(error);
     return res.status(500).send({ message: 'Some error occured!' });
   }
 });
@@ -303,9 +299,8 @@ loanRouter.post<
 loanRouter.get<{ leadId: string }, loanHistory[] | { message: string } | null>(
   '/loan-history/:leadId',
   fetchUser,
-  async (req, res) => {
+  async (req: any, res: any) => {
     try {
-      //@ts-ignore
       const clientId = req.clientId;
       const { leadId } = req.params;
       const loanHistory = await loanService.getLoanHistory({
@@ -314,7 +309,7 @@ loanRouter.get<{ leadId: string }, loanHistory[] | { message: string } | null>(
       });
       return res.status(200).send(loanHistory);
     } catch (error) {
-      logger.error(error);
+      //    logger.error(error);
       return res.status(500).send({ message: 'Some error occured' });
     }
   },
@@ -323,12 +318,12 @@ loanRouter.get<{ leadId: string }, loanHistory[] | { message: string } | null>(
 loanRouter.delete<{ loanId: string }, { message: string } | null>(
   '/delete-bank-update/:loanId',
   fetchUser,
-  async (req, res) => {
+  async (req: any, res: any) => {
     try {
       const { loanId } = req.params;
-      //@ts-ignore
+
       const userId = req.user.user;
-      //@ts-ignore
+
       const clientId = req.clientId;
       const userDetails = await userModel.getUser({ userId, clientId });
       const loanDetails = await loanModel.getLoan({ loanId, clientId });
@@ -369,7 +364,7 @@ loanRouter.delete<{ loanId: string }, { message: string } | null>(
       }
       return res.status(401).send({ message: 'Not authorized' });
     } catch (error) {
-      logger.error(error);
+      //    logger.error(error);
       return res.status(500).send({ message: 'Some error occured' });
     }
   },
@@ -378,9 +373,8 @@ loanRouter.delete<{ loanId: string }, { message: string } | null>(
 loanRouter.get<{ leadId: string }, EMILoanType[] | { message: string }>(
   '/get-emi-loan/:leadId',
   fetchUser,
-  async (req, res) => {
+  async (req: any, res: any) => {
     try {
-      //@ts-ignore
       const clientId = req.clientId;
 
       const { leadId } = req.params;
@@ -397,7 +391,7 @@ loanRouter.get<{ leadId: string }, EMILoanType[] | { message: string }>(
 
       res.status(200).send(emis);
     } catch (error) {
-      logger.error(error);
+      //    logger.error(error);
       return res.status(500).send({ message: 'Some error occured' });
     }
   },

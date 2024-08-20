@@ -294,7 +294,9 @@ const getAllLoanPending = async ({
           {
             leads: {
               collection_user_id: {
-                in: teleCallers?.map(teleCaller => teleCaller.user_id) || [],
+                in:
+                  teleCallers?.map((teleCaller: any) => teleCaller.user_id) ||
+                  [],
               },
             },
           },
@@ -411,7 +413,9 @@ const getAllLoanPendingCount = async ({
           {
             leads: {
               collection_user_id: {
-                in: teleCallers?.map(teleCaller => teleCaller.user_id) || [],
+                in:
+                  teleCallers?.map((teleCaller: any) => teleCaller.user_id) ||
+                  [],
               },
             },
           },

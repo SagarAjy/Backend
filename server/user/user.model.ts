@@ -254,7 +254,7 @@ const getUsersByRole = async ({
       branch,
       status: 'Active',
       user_id: {
-        in: userReportees.map(reportee => reportee.user_reportee_id),
+        in: userReportees.map((reportee: any) => reportee.user_reportee_id),
       },
       client_ids: {
         has: clientId,

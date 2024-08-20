@@ -1,4 +1,4 @@
-import { loan_status, loan_type, userreportees } from '@prisma/client';
+import { loan_status, loan_type, userreportees } from 'prisma/prisma-client';
 import { prisma } from '../../prisma-client';
 
 //get all disbursals

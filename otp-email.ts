@@ -1,5 +1,5 @@
 import { SESClient, SendEmailCommand } from '@aws-sdk/client-ses';
-import { logger } from './logger';
+//import { logger } from './logger';
 
 // Configure AWS SES
 const sesClient = new SESClient({
@@ -124,7 +124,7 @@ If you didn't request this email, you can safely ignore it.
   await sesClient
     .send(sendEmailCommand)
     .then(res => null)
-    .catch(err => logger.error(err));
+    .catch(err => console.log(err));
 };
 
 // <tr>
