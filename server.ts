@@ -36,11 +36,10 @@ const emailSchedule = cron.schedule(
   },
 );
 emailSchedule.stop();
-
 app.use(Sentry.Handlers.errorHandler() as express.ErrorRequestHandler);
 app.get('/health', (req: any, res: any) => {
   res.status(200).send('Api health is Fine  :)');
-})
+});
 app.listen(port, () => {
   console.log(`Orion is live at port ${port}`);
 });
